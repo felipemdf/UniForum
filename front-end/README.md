@@ -29,7 +29,7 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
 ## 🛠️ Construído com
 
 - [Vue.js](https://vuejs.org)
-- [Vuetify](https://vuetifyjs.com/en/)
+- [Bootstrap](https://getbootstrap.com)
 
 ## ✒️ Autores
 
