@@ -35,8 +35,8 @@ Certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
 
 # Autores
 
-| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/73004335?v=4" width=115><br><sub>Felipe Marinho</sub>](https://github.com/felipemdf) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/99979201?v=4" width=115><br><sub>João Victor</sub>](https://github.com/joaoV9) 
-| :---: | :---: |
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/73004335?v=4" width=115><br><sub>Felipe Marinho</sub>](https://github.com/felipemdf) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/99979201?v=4" width=115><br><sub>João Victor</sub>](https://github.com/joaoV9) |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: |
 
 ## 📄 Licença
 
