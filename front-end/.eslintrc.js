@@ -17,5 +17,7 @@ module.exports = {
 
     //Vue
     'vue/multi-word-component-names': 'off',
+
+    'no-multiple-empty-lines': ['error', { max: 2, maxBOF: 1 }],
   },
 };
