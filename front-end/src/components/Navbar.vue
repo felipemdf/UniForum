@@ -1,6 +1,6 @@
 <template>
   <!-- Main Navigation Container -->
-  <nav class="fixed z-10 top-0 start-0 w-full bg-white shadow-md shadow-black/5 px-4 py-4 md:px-8">
+  <nav class="sticky z-10 top-0 start-0 w-full bg-white shadow-md shadow-black/5 px-4 py-4 md:px-8">
     <div class="flex flex-wrap items-center justify-between mx-auto w-full md:px-12">
       <!-- Logo -->
       <a class="text-xl whitespace-nowrap text-blue-600 p-0" href="#">UniForum</a>
