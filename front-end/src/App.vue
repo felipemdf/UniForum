@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <div class="container">
+  <div class="container mx-auto px-4 md:px-6 py-6">
     <router-view />
   </div>
 </template>
@@ -11,14 +11,13 @@
 
 <style>
   html {
-    background-color: var(--color-background);
+    background-color: #f8f9fb;
   }
 
   #app {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
   }
 

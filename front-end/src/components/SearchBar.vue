@@ -16,7 +16,7 @@
     </svg>
   </button>
 
-  <div v-if="isOpen" class="fixed w-full inset-0 z-10 flex justify-center items-center">
+  <div @keydown.esc="toggleModal" v-if="isOpen" class="fixed w-full inset-0 z-10 flex justify-center items-center">
     <!--Body-->
     <div class="relative w-10/12 sm:max-w-md overflow-y-auto rounded-lg z-20 shadow-md shadow-black/5">
       <div class="absolute inset-y-0 start-0 flex items-center ps-2">
