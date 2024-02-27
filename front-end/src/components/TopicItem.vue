@@ -18,41 +18,34 @@
         </div>
 
         <!-- Option Button-->
-        <!-- <button
-          class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
-          type="button"
-        >
-          <svg
-            class="w-4 h-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 16 3"
+        <div class="relative">
+          <button
+            class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
+            type="button"
           >
-            <path
-              d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
-            />
-          </svg>
-          <span class="sr-only">Topic settings</span>
-        </button> -->
+            <svg
+              class="w-4 h-4"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 16 3"
+            >
+              <path
+                d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
+              />
+            </svg>
+            <span class="sr-only">Topic settings</span>
+          </button>
 
-        <!-- Dropdown menu -->
-        <!-- <div
-          id="dropdownComment3"
-          class="absolute right-16 mt-10 w-36 bg-white rounded divide-y divide-gray-100 shadow"
-        >
-          <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownMenuIconHorizontalButton">
-            <li>
-              <a href="#" class="block py-2 px-4 hover:bg-gray-100">Edit</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-4 hover:bg-gray-100">Remove</a>
-            </li>
-            <li>
-              <a href="#" class="block py-2 px-4 hover:bg-gray-100">Report</a>
-            </li>
-          </ul>
-        </div> -->
+          <!-- Dropdown menu -->
+          <div id="dropdownComment3" class="absolute right-0 w-36 bg-white rounded divide-y divide-gray-100 shadow">
+            <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownMenuIconHorizontalButton">
+              <li>
+                <a href="#" class="block py-2 px-4 hover:bg-gray-100 text-red-600">Report</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <!-- Title -->
