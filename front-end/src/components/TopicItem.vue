@@ -21,7 +21,7 @@
         <div class="relative">
           <button
             @click="toggleMenuOptions"
-            class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
+            class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100"
             type="button"
           >
             <svg
