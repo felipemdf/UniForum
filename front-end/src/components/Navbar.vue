@@ -60,8 +60,8 @@
 <script setup>
   import { ref } from 'vue';
 
-  let isUserMenuOpen = ref(true);
-  let isLogged = ref(true);
+  let isUserMenuOpen = ref(false);
+  let isLogged = ref(false);
 
   function toggleUserMenu() {
     if (isLogged.value) {
