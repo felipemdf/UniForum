@@ -13,7 +13,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
     //Prettier
-    'prettier/prettier': ['warn'],
+    'prettier/prettier': ['warn', {}, {}],
 
     //Vue
     'vue/multi-word-component-names': 'off',
