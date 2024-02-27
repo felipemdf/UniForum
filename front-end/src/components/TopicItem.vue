@@ -20,6 +20,7 @@
         <!-- Option Button-->
         <div class="relative">
           <button
+            @click="toggleMenuOptions"
             class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
             type="button"
           >
@@ -38,10 +39,10 @@
           </button>
 
           <!-- Dropdown menu -->
-          <div id="dropdownComment3" class="absolute right-0 w-36 bg-white rounded divide-y divide-gray-100 shadow">
-            <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownMenuIconHorizontalButton">
+          <div v-if="isOptionsOpen" class="absolute right-0 w-36 bg-white rounded divide-y divide-gray-100 shadow">
+            <ul class="py-1 text-sm text-gray-700">
               <li>
-                <a href="#" class="block py-2 px-4 hover:bg-gray-100 text-red-600">Report</a>
+                <a href="#" class="block py-2 px-4 hover:bg-gray-100 text-red-600">Denunciar</a>
               </li>
             </ul>
           </div>
@@ -108,4 +109,12 @@
   </article>
 </template>
 
-<script setup></script>
+<script setup>
+  import { ref } from 'vue';
+
+  let isOptionsOpen = ref(false);
+
+  function toggleMenuOptions() {
+    isOptionsOpen.value = !isOptionsOpen.value;
+  }
+</script>

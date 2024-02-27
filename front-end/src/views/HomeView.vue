@@ -1,4 +1,6 @@
 <template>
+  <!-- Filters -->
+
   <!-- Topics -->
   <section>
     <TopicItem />

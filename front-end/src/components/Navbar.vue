@@ -24,7 +24,8 @@
           >
         </div>
 
-        <div v-if="isLogged" class="mx-4 md:mx-8">
+        <!-- Logged Avatar -->
+        <div v-if="isLogged" class="relative mx-4 md:mx-8">
           <button
             @click="toggleUserMenu"
             type="button"
@@ -33,47 +34,27 @@
             <span class="sr-only">Open user menu</span>
             <img class="w-10 h-10 rounded-full" src="../assets/perfil.png" alt="user photo" />
           </button>
-        </div>
 
-        <!-- Dropdown menu -->
-        <div
-          v-if="isUserMenuOpen"
-          class="absolute right-8 md:right-28 mt-[13.8rem] md:mt-[12.2rem] origin-top-right rounded-md shadow-lg w-48"
-        >
-          <div class="px-2 py-2 bg-white rounded-md shadow dark-mode:bg-gray-800">
-            <a
-              class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              href="#"
-              >Meu perfil</a
-            >
-            <a
-              class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              href="#"
-              >Configurações</a
-            >
-            <a
-              class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-              href="#"
-              >Sair</a
-            >
+          <!-- Dropdown menu -->
+          <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-36 bg-white rounded divide-gray-100 shadow">
+            <ul class="py-1 text-sm">
+              <li>
+                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100">Meu perfil</a>
+              </li>
+
+              <li>
+                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100">Configurações</a>
+              </li>
+
+              <li>
+                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100 text-red-600">Sair</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </nav>
-
-  <!--Search 2-->
-  <!-- <div v-if="openModal" class="relative w-full bg-white shadow-md shadow-black/5" id="search-content">
-    <div class="container mx-auto px-4 md:px-0">
-      <input
-        id="searchfield"
-        type="search"
-        placeholder="Pesquisar..."
-        autofocus="autofocus"
-        class="w-full text-sm text-gray-900 transition focus:outline-none focus:border-transparent p-2 appearance-none leading-normal lg:text-lg"
-      />
-    </div>
-  </div> -->
 </template>
 
 <script setup>
