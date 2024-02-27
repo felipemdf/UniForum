@@ -8,7 +8,7 @@
       <!-- Menu Container -->
       <div class="flex items-center md:order-2 gap-0.2 md:gap-1">
         <!-- Mobile Search Button -->
-        <SearchBarComponent />
+        <!-- <SearchBarComponent /> -->
 
         <!-- Connect Buttons -->
         <div v-if="!isLogged">
@@ -26,14 +26,14 @@
 
         <!-- Logged Avatar -->
         <div v-if="isLogged" class="relative mx-4 md:mx-8">
-          <button
-            @click="toggleUserMenu"
-            type="button"
-            class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
-          >
-            <span class="sr-only">Open user menu</span>
-            <img class="w-10 h-10 rounded-full" src="../assets/perfil.png" alt="user photo" />
-          </button>
+          <div class="inline-flex items-center justify-center gap-4 align-middle">
+            <button @click="toggleUserMenu" type="button" class="flex items-center gap-3 text-sm md:me-0">
+              <span class="sr-only">Open user menu</span>
+              <img class="w-10 h-10 rounded-full" src="../assets/perfil.png" alt="user photo" />
+
+              <p class="text-base font-medium text-gray-900">Podório</p>
+            </button>
+          </div>
 
           <!-- Dropdown menu -->
           <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-36 bg-white rounded divide-gray-100 shadow">
@@ -59,10 +59,9 @@
 
 <script setup>
   import { ref } from 'vue';
-  import SearchBarComponent from './SearchBar.vue';
 
-  let isUserMenuOpen = ref(false);
-  let isLogged = ref(false);
+  let isUserMenuOpen = ref(true);
+  let isLogged = ref(true);
 
   function toggleUserMenu() {
     if (isLogged.value) {
