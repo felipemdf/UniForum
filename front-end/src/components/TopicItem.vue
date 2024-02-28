@@ -12,7 +12,7 @@
               src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
               alt="Username"
             />
-            <p class="text-base font-medium text-gray-900">Podório</p>
+            <p class="text-sm font-medium text-gray-900">Podório</p>
           </button>
           <p class="text-sm text-gray-500">- Há 2 horas</p>
         </div>

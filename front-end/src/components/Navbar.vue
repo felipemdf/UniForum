@@ -31,7 +31,7 @@
               <span class="sr-only">Open user menu</span>
               <img class="w-10 h-10 rounded-full" src="../assets/perfil.png" alt="user photo" />
 
-              <p class="text-base font-medium text-gray-900">Podório</p>
+              <p class="text-base font-medium text-gray-800">Podório</p>
             </button>
           </div>
 
