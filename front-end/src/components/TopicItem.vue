@@ -1,14 +1,14 @@
 <template>
-  <article class="p-6 mb-4 bg-white border-gray-200 shadow rounded">
+  <article class="p-6 mb-4 bg-white border-gray-200 rounded shadow">
     <!-- Header -->
     <header class="flex-col">
       <!-- First line -->
       <div class="flex justify-between mb-4">
         <!-- User and topic info -->
-        <div class="flex items-center gap-1 flex-wrap">
+        <div class="flex flex-wrap items-center gap-1">
           <button class="inline-flex items-center gap-1">
             <img
-              class="mr-2 w-8 h-8 rounded-full"
+              class="w-8 h-8 mr-2 rounded-full"
               src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
               alt="Username"
             />
@@ -39,10 +39,14 @@
           </button>
 
           <!-- Dropdown menu -->
-          <div v-if="isOptionsOpen" class="absolute right-0 w-36 bg-white rounded divide-y divide-gray-100 shadow">
+          <div
+            v-on-click-outside="toggleMenuOptions"
+            v-if="isOptionsOpen"
+            class="absolute right-0 bg-white divide-y divide-gray-100 rounded shadow w-36"
+          >
             <ul class="py-1 text-sm text-gray-700">
               <li>
-                <a href="#" class="block py-2 px-4 hover:bg-gray-100 text-red-600">Denunciar</a>
+                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Denunciar</a>
               </li>
             </ul>
           </div>
@@ -50,28 +54,28 @@
       </div>
 
       <!-- Title -->
-      <p class="text-gray-900 text-xl font-medium leading-5 border-b pb-4 border-x-gray-100">
+      <p class="pb-4 text-xl font-medium leading-5 text-gray-900 border-b border-x-gray-100">
         The Future of Magazines Is on Tablets
       </p>
     </header>
 
     <!-- Content preview -->
     <main>
-      <p class="text-sm leading-5 pt-4 text-gray-600">
+      <p class="pt-4 text-sm leading-5 text-gray-600">
         Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...
       </p>
 
       <!-- Tags -->
-      <div class="flex flex-wrap mt-4 gap-2">
-        <div class="py-2 px-3 text-xs leading-3 text-indigo-700 rounded-xl bg-indigo-100">Sistema de Informação</div>
-        <div class="py-2 px-3 text-xs leading-3 text-indigo-700 rounded-xl bg-indigo-100">Projeto Integrador</div>
+      <div class="flex flex-wrap gap-2 mt-4">
+        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">Sistema de Informação</div>
+        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">Projeto Integrador</div>
       </div>
     </main>
 
     <footer>
       <!-- Info -->
       <div class="flex gap-5 mt-4">
-        <button type="button" class="flex items-center text-sm text-gray-400 hover:underline font-normal gap-1">
+        <button type="button" class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline">
           <svg
             class="w-[16px] h-[16px] text-red-500"
             aria-hidden="true"
@@ -87,7 +91,7 @@
           891
         </button>
 
-        <button type="button" class="flex items-center text-sm text-gray-400 hover:underline font-normal gap-1">
+        <button type="button" class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline">
           <svg
             class="w-[18px] h-[18px]"
             aria-hidden="true"
@@ -114,7 +118,7 @@
 
   let isOptionsOpen = ref(false);
 
-  function toggleMenuOptions() {
+  const toggleMenuOptions = () => {
     isOptionsOpen.value = !isOptionsOpen.value;
-  }
+  };
 </script>

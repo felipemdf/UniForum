@@ -1,8 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-import store from './store';
 
 import '@/style.css';
+import onClickOutside from './directives/onClickOutside';
 
-createApp(App).use(store).use(router).mount('#app');
+const app = createApp(App).use(router).directive('onClickOutside', onClickOutside).mount('#app');
+app.use(router).mount('#app');

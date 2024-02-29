@@ -1,9 +1,9 @@
 <template>
   <!-- Main Navigation Container -->
-  <nav class="sticky z-10 top-0 start-0 w-full bg-white shadow-md shadow-black/5 px-4 py-4 md:px-8">
-    <div class="flex flex-wrap items-center justify-between mx-auto w-full md:px-12">
+  <nav class="sticky top-0 z-10 w-full px-4 py-5 bg-white shadow-md start-0 shadow-black/5 md:px-8">
+    <div class="flex flex-wrap items-center justify-between w-full mx-auto md:px-12">
       <!-- Logo -->
-      <a class="text-xl whitespace-nowrap text-blue-600 p-0" href="#">UniForum</a>
+      <a class="p-0 text-xl text-blue-600 whitespace-nowrap" href="#">UniForum</a>
 
       <!-- Menu Container -->
       <div class="flex items-center md:order-2 gap-0.2 md:gap-1">
@@ -11,10 +11,10 @@
         <!-- <SearchBarComponent /> -->
 
         <!-- Connect Buttons -->
-        <div v-if="!isLogged">
+        <div v-if="!isLogged" class="my-2">
           <a
             href="#"
-            class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+            class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-4 focus:outline-none"
             >Entrar</a
           >
           <a
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Logged Avatar -->
-        <div v-if="isLogged" class="relative mx-4 md:mx-8">
+        <div v-if="isLogged" class="relative md:mx-8">
           <div class="inline-flex items-center justify-center gap-4 align-middle">
             <button @click="toggleUserMenu" type="button" class="flex items-center gap-3 text-sm md:me-0">
               <span class="sr-only">Open user menu</span>
@@ -36,18 +36,22 @@
           </div>
 
           <!-- Dropdown menu -->
-          <div v-if="isUserMenuOpen" class="absolute right-0 mt-2 w-36 bg-white rounded divide-gray-100 shadow">
+          <div
+            v-on-click-outside="toggleUserMenu"
+            v-if="isUserMenuOpen"
+            class="absolute right-0 mt-2 bg-white divide-gray-100 rounded shadow w-36"
+          >
             <ul class="py-1 text-sm">
               <li>
-                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100">Meu perfil</a>
+                <a href="#" class="block px-4 py-2 font-normal hover:bg-gray-100">Meu perfil</a>
               </li>
 
               <li>
-                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100">Configurações</a>
+                <a href="#" class="block px-4 py-2 font-normal hover:bg-gray-100">Configurações</a>
               </li>
 
               <li>
-                <a href="#" class="block py-2 px-4 font-normal hover:bg-gray-100 text-red-600">Sair</a>
+                <a href="#" class="block px-4 py-2 font-normal text-red-600 hover:bg-gray-100">Sair</a>
               </li>
             </ul>
           </div>
