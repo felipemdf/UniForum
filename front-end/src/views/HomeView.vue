@@ -291,6 +291,17 @@
     </div>
   </div>
 
+  <!-- Order by -->
+  <div class="relative overflow-hidden">
+    <div class="flex flex-row items-center justify-between px-2 py-4">
+      <div class="inline-flex flex-row w-full gap-4">
+        <a class="text-sm text-blue-500" href="#">Mais recentes</a>
+
+        <a class="text-sm text-gray-500" href="#">Melhores</a>
+      </div>
+    </div>
+  </div>
+
   <!-- Topics -->
   <section>
     <TopicItem />
