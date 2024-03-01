@@ -10,6 +10,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require('@tailwindcss/forms'),
     require('tailwindcss/plugin')(({ addVariant }) => {
       addVariant('search-cancel', '&::-webkit-search-cancel-button');
     }),
