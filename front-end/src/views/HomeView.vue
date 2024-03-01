@@ -25,7 +25,7 @@
             <input
               type="text"
               id="search"
-              class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg outline-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              class="block w-full py-2.5 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg outline-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Pesquisar..."
               required=""
             />
@@ -39,8 +39,9 @@
       >
         <!-- Button Novo Tópico -->
         <button
+          @click="this.$router.push('/topic/create')"
           type="button"
-          class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
+          class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
         >
           <svg
             class="w-[14px] h-[14px] mr-1"
@@ -60,233 +61,69 @@
           Novo Tópico
         </button>
 
-        <!-- Button Filter Curso -->
-        <div class="relative">
-          <button
-            @click="toggleFilter('filterCurso')"
-            class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
-            type="button"
+        <!-- Checkbox Filter Tags -->
+        <CheckboxDropdown :checkBoxes="checkboxCourses">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            class="w-4 h-4 mr-2 text-gray-400"
+            viewbox="0 0 20 20"
+            fill="currentColor"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              class="w-4 h-4 mr-2 text-gray-400"
-              viewbox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Cursos
+            <path
+              fill-rule="evenodd"
+              d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Cursos
 
-            <svg
-              class="-mr-1 ml-1.5 w-5 h-5"
-              fill="currentColor"
-              viewbox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              />
-            </svg>
-          </button>
-
-          <!-- Dropdown Menu -->
-          <div
-            v-on-click-outside="toggleFilter"
-            v-if="filters.filterCurso"
-            class="absolute right-0 z-10 w-full mt-1 bg-white rounded-lg shadow md:w-60"
+          <svg
+            class="-mr-1 ml-1.5 w-5 h-5"
+            fill="currentColor"
+            viewbox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
-            <ul class="h-48 p-3 overflow-y-auto text-sm text-gray-700">
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-item-1"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-1" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Análise e Desenvolvimento de Sistemas
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    checked
-                    id="checkbox-item-2"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-2" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Sistemas de Informação
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-item-3"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-3" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Arquitetura
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-item-4"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-4" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Direito
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-item-5"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-5" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Engenharia Elétrica
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+            <path
+              clip-rule="evenodd"
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            />
+          </svg>
+        </CheckboxDropdown>
 
-        <!-- Button Filter Tags -->
-        <div class="relative">
-          <button
-            @click="toggleFilter('filterTag')"
-            class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:w-auto focus:outline-none hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
-            type="button"
+        <!-- Checkbox Filter Tags -->
+        <CheckboxDropdown :checkBoxes="checkboxFilters">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            class="w-4 h-4 mr-2 text-gray-400"
+            viewbox="0 0 20 20"
+            fill="currentColor"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              class="w-4 h-4 mr-2 text-gray-400"
-              viewbox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Tags
+            <path
+              fill-rule="evenodd"
+              d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Tags
 
-            <svg
-              class="-mr-1 ml-1.5 w-5 h-5"
-              fill="currentColor"
-              viewbox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              />
-            </svg>
-          </button>
-
-          <!-- Dropdown Menu -->
-          <div
-            v-on-click-outside="toggleFilter"
-            v-if="filters.filterTag"
-            class="absolute z-10 w-full mt-1 bg-white rounded-lg shadow md:w-48"
+          <svg
+            class="-mr-1 ml-1.5 w-5 h-5"
+            fill="currentColor"
+            viewbox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
           >
-            <ul class="h-48 p-3 overflow-y-auto text-sm text-gray-700">
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-tag-1"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-tag-1" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Dúvida
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    checked
-                    id="checkbox-tag-2"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-tag-2" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Artigo
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-tag-3"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-tag-3" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Projeto
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-tag-4"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-tag-4" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Oportunidade
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div class="flex items-center rounded ps-2.5 hover:bg-gray-100">
-                  <input
-                    id="checkbox-tag-5"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 text-blue-600 bg-gray-200 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
-                  />
-                  <label for="checkbox-item-5" class="w-full py-2 text-sm font-medium text-gray-900 rounded ms-2"
-                    >Recurso
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
+            <path
+              clip-rule="evenodd"
+              fill-rule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            />
+          </svg>
+        </CheckboxDropdown>
       </div>
     </div>
   </div>
@@ -295,9 +132,13 @@
   <div class="relative overflow-hidden">
     <div class="flex flex-row items-center justify-between px-2 py-4">
       <div class="inline-flex flex-row w-full gap-4">
-        <a class="text-sm text-blue-500" href="#">Mais recentes</a>
+        <a class="text-sm text-gray-500 cursor-pointer" @click="orderBy = 'maisRecente'"
+          ><p :class="{ 'text-blue-500  ': orderBy == 'maisRecente' }">Mais recentes</p></a
+        >
 
-        <a class="text-sm text-gray-500" href="#">Melhores</a>
+        <a class="text-sm text-gray-500 cursor-pointer" @click="orderBy = 'melhores'"
+          ><p :class="{ 'text-blue-500  ': orderBy == 'melhores' }">Melhores</p></a
+        >
       </div>
     </div>
   </div>
@@ -311,18 +152,22 @@
 
 <script setup>
   import TopicItem from '@/components/TopicItem.vue';
+  import CheckboxDropdown from '@/components/CheckboxDropdown.vue';
+
   import { ref } from 'vue';
 
-  const filters = ref({ filterCurso: false, filterTag: false });
+  const checkboxFilters = ref([
+    { id: '1', label: 'Dúvida', checked: false },
+    { id: '2', label: 'Artigo', checked: false },
+    { id: '3', label: 'Projeto', checked: false },
+    { id: '4', label: 'Oportunidade', checked: false },
+    { id: '5', label: 'Recurso', checked: false },
+  ]);
+  const checkboxCourses = ref([
+    { id: '1', label: 'Análise e Desenvolvimento de Sistemas', checked: false },
+    { id: '2', label: 'Sistemas de Informação', checked: false },
+    { id: '3', label: 'Arquitetura', checked: false },
+  ]);
 
-  function toggleFilter(filterName) {
-    for (const filter in filters.value) {
-      if (filter != filterName) {
-        filters.value[filter] = false;
-        continue;
-      }
-
-      filters.value[filter] = !filters.value[filter];
-    }
-  }
+  const orderBy = ref('maisRecente');
 </script>

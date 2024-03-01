@@ -1,9 +1,9 @@
 <template>
   <!-- Main Navigation Container -->
-  <nav class="sticky top-0 z-10 w-full px-4 py-5 bg-white shadow-md start-0 shadow-black/5 md:px-8">
+  <nav class="sticky top-0 z-10 w-full px-4 py-5 mb-2 bg-white shadow-md start-0 shadow-black/5 md:px-8">
     <div class="flex flex-wrap items-center justify-between w-full mx-auto md:px-12">
       <!-- Logo -->
-      <a class="p-0 text-2xl text-blue-600 whitespace-nowrap" href="#">UniForum</a>
+      <a @click="this.$router.push('/')" class="p-0 text-2xl text-blue-600 whitespace-nowrap" href="#">UniForum</a>
 
       <!-- Menu Container -->
       <div class="flex items-center md:order-2 gap-0.2 md:gap-1">
@@ -14,12 +14,12 @@
         <div v-if="!isLogged" class="my-2">
           <a
             href="#"
-            class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-4 focus:outline-none"
+            class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-4 focus:outline-none"
             >Entrar</a
           >
           <a
             href="#"
-            class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
+            class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 focus:outline-none"
             >Cadastrar</a
           >
         </div>
