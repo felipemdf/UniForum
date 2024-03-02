@@ -5,7 +5,7 @@
       class="flex items-center justify-between w-full px-4 py-2 md:py-2.5 bg-white md:bg-gray-50 border-0 rounded-md outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
       type="button"
     >
-      {{ defaultText }}
+      {{ value || defaultText }}
       <svg
         class="mr-1 ml-1.5 w-5 h-5"
         fill="rgb(107 114 128)"
@@ -57,7 +57,7 @@
 
 <script setup>
   import { ref, defineProps } from 'vue';
-  const props = defineProps(['options', 'defaultText']);
+  const props = defineProps(['value', 'options', 'defaultText']);
   const menu = ref(false);
 
   const selectCourse = (id) => {

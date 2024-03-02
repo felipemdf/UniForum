@@ -26,7 +26,7 @@
       <div class="sm:col-span-3">
         <!-- <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Curso</label> -->
         <div class="w-full mt-2">
-          <SelectDropdown :default-text="selectedCourse || 'Selecione um curso'" :options="selectCourses" />
+          <SelectDropdown :value="selectedCourse" :default-text="'Selecione um curso'" :options="selectCourses" />
         </div>
       </div>
 
@@ -34,7 +34,7 @@
       <div class="sm:col-span-3">
         <!-- <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Tags</label> -->
         <div class="w-full mt-2">
-          <SelectDropdown :default-text="selectedTag || 'Selecione uma tag'" :options="selectTags" />
+          <SelectDropdown :value="selectedTag" :default-text="'Selecione uma tag'" :options="selectTags" />
         </div>
       </div>
 
