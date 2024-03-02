@@ -11,7 +11,7 @@ const routes = [
 
   {
     path: '/topic/create',
-    name: 'create topic',
+    name: 'createTopic',
     component: CreateTopicView,
   },
 ];

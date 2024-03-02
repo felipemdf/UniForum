@@ -56,7 +56,7 @@
 
     <div class="flex items-center justify-end">
       <button
-        @click="this.$router.push('/')"
+        @click="this.$router.push({ name: 'home' })"
         class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-4 focus:outline-none"
       >
         Cancelar

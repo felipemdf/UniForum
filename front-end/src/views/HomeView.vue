@@ -39,7 +39,7 @@
       >
         <!-- Button Novo Tópico -->
         <button
-          @click="this.$router.push('/topic/create')"
+          @click="this.$router.push({ name: 'createTopic' })"
           type="button"
           class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
         >
