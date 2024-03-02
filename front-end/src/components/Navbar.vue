@@ -3,15 +3,10 @@
   <nav class="sticky top-0 z-10 w-full px-4 py-5 mb-2 bg-white shadow-md start-0 shadow-black/5 md:px-8">
     <div class="flex flex-wrap items-center justify-between w-full mx-auto md:px-12">
       <!-- Logo -->
-      <a @click="this.$router.push({ name: 'home' })" class="p-0 text-2xl text-blue-600 whitespace-nowrap" href="#"
-        >UniForum</a
-      >
+      <router-link to="/"><p class="p-0 text-2xl text-blue-600 whitespace-nowrap">UniForum</p></router-link>
 
       <!-- Menu Container -->
       <div class="flex items-center md:order-2 gap-0.2 md:gap-1">
-        <!-- Mobile Search Button -->
-        <!-- <SearchBarComponent /> -->
-
         <!-- Connect Buttons -->
         <div v-if="!isLogged" class="my-2">
           <a

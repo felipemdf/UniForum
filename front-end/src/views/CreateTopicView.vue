@@ -55,12 +55,12 @@
     </div>
 
     <div class="flex items-center justify-end">
-      <button
-        @click="this.$router.push({ name: 'home' })"
+      <router-link
+        to="/"
         class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-4 focus:outline-none"
+        >Cancelar</router-link
       >
-        Cancelar
-      </button>
+
       <button
         type="submit"
         class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-2 focus:outline-none"
