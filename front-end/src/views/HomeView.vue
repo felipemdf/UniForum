@@ -38,7 +38,27 @@
         class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3"
       >
         <!-- Button Novo Tópico -->
-        <button
+        <router-link
+          class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
+          to="/topic/create"
+          ><svg
+            class="w-[14px] h-[14px] mr-1"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="3"
+              d="M5 12h14m-7 7V5"
+            />
+          </svg>
+          Novo Tópico</router-link
+        >
+        <!-- <button
           @click="this.$router.push({ name: 'createTopic' })"
           type="button"
           class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
@@ -59,7 +79,7 @@
             />
           </svg>
           Novo Tópico
-        </button>
+        </button> -->
 
         <!-- Checkbox Filter Tags -->
         <CheckboxDropdown :checkBoxes="checkboxCourses">
