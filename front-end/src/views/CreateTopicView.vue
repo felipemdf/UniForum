@@ -1,12 +1,12 @@
 <template>
   <!-- Title -->
   <div class="pb-6 my-5 border-b border-x-gray-100">
-    <h2 class="text-xl font-semibold leading-7 text-gray-900">Criar um novo tópico</h2>
+    <h2 class="text-lg leading-7 text-gray-900 md:text-xl">Criar um novo tópico</h2>
     <!-- <p class="mt-1 text-sm leading-6 text-gray-600">
       This information will be displayed publicly so be careful what you share.
     </p> -->
   </div>
-  <form class="p-4 mt-8 bg-white border-gray-200 rounded-lg shadow md:p-8">
+  <form class="mt-8 rounded-lg md:shadow md:border-gray-200 md:bg-white md:p-8">
     <!-- Form -->
     <div class="grid grid-cols-1 pb-8 gap-x-6 gap-y-6 sm:grid-cols-6">
       <!-- Title -->
@@ -17,7 +17,7 @@
             required
             type="text"
             placeholder="Título"
-            class="block w-full py-2 pl-4 text-sm text-gray-900 border-0 rounded-md outline-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6 bg-gray-50"
+            class="block w-full py-2 pl-4 text-sm text-gray-900 bg-white border-0 rounded-md outline-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6 md:bg-gray-50"
           />
         </div>
       </div>
@@ -48,13 +48,13 @@
             name="about"
             rows="6"
             placeholder="Texto"
-            class="block w-full py-2 pl-4 text-sm text-gray-900 border-0 rounded-md shadow-sm outline-none resize-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6 bg-gray-50"
+            class="block w-full py-2 pl-4 text-sm text-gray-900 bg-white border-0 rounded-md shadow-sm outline-none resize-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6 md:bg-gray-50"
           ></textarea>
         </div>
       </div>
     </div>
 
-    <div class="flex items-center justify-end">
+    <div class="flex items-center justify-between md:justify-end">
       <router-link
         to="/"
         class="text-gray-800 hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 md:px-5 py-2 md:py-2.5 mr-4 focus:outline-none"

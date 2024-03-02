@@ -2,7 +2,7 @@
   <div class="relative text-sm text-gray-900">
     <button
       @click="toggleMenu"
-      class="flex items-center justify-between w-full px-4 py-2 md:py-2.5 bg-gray-50 border-0 rounded-md outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+      class="flex items-center justify-between w-full px-4 py-2 md:py-2.5 bg-white md:bg-gray-50 border-0 rounded-md outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
       type="button"
     >
       {{ defaultText }}
