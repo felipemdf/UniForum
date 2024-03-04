@@ -1,43 +1,46 @@
-# UniForum - Front-end
+# front-end
 
-> 🚧 Projeto em construção 🚧
+This template should help get you started developing with Vue 3 in Vite.
 
-## 🚀 Começando
+## Recommended IDE Setup
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## 🔧 Instalação
+## Type Support for `.vue` Imports in TS
 
-Certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-1. Clone este repositório.
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-2. Navegue até o diretório do projeto e execute o seguinte comando no terminal para instalar as dependências:
+1. Disable the built-in TypeScript Extension
+    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
-   ```
-   npm install
-   ```
+## Customize configuration
 
-3. Após a instalação, execute o seguinte comando para iniciar o servidor de desenvolvimento:
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-   ```
-   npm run serve
-   ```
+## Project Setup
 
-4. Abra o navegador e visite `http://localhost:8080` para visualizar o aplicativo.
+```sh
+npm install
+```
 
-## 🛠️ Construído com
+### Compile and Hot-Reload for Development
 
-- [Vue.js](https://vuejs.org)
-- [Bootstrap](https://getbootstrap.com)
+```sh
+npm run dev
+```
 
-## ✒️ Autores
+### Type-Check, Compile and Minify for Production
 
-# Autores
+```sh
+npm run build
+```
 
-| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/73004335?v=4" width=115><br><sub>Felipe Marinho</sub>](https://github.com/felipemdf) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/99979201?v=4" width=115><br><sub>João Victor</sub>](https://github.com/joaoV9) |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: |
+### Lint with [ESLint](https://eslint.org/)
 
-## 📄 Licença
-
-Este projeto está sob a licença GNU GENERAL PUBLIC LICENSE v3- veja o arquivo [LICENSE.md](https://github.com/felipemdf/UniForum/blob/main/LICENSE) para detalhes.
+```sh
+npm run lint
+```
