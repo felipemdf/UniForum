@@ -1,16 +1,16 @@
 <template>
   <!-- Filters -->
-  <div class="relative mb-4 bg-white border-gray-200 rounded shadow">
-    <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0 md:space-x-4">
+  <div class="relative mb-4 bg-white rounded shadow border-c-gray-100">
+    <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0">
       <!-- Search Input -->
       <div class="w-full md:w-1/2">
-        <form class="flex items-center">
+        <form class="flex items-center mr-2.5">
           <label for="search" class="sr-only">Search</label>
           <div class="relative w-full">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
                 aria-hidden="true"
-                class="w-5 h-5 text-gray-500"
+                class="w-5 h-5 text-c-gray-500"
                 fill="currentColor"
                 viewbox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -25,9 +25,9 @@
             <input
               type="text"
               id="search"
-              class="block w-full py-2.5 p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg outline-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              class="block w-full py-2.5 p-2 pl-10 text-sm text-c-gray-800 border border-c-gray-300 rounded-lg outline-none bg-c-gray-50 focus:border-c-blue-500 focus:ring-c-blue-500"
               placeholder="Pesquisar..."
-              required=""
+              required
             />
           </div>
         </form>
@@ -39,7 +39,7 @@
       >
         <!-- Button Novo Tópico -->
         <router-link
-          class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-primary-300 focus:outline-none"
+          class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-c-blue-600 rounded-lg hover:bg-c-blue-700"
           to="/topic/create"
         >
           <svg
@@ -60,69 +60,9 @@
           Novo Tópico</router-link
         >
 
-        <!-- Checkbox Filter Tags -->
-        <CheckboxDropdown :checkBoxes="checkboxCourses">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="w-4 h-4 mr-2 text-gray-400"
-            viewbox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Cursos
-
-          <svg
-            class="-mr-1 ml-1.5 w-5 h-5"
-            fill="currentColor"
-            viewbox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              clip-rule="evenodd"
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            />
-          </svg>
-        </CheckboxDropdown>
-
-        <!-- Checkbox Filter Tags -->
-        <CheckboxDropdown :checkBoxes="checkboxFilters">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            class="w-4 h-4 mr-2 text-gray-400"
-            viewbox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          Tags
-
-          <svg
-            class="-mr-1 ml-1.5 w-5 h-5"
-            fill="currentColor"
-            viewbox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              clip-rule="evenodd"
-              fill-rule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            />
-          </svg>
-        </CheckboxDropdown>
+        <!-- Filters -->
+        <FilterCheckbox :data="topicsStore.filters.courseFilter" label="Cursos" />
+        <FilterCheckbox :data="topicsStore.filters.tagFilter" label="Tags" />
       </div>
     </div>
   </div>
@@ -131,12 +71,18 @@
   <div class="relative overflow-hidden">
     <div class="flex flex-row items-center justify-between px-2 py-4">
       <div class="inline-flex flex-row w-full gap-4">
-        <a class="text-sm text-gray-500 cursor-pointer" @click="orderBy = 'maisRecente'"
-          ><p :class="{ 'text-blue-500  ': orderBy == 'maisRecente' }">Mais recentes</p></a
+        <a
+          class="text-sm cursor-pointer text-c-gray-500"
+          @click="topicsStore.setOrderBy('mais recentes')"
+          ><p :class="{ 'text-c-blue-500  ': topicsStore.orderBy == 'mais recentes' }">
+            Mais recentes
+          </p></a
         >
 
-        <a class="text-sm text-gray-500 cursor-pointer" @click="orderBy = 'melhores'"
-          ><p :class="{ 'text-blue-500  ': orderBy == 'melhores' }">Melhores</p></a
+        <a
+          class="text-sm cursor-pointer text-c-gray-500"
+          @click="topicsStore.setOrderBy('melhores')"
+          ><p :class="{ 'text-c-blue-500  ': topicsStore.orderBy == 'melhores' }">Melhores</p></a
         >
       </div>
     </div>
@@ -144,29 +90,23 @@
 
   <!-- Topics -->
   <section>
-    <TopicItem />
-    <TopicItem />
+    <Topic v-for="topic in topicsStore.topics" :key="topic.id" :topic="topic" />
   </section>
 </template>
 
-<script setup>
-  import TopicItem from '@/components/TopicItem.vue';
-  import CheckboxDropdown from '@/components/CheckboxDropdown.vue';
+<script setup lang="ts">
+import { onUnmounted } from 'vue';
 
-  import { ref } from 'vue';
+// Store
+import { useTopicsStore } from '@/stores/TopicsStore';
 
-  const checkboxFilters = ref([
-    { id: '1', label: 'Dúvida', checked: false },
-    { id: '2', label: 'Artigo', checked: false },
-    { id: '3', label: 'Projeto', checked: false },
-    { id: '4', label: 'Oportunidade', checked: false },
-    { id: '5', label: 'Recurso', checked: false },
-  ]);
-  const checkboxCourses = ref([
-    { id: '1', label: 'Análise e Desenvolvimento de Sistemas', checked: false },
-    { id: '2', label: 'Sistemas de Informação', checked: false },
-    { id: '3', label: 'Arquitetura', checked: false },
-  ]);
+// Components
+import FilterCheckbox from '@/components/FilterCheckbox.vue';
+import Topic from '@/components/Topic.vue';
 
-  const orderBy = ref('maisRecente');
+const topicsStore = useTopicsStore();
+
+onUnmounted(() => {
+  topicsStore.clearFilters();
+});
 </script>

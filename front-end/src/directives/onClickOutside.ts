@@ -1,6 +1,6 @@
 const vOnClickOutside = {
-  mounted: (el, binding) => {
-    el.onClickOutside = (event) => {
+  mounted: (el: any, binding: any) => {
+    el.onClickOutside = (event: any) => {
       if (!el.contains(event.target) && el !== event.target) {
         binding.value();
       }
@@ -10,9 +10,9 @@ const vOnClickOutside = {
       document.addEventListener('click', el.onClickOutside);
     }, 100);
   },
-  unmounted: (el) => {
+  unmounted: (el: any) => {
     document.removeEventListener('click', el.onClickOutside);
-  },
+  }
 };
 
 export default vOnClickOutside;

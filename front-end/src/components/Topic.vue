@@ -12,9 +12,9 @@
               src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
               alt="Username"
             />
-            <p class="text-sm font-medium text-gray-900">Podório</p>
+            <p class="text-sm font-medium text-gray-900">{{ props.topic.username }}</p>
           </button>
-          <p class="text-sm text-gray-500">- Há 2 horas</p>
+          <p class="text-sm text-gray-500">- {{ formattedActivity }}</p>
         </div>
 
         <!-- Option Button-->
@@ -55,27 +55,34 @@
 
       <!-- Title -->
       <p class="pb-4 text-xl font-medium leading-5 text-gray-900 border-b border-x-gray-100">
-        The Future of Magazines Is on Tablets
+        {{ props.topic.title }}
       </p>
     </header>
 
     <!-- Content preview -->
     <main>
       <p class="pt-4 text-sm leading-5 text-gray-600">
-        Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...
+        {{ props.topic.preview }}
       </p>
 
       <!-- Tags -->
       <div class="flex flex-wrap gap-2 mt-4">
-        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">Sistema de Informação</div>
-        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">Projeto Integrador</div>
+        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
+          {{ props.topic.course }}
+        </div>
+        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
+          {{ props.topic.tag }}
+        </div>
       </div>
     </main>
 
     <footer>
       <!-- Info -->
       <div class="flex gap-5 mt-4">
-        <button type="button" class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline">
+        <button
+          type="button"
+          class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
+        >
           <svg
             class="w-[16px] h-[16px] text-red-500"
             aria-hidden="true"
@@ -88,10 +95,13 @@
             />
           </svg>
 
-          891
+          {{ props.topic.likes }}
         </button>
 
-        <button type="button" class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline">
+        <button
+          type="button"
+          class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
+        >
           <svg
             class="w-[18px] h-[18px]"
             aria-hidden="true"
@@ -106,19 +116,48 @@
             />
           </svg>
 
-          891
+          {{ props.topic.numberComments }}
         </button>
       </div>
     </footer>
   </article>
 </template>
 
-<script setup>
-  import { ref } from 'vue';
+<script setup lang="ts">
+import { ref, defineProps, computed } from 'vue';
 
-  let isOptionsOpen = ref(false);
+const props = defineProps(['topic']);
+let isOptionsOpen = ref(false);
 
-  const toggleMenuOptions = () => {
-    isOptionsOpen.value = !isOptionsOpen.value;
-  };
+const toggleMenuOptions = () => {
+  isOptionsOpen.value = !isOptionsOpen.value;
+};
+
+const formattedActivity = computed(() => {
+  const diff = Date.now() - new Date(props.topic.updatedAt).getTime();
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
+  const months = Math.floor(days / 30);
+  const years = Math.floor(days / 365);
+
+  if (years > 0) {
+    return `Há ${years} ano${years > 1 ? 's' : ''}`;
+  } else if (months > 0) {
+    return `Há ${months} mês${months > 1 ? 'es' : ''}`;
+  } else if (weeks > 0) {
+    return `Há ${weeks} semana${weeks > 1 ? 's' : ''}`;
+  } else if (days > 0) {
+    return `Há ${days} dia${days > 1 ? 's' : ''}`;
+  } else if (hours > 0) {
+    return `Há ${hours} hora${hours > 1 ? 's' : ''}`;
+  } else if (minutes > 0) {
+    return `Há ${minutes} minuto${minutes > 1 ? 's' : ''}`;
+  } else {
+    return `Há alguns segundos`;
+  }
+});
 </script>
