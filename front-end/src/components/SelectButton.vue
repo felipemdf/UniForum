@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full text-sm font-medium text-c-gray-800">
+  <div class="relative w-full text-sm text-c-gray-800">
     <button
       @click="toggleMenu"
       class="flex items-center justify-between w-full px-4 py-2.5 bg-white border border-c-gray-200 rounded-md outline-none focus:outline-none md:bg-gray-50 hover:bg-c-gray-100"
