@@ -1,0 +1,69 @@
+{
+    
+    "users": [
+        {
+            "id": 1,
+            "name": "Felipe",
+            "topics": [
+                {
+                    "id": 1,
+                    "title": "Psicologia, o que é",
+                    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "likes": 546,
+                    "number_comments": 56,
+                    "created_at": "2024-12-01",
+                    "course": 1,
+                    "tag": 2
+                        
+                },
+                {
+                    "id": 2,
+                    "title": "Mickey, psicopata em forma de rato",
+                    "content": "The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.",
+                    "likes": 3452,
+                    "number_comments": 458,
+                    "created_at": "2024-04-26",
+                    "course": 2,
+                    "tag": 3
+                },
+                {
+                    "id": 3,
+                    "title": "Rato Borachudo, um rato ou uma borracha?",
+                    "content": "McClintock's eye for detail certainly helped narrow the whereabouts of lorem ipsum's origin, however, the “how and when” still remain something of a mystery, with competing theories and timelines.",
+                    "likes": 451,
+                    "number_comments": 134,
+                    "created_at": "2024-09-14",
+                    "course": 1,
+                    "tag": 2
+                }
+            ]
+        }
+    ],
+
+    "courses": [
+        {
+            "id": 1,
+            "description": "Sistema de informação"
+        },
+        {
+            "id": 2,
+            "description": "Analise de sistema"
+        }
+    ],
+
+    "tags": [
+        {
+            "id": 1,
+            "description": "Duvida"
+        },
+        {
+            "id": 2,
+            "description": "Divulgação"
+        },
+        {
+            "id": 3,
+            "description": "Artigo"
+        }
+    ]
+
+}
