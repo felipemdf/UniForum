@@ -1,10 +1,10 @@
 <template>
-  <article class="p-6 mb-4 bg-white border-gray-200 rounded shadow">
+  <article class="p-6 mb-1 rounded">
     <!-- Header -->
     <header class="flex-col">
       <!-- First line -->
-      <div class="flex justify-between mb-4">
-        <!-- User and topic info -->
+      <div class="flex justify-between">
+        <!-- User and Comment info -->
         <div class="flex flex-wrap items-center gap-1">
           <button class="inline-flex items-center gap-1">
             <img
@@ -12,8 +12,7 @@
               src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
               alt="Username"
             />
-            <!-- <p class="text-sm font-medium text-gray-900">{{ props.topic.username}}</p> -->
-            <p class="text-sm font-medium text-gray-900">{{ props.topic.username }}</p>
+            <p class="text-sm font-medium text-gray-900">{{ props.comment.username }}</p>
           </button>
           <p class="text-sm text-gray-500">- {{ formattedActivity }}</p>
         </div>
@@ -36,7 +35,7 @@
                 d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
               />
             </svg>
-            <span class="sr-only">Topic settings</span>
+            <span class="sr-only">Comment settings</span>
           </button>
 
           <!-- Dropdown menu -->
@@ -53,30 +52,13 @@
           </div>
         </div>
       </div>
-
-      <!-- Title -->
-      <router-link :to="'/topic/' + props.topic.id">
-        <p class="pb-4 text-xl font-medium leading-5 text-gray-900 border-b border-x-gray-100">
-          {{ props.topic.title }}
-        </p>
-      </router-link>
     </header>
 
     <!-- Content preview -->
     <main>
-      <p class="pt-4 text-sm leading-5 text-gray-600">
-        {{ props.topic.preview }}
+      <p class="pt-3 text-sm leading-5 text-gray-600 ml-11">
+        {{ props.comment.content }}
       </p>
-
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2 mt-4">
-        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-          {{ props.topic.course }}
-        </div>
-        <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-          {{ props.topic.tag }}
-        </div>
-      </div>
     </main>
 
     <footer>
@@ -98,28 +80,7 @@
             />
           </svg>
 
-          {{ props.topic.likes }}
-        </button>
-
-        <button
-          type="button"
-          class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
-        >
-          <svg
-            class="w-[18px] h-[18px]"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M3.6 4.5c.3-.3.8-.5 1.3-.5H19a1.9 1.9 0 0 1 2 1.9V15a1.9 1.9 0 0 1-1.9 1.9h-3.6l-2.7 3.6a1 1 0 0 1-1.6 0L8.5 17H4.9A1.9 1.9 0 0 1 3 15.1V6c0-.5.2-1 .6-1.4Zm4 3a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2h-8Zm0 3.5a1 1 0 1 0 0 2H12a1 1 0 1 0 0-2H7.6Z"
-              clip-rule="evenodd"
-            />
-          </svg>
-
-          {{ props.topic.numberComments }}
+          {{ props.comment.likes }}
         </button>
       </div>
     </footer>
@@ -129,7 +90,7 @@
 <script setup lang="ts">
 import { ref, defineProps, computed } from 'vue';
 
-const props = defineProps(['topic']);
+const props = defineProps(['comment']);
 let isOptionsOpen = ref(false);
 
 const toggleMenuOptions = () => {
@@ -137,7 +98,7 @@ const toggleMenuOptions = () => {
 };
 
 const formattedActivity = computed(() => {
-  const diff = Date.now() - new Date(props.topic.updatedAt).getTime();
+  const diff = Date.now() - new Date(props.comment.updatedAt).getTime();
 
   const seconds = Math.floor(diff / 1000);
   const minutes = Math.floor(seconds / 60);
@@ -163,5 +124,4 @@ const formattedActivity = computed(() => {
     return `Há alguns segundos`;
   }
 });
-
 </script>

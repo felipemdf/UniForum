@@ -13,6 +13,12 @@ const router = createRouter({
       path: '/topic/create',
       name: 'topic_form',
       component: () => import('../views/TopicFormView.vue')
+    },
+
+    {
+      path: '/topic/:id',
+      name: 'topic',
+      component: () => import('../views/TopicView.vue')
     }
   ]
 });

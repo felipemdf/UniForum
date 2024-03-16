@@ -32,7 +32,7 @@ interface TopicsStore {
 type OrderBy = 'mais recentes' | 'melhores';
 
 export const useTopicsStore = defineStore({
-  id: 'menus',
+  id: 'topics',
   state: (): TopicsStore => ({
     filters: {
       courseFilter: [
