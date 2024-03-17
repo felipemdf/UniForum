@@ -56,10 +56,24 @@
         class="relative flex flex-col sm:w-[30rem] rounded-lg border-gray-400 bg-white shadow-lg px-4"
       >
         <div class="flex-auto p-6">
+          <!-- Logo -->
+          <div
+            class="flex items-center justify-center flex-grow-0 flex-shrink-0 mb-8 overflow-hidden"
+          >
+            <router-link
+              to="/home"
+              href="#"
+              class="flex items-center gap-2 no-underline cursor-pointer text-c-blue-600"
+            >
+              <span class="flex-shrink-0 text-3xl font-black tracking-tight">UniForum</span>
+            </router-link>
+          </div>
+
           <!--Presentation -->
-          <h4 class="mb-6 text-2xl font-medium text-c-gray-800">Cadastrar-se</h4>
-          <!-- Gambiarra -->
-          <div class="w-[277px] min-w-0"></div>
+          <h4 class="mb-2 text-lg font-medium xl:text-xl text-c-gray-800">Cadastrar-se</h4>
+          <p class="mb-6 text-sm text-c-gray-500">
+            Crie sua conta agora e faça parte da comunidade
+          </p>
 
           <form class="mb-4" action="#" method="POST">
             <!-- Matrícula -->

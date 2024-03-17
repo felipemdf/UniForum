@@ -58,7 +58,7 @@
         <div class="flex-auto p-6">
           <!-- Logo -->
           <div
-            class="flex items-center justify-center flex-grow-0 flex-shrink-0 mb-10 overflow-hidden"
+            class="flex items-center justify-center flex-grow-0 flex-shrink-0 mb-8 overflow-hidden"
           >
             <router-link
               to="/home"
@@ -74,6 +74,8 @@
             Bem vindo ao UniForum!
           </h4>
           <p class="mb-6 text-sm text-c-gray-500">Por favor, faça o login para acessar sua conta</p>
+          <!-- Gambiarra -->
+          <div class="w-[302.91px] min-w-0"></div>
 
           <form class="mb-4" action="#" method="POST">
             <div class="mb-4">
