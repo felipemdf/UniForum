@@ -11,15 +11,15 @@
       <div class="flex items-center mx-4 md:mx-8">
         <!-- Disconnected Buttons -->
         <div v-if="!isLogged" class="py-2">
-          <router-link to="/login"
+          <router-link to="/signin"
             href="#"
             class="px-4 py-3 mr-4 text-sm font-medium rounded-lg outline-none md:mr-6 text-c-gray-800 hover:bg-c-gray-100"
             >Entrar</router-link
           >
-          <a
+          <router-link to="/signup"
             href="#"
             class="px-4 py-3 text-sm font-medium text-white rounded-lg bg-c-blue-600 hover:bg-c-blue-700 focus:outline-none"
-            >Cadastrar</a
+            >Cadastrar</router-link
           >
         </div>
 

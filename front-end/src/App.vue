@@ -14,9 +14,9 @@ import { computed } from 'vue';
 const router = useRouter();
 
 const showNavbar = computed(() => {
-  return router.currentRoute.value.name !== 'login';
+  const routerName = router.currentRoute.value.name;
+  return !(routerName === 'signIn' || routerName === 'signUp');
 });
-
 </script>
 
 <style>

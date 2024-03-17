@@ -16,7 +16,7 @@
           <input
             type="text"
             id="search"
-            class="block w-full py-2.5 px-3 text-sm text-c-gray-800 border bg-white border-c-gray-300 rounded-md outline-none md:bg-c-gray-50 focus:border-c-blue-500 focus:ring-c-blue-500"
+            class="block w-full py-2.5 p-2 pl-5 text-sm text-c-gray-800 border bg-white border-c-gray-300 rounded-md outline-none md:bg-c-gray-50 focus:border-c-blue-500 focus:ring-c-blue-500"
             placeholder="Título"
             required
           />
@@ -42,7 +42,7 @@
             name="about"
             rows="6"
             placeholder="Texto"
-            class="block w-full py-2.5 px-3 text-sm bg-white border-gray-300 rounded-md shadow-sm outline-none resize-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 sm:leading-6 md:bg-gray-50"
+            class="block w-full py-2 pl-4 text-sm bg-white border-gray-300 rounded-md shadow-sm outline-none resize-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 sm:leading-6 md:bg-gray-50"
           ></textarea>
         </div>
       </div>
