@@ -5,16 +5,16 @@
   >
     <nav class="flex flex-wrap items-center justify-between w-full mx-auto">
       <!-- Logo -->
-      <router-link to="/"><p class="text-2xl font-bold text-blue-600">UniForum</p></router-link>
+      <router-link to="/"><p class="text-2xl font-bold text-c-blue-600">UniForum</p></router-link>
 
       <!-- Menu Container -->
       <div class="flex items-center mx-4 md:mx-8">
         <!-- Disconnected Buttons -->
         <div v-if="!isLogged" class="py-2">
-          <a
+          <router-link to="/login"
             href="#"
             class="px-4 py-3 mr-4 text-sm font-medium rounded-lg outline-none md:mr-6 text-c-gray-800 hover:bg-c-gray-100"
-            >Entrar</a
+            >Entrar</router-link
           >
           <a
             href="#"

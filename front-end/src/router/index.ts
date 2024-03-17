@@ -9,9 +9,21 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    
+    {
+      path: '/home',
       name: 'home',
       component: HomeView
     },
+
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue')
+    },
+
     {
       path: '/topic/create',
       name: 'topic_form',

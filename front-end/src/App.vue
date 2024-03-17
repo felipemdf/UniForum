@@ -1,12 +1,22 @@
 <template>
-  <Navbar />
-  <div class="container px-3 mx-auto md:px-16"><RouterView /></div>
+  <Navbar v-if="showNavbar" />
+  <div class="container px-3 mx-auto md:px-16">
+    <RouterView />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 
 import Navbar from './components/Navbar.vue';
+import { computed } from 'vue';
+
+const router = useRouter();
+
+const showNavbar = computed(() => {
+  return router.currentRoute.value.name !== 'login';
+});
+
 </script>
 
 <style>
