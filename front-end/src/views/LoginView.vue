@@ -67,8 +67,8 @@
             </router-link>
           </div>
           <!-- /Logo -->
-          <h4 class="mb-1 font-medium text-c-gray-800 xl:text-xl">Bem vindo ao UniForum!</h4>
-          <p class="mb-6 text-c-gray-500">Por favor, faça o login para acessar sua conta</p>
+          <h4 class="mb-2 text-lg font-medium xl:text-xl text-c-gray-800">Bem vindo ao UniForum!</h4>
+          <p class="mb-6 text-sm text-c-gray-500">Por favor, faça o login para acessar sua conta</p>
 
           <form class="mb-4" action="#" method="POST">
             <div class="mb-4">
