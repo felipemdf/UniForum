@@ -1,46 +1,54 @@
-# front-end
+# UniForum
+Bem-vindo ao Fórum de Discussão da UNINASSAU! Este é um projeto de fórum online desenvolvido para facilitar a comunicação e colaboração entre os alunos da UNINASSAU.
 
-This template should help get you started developing with Vue 3 in Vite.
+## Descrição do Projeto
+O Fórum de Discussão da UNINASSAU é uma plataforma online onde os alunos podem discutir tópicos relacionados aos seus cursos, compartilhar materiais de estudo, fazer perguntas e interagir com colegas de classe.
 
-## Recommended IDE Setup
+## Pré-requisitos
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Antes de começar, verifique se você possui as seguintes ferramentas instaladas:
+- [node.js](https://nodejs.org)
+- [Docker] (https://docs.docker.com)
+- [Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
-## Type Support for `.vue` Imports in TS
+## Instalação
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+### Local
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+Para executar o frontend localmente, siga estas etapas:
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+1. Clone o repositório do projeto para o seu ambiente local:
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+   git clone https://github.com/felipemdf/UniForum.git
 ```
 
-### Compile and Hot-Reload for Development
+2. Navegue até o diretório do frontend:
 
-```sh
-npm run dev
+```bash
+   cd front-end
 ```
 
-### Type-Check, Compile and Minify for Production
+3. Instale as dependências do projeto:
 
-```sh
-npm run build
+```bash
+   npm install
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+4. Após a instalação das dependências, inicie o servidor de desenvolvimento:
 
-```sh
-npm run lint
+```bash
+   npm run dev
 ```
+
+O frontend estará acessível em http://localhost:8080 no seu navegador.
+
+
+### Docker
+Para executar este projeto usando Docker, execute o comando abaixo:
+```bash
+   docker compose up
+```
+
+A aplicação estará disponível em http://localhost:8080 no seu navegador.
+

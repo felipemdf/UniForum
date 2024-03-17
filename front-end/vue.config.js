@@ -8,6 +8,6 @@ const pages = {
     outputDir: "./build/static/vue/",
     indexPath: "../../templates/vue_index.html",
     
-    pages: pages,  
+    pages: pages, 
     
   };
