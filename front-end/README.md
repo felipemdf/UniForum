@@ -8,7 +8,7 @@ O Fórum de Discussão da UNINASSAU é uma plataforma online onde os alunos pode
 
 Antes de começar, verifique se você possui as seguintes ferramentas instaladas:
 - [node.js](https://nodejs.org)
-- [Docker] (https://docs.docker.com)
+- [Docker](https://docs.docker.com)
 - [Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
 ## Instalação
