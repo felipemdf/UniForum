@@ -1,60 +1,42 @@
 from django.db import models
+from share.choices import *
 
-from account.models import User
+from apps.account.models import User
+
 class Topic(models.Model):
-
-    # class tagEnum(models.TextChoices):
-    #     DUVIDA = "Duvida" #Essa tag para duvidas
-    #     DIVULGACAO_EST = "Divulgação Estudantil" #Essa tag é para divulgação de trabalhos, artigos, entre outros...
-    #     DIVULGACAO_OP = "Divulgação de Oportunidade" #Essa tag é para divulgação de Estagios, concursos, entre outros...
-        
-    tagChoices = [
-         "Dúvida",
-         "Artigo",
-         "Projeto",
-         "Oportunidade",
-         "Evento"
-    ]
-    
-    couserChoices = [
-        "Administração"
-        "Biomedicina"
-        "Enfermagem"
-        "Engenharia Civil"
-        "Farmácia"
-        "Nutrição"
-        "Arquitetura e Urbanimos"
-        "Direito"
-        "Engenharia Ambiental"
-        "Letras"
-        "Psicologia"
-        "Análise e Desenvolvimento de Sistema"
-        "Ciências Contabeis"
-        "Engenharia Mecânica"
-        "Gastronomia"
-        "Pedagogia"
-        "Sistemas de Informção"
-    ]
-
     id = models.BigAutoField(primary_key=True)
     id_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_leaght=120)
+    title = models.CharField(max_length=120)
     content = models.TextField()
-    tag = models.CharField(choices=tagChoices)
-    course = models.CharField(couserChoices)
+    tag = models.CharField(max_length=30, choices=TAG_CHOISES)
+    course = models.CharField(max_length=90, choices=COURSE_CHOISES)
     qt_likes = models.IntegerField()
     qt_comments = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
-    
 
-class Comments(models.Model):
+class Comment(models.Model):
     id = models.BigAutoField(primary_key=True)
     id_topic = models.ForeignKey(Topic ,on_delete=models.CASCADE)
     id_user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     qt_likes = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+class Like_Topic(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    id_topic = models.ForeignKey(Topic ,on_delete=models.CASCADE)
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)
+
+class Like_comment(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    id_topic = models.ForeignKey(Topic ,on_delete=models.CASCADE)
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_comment = models.OneToOneField(Comment, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
