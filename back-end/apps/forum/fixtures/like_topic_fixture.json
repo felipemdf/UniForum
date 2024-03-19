@@ -61,7 +61,7 @@
         }
     },
     {
-        "model": "my_app.like_topic",
+        "model": "forum.like_topic",
         "pk": 7,
         "fields": {
             "id_topic": 2,
