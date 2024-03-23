@@ -10,13 +10,15 @@
       <!-- Menu Container -->
       <div class="flex items-center mx-4 md:mx-8">
         <!-- Disconnected Buttons -->
-        <div v-if="!isLogged" class="py-2">
-          <router-link to="/signin"
+        <div v-if="!auth.isAuthenticated" class="py-2">
+          <router-link
+            to="/signin"
             href="#"
             class="px-4 py-3 mr-4 text-sm font-medium rounded-lg outline-none md:mr-6 text-c-gray-800 hover:bg-c-gray-100"
             >Entrar</router-link
           >
-          <router-link to="/signup"
+          <router-link
+            to="/signup"
             href="#"
             class="px-4 py-3 text-sm font-medium text-white rounded-lg bg-c-blue-600 hover:bg-c-blue-700 focus:outline-none"
             >Cadastrar</router-link
@@ -24,7 +26,7 @@
         </div>
 
         <!-- Connected Avatar -->
-        <div v-if="isLogged" class="relative">
+        <div v-if="auth.isAuthenticated" class="relative">
           <div class="inline-flex items-center justify-center align-middle">
             <button @click="toggleMenu" type="button" class="flex items-center gap-3 text-sm">
               <span class="sr-only">Open user menu</span>
@@ -54,9 +56,9 @@
               </li>
 
               <li>
-                <router-link to="#" class="block px-4 py-2 text-c-red-600 hover:bg-c-gray-100"
-                  >Sair</router-link
-                >
+                <button @click="signOut" class="block px-4 py-2 text-c-red-600 hover:bg-c-gray-100">
+                  Sair
+                </button>
               </li>
             </ul>
           </div>
@@ -67,16 +69,24 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/AuthStore';
 import { ref, type Ref } from 'vue';
+import router from '@/router';
+
+const auth = useAuthStore();
 
 let isMenuOpen: Ref<Boolean> = ref(false);
-let isLogged: Ref<Boolean> = ref(false);
 
 function toggleMenu(): void {
-  if (isLogged.value) {
+  if (auth.isAuthenticated) {
     isMenuOpen.value = !isMenuOpen.value;
   } else {
     isMenuOpen.value = false;
   }
+}
+
+async function signOut() {
+  await auth.signOut();
+  router.push('/home');
 }
 </script>

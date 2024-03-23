@@ -8,8 +8,9 @@ import router from './router';
 import onClickOutside from './directives/onClickOutside';
 
 const app = createApp(App);
+const pinia = createPinia()
 
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 app.directive('onClickOutside', onClickOutside);
 

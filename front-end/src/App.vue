@@ -1,5 +1,6 @@
 <template>
   <Navbar v-if="showNavbar" />
+  <Toast />
   <div class="container px-3 mx-auto md:px-16">
     <RouterView />
   </div>
@@ -10,6 +11,7 @@ import { RouterView, useRouter } from 'vue-router';
 
 import Navbar from './components/Navbar.vue';
 import { computed } from 'vue';
+import Toast from './components/Toast.vue';
 
 const router = useRouter();
 

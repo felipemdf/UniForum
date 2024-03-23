@@ -77,18 +77,19 @@
           <!-- Gambiarra -->
           <div class="w-[302.91px] min-w-0"></div>
 
-          <form class="mb-4" action="#" method="POST">
+          <form @submit.prevent="onsubmit" class="mb-4" action="#" method="POST">
             <div class="mb-4">
               <label
-                for="text"
+                for="matriculation"
                 class="inline-block mb-2 text-xs font-medium uppercase text-c-gray-800"
                 >Matrícula</label
               >
               <input
-                type="matricula"
-                id="matricula"
-                name="matricula"
+                type="text"
+                id="matriculation"
+                name="matriculation"
                 class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
+                v-model="formData.matriculation"
                 placeholder="Insira sua matrícula"
                 required
               />
@@ -96,8 +97,8 @@
             <div class="mb-4">
               <div class="flex justify-between">
                 <label
-                  class="inline-block mb-2 text-xs font-medium uppercase text-c-gray-800"
                   for="password"
+                  class="inline-block mb-2 text-xs font-medium uppercase text-c-gray-800"
                   >Senha</label
                 >
 
@@ -114,6 +115,7 @@
                   id="password"
                   class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
                   name="password"
+                  v-model="formData.password"
                   placeholder="············"
                 />
               </div>
@@ -121,8 +123,8 @@
 
             <div class="mb-4">
               <button
-                class="grid w-full px-4 py-2 text-sm font-medium text-center text-white align-middle border rounded-md shadow cursor-pointer select-none focus:text-white focus:shadow-none bg-c-blue-600 hover:bg-c-blue-700"
                 type="submit"
+                class="grid w-full px-4 py-2 text-sm font-medium text-center text-white align-middle border rounded-md shadow cursor-pointer select-none focus:text-white focus:shadow-none bg-c-blue-600 hover:bg-c-blue-700"
               >
                 Entrar
               </button>
@@ -141,4 +143,29 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import router from '@/router';
+import { useAuthStore } from '@/stores/AuthStore';
+import { NotificationType, useNotifyStore } from '@/stores/NotifiyStore';
+import { ref } from 'vue';
+
+const authStore = useAuthStore();
+const notifyStore = useNotifyStore();
+
+const formData = ref({
+  matriculation: '',
+  password: ''
+});
+
+async function onsubmit() {
+  try {
+    await authStore.signIn(formData.value.matriculation, formData.value.password);
+    router.push('/home');
+  } catch (error: any) {
+    await authStore.signOut();
+    notifyStore.notify(error.message, NotificationType.Error);
+
+    formData.value = { matriculation: '', password: '' };
+  }
+}
+</script>

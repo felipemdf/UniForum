@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import { useAuthStore } from '@/stores/AuthStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,8 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: false},
     },
 
     {
@@ -33,15 +35,28 @@ const router = createRouter({
     {
       path: '/topic/create',
       name: 'topic_form',
-      component: () => import('../views/TopicFormView.vue')
+      component: () => import('../views/TopicFormView.vue'),
+      meta: { requiresAuth: true},
     },
 
     {
       path: '/topic/:id',
       name: 'topic',
-      component: () => import('../views/TopicView.vue')
+      component: () => import('../views/TopicView.vue'),
+      meta: { requiresAuth: false },
     }
   ]
+});
+
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
+  
+  if (to.matched.some(record => record.meta.requiresAuth) && !auth.isAuthenticated) {
+    next('/signin');
+  } else {
+    next();
+  }
 });
 
 export default router;
