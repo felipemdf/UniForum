@@ -85,6 +85,8 @@ AUTH_USER_MODEL = 'account.User'
 
 #  jwt
 SIMPLE_JWT = {
+    'SIGNING_KEY': 'uni-forum',
+    'ALGORITHM': 'HS256',
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=24),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     # 'ROTATE_REFRESH_TOKENS': True,

@@ -37,7 +37,7 @@ class LoginView(APIView):
                     'email': user.email,
                     'matriculation': user.matriculation,
                     'course': user.course,
-                    # 'photo': user.photo,
+                    'photo': user.photo,
                     'sex': user.sex,
                 }
                 refresh_token = RefreshToken.for_user(user)
