@@ -27,17 +27,27 @@ class LoginView(APIView):
             try:
                 user = User.objects.get(matriculation=matriculation)
             except User.DoesNotExist:
-                return Response({'error': 'Invalid matriculation'}, status=400)
+                return Response({'error': 'Credenciais inválidas. Verifique sua matricula e senha.'}, status=401)
             
             
             if check_password(password, user.password):
+                user_dto = {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email,
+                    'matriculation': user.matriculation,
+                    'course': user.course,
+                    # 'photo': user.photo,
+                    'sex': user.sex,
+                }
                 refresh_token = RefreshToken.for_user(user)
                 return Response({
-                    'access': str(refresh_token.access_token),
-                    # 'refresh': str(refresh_token)
+                    'user': user_dto,
+                    'access_token': str(refresh_token.access_token),
+                    'refresh_token': str(refresh_token)
                 })
             else:
-                return Response({'error': 'Invalid password'}, status=400)
+                return Response({'error': 'Credenciais inválidas. Verifique sua matricula e senha.'}, status=401)
             
         else:
-            return Response({'error': 'Matriculation and password are required'}, status=400)      
+            return Response({'error': 'Matricula e senha são obrigatórios'}, status=400)      
