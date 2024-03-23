@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 
 export enum NotificationType {
-  Success = 'alert alert-success',
-  Warning = 'alert alert-warning',
-  Error = 'alert alert-error'
+  Success,
+  Warning,
+  Error
 }
 
 export interface Notification {

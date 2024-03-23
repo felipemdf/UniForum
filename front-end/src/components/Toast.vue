@@ -1,22 +1,19 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <!-- <div class="toast toast-end toast-top">
-    <div v-for="notification in notifications" :class="notification.type">
-   
-    </div>
-  </div> -->
-
-  <div class="fixed bottom-0 z-30 flex flex-col items-center justify-center w-full gap-2 p-3">
+  <div class="fixed top-0 z-30 flex flex-col items-center justify-center w-full p-3">
     <div v-for="notification in notifications" :class="notification.type">
       <div
-        class="relative max-w-sm px-12 py-6 m-2 my-8 bg-white border border-gray-100 rounded-lg shadow-md"
+        class="relative max-w-sm px-12 py-6 m-2 my-2 bg-white border border-gray-100 rounded-lg shadow-md"
       >
-        <button class="absolute top-0 right-0 p-4 text-gray-400">
+        <button
+          @click="notifyStore.removeNotification(notification)"
+          class="absolute top-0 right-0 p-4 text-gray-500"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            stroke-width="3"
             stroke="currentColor"
             class="w-4 h-5"
           >
@@ -63,6 +60,14 @@
             <span class="text-gray-700">Erro!</span>
           </p>
         </div>
+
+        <div v-if="notification.type == NotificationType.Warning">
+          <p class="relative mb-1 text-sm font-medium">
+        <span class="absolute flex items-center justify-center w-5 h-5 text-white bg-yellow-400 -left-7 rounded-xl"> ! </span>
+        <span class="text-gray-700">Atenção</span>
+      </p>
+        </div>
+
         <p class="text-sm text-gray-600">
           {{ notification.message }}
         </p>

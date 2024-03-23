@@ -14,13 +14,14 @@ interface IFilters {
 interface ITopic {
   id: number;
   username: string;
+  photo: string;
   title: string;
   preview: string;
-  likes: number;
-  numberComments: number;
+  qtLikes: number;
+  qtComments: number;
   course: string;
   tag: string;
-  updatedAt: string;
+  createdAt: string;
 }
 
 interface TopicsStore {
@@ -50,30 +51,30 @@ export const useTopicsStore = defineStore({
     },
     orderBy: 'mais recentes',
     topics: [
-      {
-        id: 1,
-        username: 'Podório',
-        title: 'The Future of Magazines Is on Tablets',
-        preview:
-          "Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...",
-        likes: 59,
-        numberComments: 120,
-        updatedAt: '2024-03-02T12:00:00',
-        course: 'Sistemas de Informação',
-        tag: 'Dúvida'
-      },
-      {
-        id: 2,
-        username: 'João',
-        title: 'The Future of Magazines Is on Tablets',
-        preview:
-          "Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...",
-        likes: 345,
-        numberComments: 32,
-        updatedAt: '2024-03-03T12:00:00',
-        course: 'Sistemas de Informação',
-        tag: 'Artigo'
-      }
+      // {
+      //   id: 1,
+      //   username: 'Podório',
+      //   title: 'The Future of Magazines Is on Tablets',
+      //   preview:
+      //     "Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...",
+      //   likes: 59,
+      //   numberComments: 120,
+      //   updatedAt: '2024-03-02T12:00:00',
+      //   course: 'Sistemas de Informação',
+      //   tag: 'Dúvida'
+      // },
+      // {
+      //   id: 2,
+      //   username: 'João',
+      //   title: 'The Future of Magazines Is on Tablets',
+      //   preview:
+      //     "Today, we're looking at three particularly interesting stories. Pinterest added a new location-based feature...",
+      //   likes: 345,
+      //   numberComments: 32,
+      //   updatedAt: '2024-03-03T12:00:00',
+      //   course: 'Sistemas de Informação',
+      //   tag: 'Artigo'
+      // }
     ]
   }),
   actions: {
@@ -86,6 +87,21 @@ export const useTopicsStore = defineStore({
     // OrderBy
     setOrderBy(value: OrderBy) {
       this.orderBy = value;
+    },
+
+    async fetchTopics() {
+      // if (params.search) urlParams += `search=${params.search}&`;
+      // if (params.course) urlParams += `course=${params.course}&`;
+      // if (params.tag) urlParams += `course=${params.tag}&`;
+      // urlParams += `orderBy=${params.orderBy}`;
+
+      const response = await fetch(`http://127.0.0.1:8000/api/topic`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      const data = await response.json();
+      this.topics = data;
     }
   }
 });

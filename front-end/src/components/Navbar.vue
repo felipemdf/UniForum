@@ -10,7 +10,7 @@
       <!-- Menu Container -->
       <div class="flex items-center mx-4 md:mx-8">
         <!-- Disconnected Buttons -->
-        <div v-if="!auth.isAuthenticated" class="py-2">
+        <div v-if="!auth.isAuthenticated()" class="py-2">
           <router-link
             to="/signin"
             href="#"
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Connected Avatar -->
-        <div v-if="auth.isAuthenticated" class="relative">
+        <div v-if="auth.isAuthenticated()" class="relative">
           <div class="inline-flex items-center justify-center align-middle">
             <button @click="toggleMenu" type="button" class="flex items-center gap-3 text-sm">
               <span class="sr-only">Open user menu</span>
@@ -78,7 +78,7 @@ const auth = useAuthStore();
 let isMenuOpen: Ref<Boolean> = ref(false);
 
 function toggleMenu(): void {
-  if (auth.isAuthenticated) {
+  if (auth.isAuthenticated()) {
     isMenuOpen.value = !isMenuOpen.value;
   } else {
     isMenuOpen.value = false;

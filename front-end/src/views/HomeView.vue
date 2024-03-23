@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 
 // Store
 import { useTopicsStore } from '@/stores/TopicsStore';
@@ -106,6 +106,9 @@ import Topic from '@/components/Topic.vue';
 
 const topicsStore = useTopicsStore();
 
+onMounted(() => {
+  topicsStore.fetchTopics();
+});
 onUnmounted(() => {
   topicsStore.clearFilters();
 });

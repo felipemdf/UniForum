@@ -9,7 +9,7 @@
           <button class="inline-flex items-center gap-1">
             <img
               class="w-8 h-8 mr-2 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+              :src="'data:image/png;base64,' + props.topic.photo"
               alt="Username"
             />
             <!-- <p class="text-sm font-medium text-gray-900">{{ props.topic.username}}</p> -->
@@ -98,7 +98,7 @@
             />
           </svg>
 
-          {{ props.topic.likes }}
+          {{ props.topic.qtLikes }}
         </button>
 
         <button
@@ -119,7 +119,7 @@
             />
           </svg>
 
-          {{ props.topic.numberComments }}
+          {{ props.topic.qtComments }}
         </button>
       </div>
     </footer>
@@ -137,7 +137,7 @@ const toggleMenuOptions = () => {
 };
 
 const formattedActivity = computed(() => {
-  const diff = Date.now() - new Date(props.topic.updatedAt).getTime();
+  const diff = Date.now() - new Date(props.topic.createdAt).getTime();
 
   const seconds = Math.floor(diff / 1000);
   const minutes = Math.floor(seconds / 60);
