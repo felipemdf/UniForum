@@ -19,8 +19,8 @@ export interface User {
 }
 
 export interface Auth {
-  user: User | null;
-  token: Token | null;
+  user: User;
+  token: Token;
 }
 
 export const useAuthStore = defineStore({
@@ -56,8 +56,8 @@ export const useAuthStore = defineStore({
     },
 
     async signOut() {
-      this.user = null;
-      this.token = null;
+      this.user = {} as User;
+      this.token = {} as Token;
 
       // Limpar estado do localStorage
       localStorage.removeItem('user');
