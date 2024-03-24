@@ -53,8 +53,8 @@ export class HTTPRequest {
 
     const response: Response = await fetch(fullUrl, {
       method: this.http_method.toString(),
-      headers: this.http_headers,
-      body: this.http_body ? JSON.stringify(this.http_body) : undefined
+      headers: this.http_headers ? this.http_headers : undefined,
+      body: this.http_method != HttpMethod.GET ? JSON.stringify(this.http_body) : undefined
     });
 
     if (!response.ok) {

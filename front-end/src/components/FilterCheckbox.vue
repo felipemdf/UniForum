@@ -45,8 +45,9 @@
         <li v-for="item in data" :key="item.id">
           <div class="flex items-center pl-2.5 pr-3 rounded hover:bg-gray-100">
             <input
+              @change="$emit('toggleCheckbox')"
               v-model="item.checked"
-              :id="'course_' + item.id"
+              :id="'filter_' + item.id"
               :value="item.id"
               type="checkbox"
               class="w-4 h-4 text-blue-600 border-gray-300 rounded outline-none appearance-none cursor-pointer focus:ring-blue-500 checked:bg-blue-500"
@@ -64,7 +65,7 @@
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
 
-const props = defineProps(['data', 'label']);
+const props = defineProps(['data', 'label', 'toggleCheckbox']);
 const isMenuOpen = ref(false);
 
 function toggleMenu() {

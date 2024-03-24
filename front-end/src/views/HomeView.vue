@@ -3,33 +3,40 @@
   <div class="relative mb-4 bg-white rounded shadow border-c-gray-100">
     <div class="flex flex-col items-center justify-between p-4 space-y-3 md:flex-row md:space-y-0">
       <!-- Search Input -->
-      <div class="w-full md:w-1/2">
-        <form class="flex items-center mr-2.5">
+      <div class="w-full md:w-[55%]">
+        <form class="flex items-center" novalidate>
           <label for="search" class="sr-only">Search</label>
           <div class="relative w-full">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5 text-c-gray-500"
-                fill="currentColor"
-                viewbox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
             <input
+              @keyup.enter="topicsStore.fetch"
+              v-model="topicsStore.$state.filters.searchFilter"
               type="text"
               id="search"
-              class="block w-full py-2.5 p-2 pl-10 text-sm text-c-gray-800 border border-c-gray-300 rounded-lg outline-none bg-c-gray-50 focus:border-c-blue-500 focus:ring-c-blue-500"
+              class="block w-full py-2.5 p-2 pl-4 text-sm text-c-gray-800 border border-c-gray-300 rounded-lg outline-none bg-c-gray-50 focus:border-c-blue-500 focus:ring-c-blue-500"
               placeholder="Pesquisar..."
               required
             />
           </div>
+
+          <button
+            @click.prevent="topicsStore.fetch"
+            class="flex items-center justify-center w-10 h-10 ml-2 text-white bg-blue-600 rounded-lg shrink-0 hover:bg-blue-700"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              ></path>
+            </svg>
+          </button>
         </form>
       </div>
 
@@ -37,7 +44,7 @@
       <div
         class="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3"
       >
-        <!-- Button Novo Tópico -->
+        <!-- Button New TOpic -->
         <router-link
           class="flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-c-blue-600 rounded-lg hover:bg-c-blue-700"
           to="/topic/create"
@@ -59,10 +66,11 @@
           </svg>
           Novo Tópico</router-link
         >
-
-        <!-- Filters -->
-        <FilterCheckbox :data="topicsStore.filters.courseFilter" label="Cursos" />
-        <FilterCheckbox :data="topicsStore.filters.tagFilter" label="Tags" />
+        <Filter
+          :filters="{ Curso: topicsStore.filters.courseFilter, Tag: topicsStore.filters.tagFilter }"
+          @filter="topicsStore.fetch"
+          @clean="topicsStore.clearFilters"
+        />
       </div>
     </div>
   </div>
@@ -71,19 +79,15 @@
   <div class="relative overflow-hidden">
     <div class="flex flex-row items-center justify-between px-2 py-4">
       <div class="inline-flex flex-row w-full gap-4">
-        <a
-          class="text-sm cursor-pointer text-c-gray-500"
-          @click="topicsStore.setOrderBy('mais recentes')"
-          ><p :class="{ 'text-c-blue-500  ': topicsStore.orderBy == 'mais recentes' }">
-            Mais recentes
-          </p></a
-        >
-
-        <a
-          class="text-sm cursor-pointer text-c-gray-500"
-          @click="topicsStore.setOrderBy('melhores')"
-          ><p :class="{ 'text-c-blue-500  ': topicsStore.orderBy == 'melhores' }">Melhores</p></a
-        >
+        <div v-for="option in topicsStore.orderBy" :key="option.value">
+          <a
+            class="text-sm cursor-pointer text-c-gray-500"
+            @click="topicsStore.setOrderBy(option.value); topicsStore.fetch()"
+            ><p :class="{ 'text-c-blue-500  ': option.selected }">
+              {{ option.label }}
+            </p></a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -101,14 +105,15 @@ import { onMounted, onUnmounted } from 'vue';
 import { useTopicsStore } from '@/stores/TopicsStore';
 
 // Components
-import FilterCheckbox from '@/components/FilterCheckbox.vue';
+import Filter from '@/components/Filter.vue';
 import Topic from '@/components/Topic.vue';
 
 const topicsStore = useTopicsStore();
 
 onMounted(() => {
-  topicsStore.fetchTopics();
+  topicsStore.fetch();
 });
+
 onUnmounted(() => {
   topicsStore.clearFilters();
 });
