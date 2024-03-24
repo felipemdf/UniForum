@@ -1,3 +1,4 @@
+import { HTTPRequest, HttpMethod } from '@/core/http/HTTPRequest';
 import { validateToken } from '@/utils/authUtils';
 import { defineStore } from 'pinia';
 
@@ -31,28 +32,24 @@ export const useAuthStore = defineStore({
   }),
   actions: {
     async signIn(matriculation: string, password: string) {
-      const response = await fetch('http://127.0.0.1:8000/api/auth/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ matriculation, password })
-      });
+      try {
+        const response = await HTTPRequest.createHttpReques()
+          .endpoint('auth/token')
+          .method(HttpMethod.POST)
+          .body({ matriculation, password })
+          .send();
+          
+        const { access_token, refresh_token, user } = response;
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error);
+        this.token = { access_token, refresh_token } as Token;
+        this.user = user as User;
+
+        // Salvar estado no localStorage
+        localStorage.setItem('user', JSON.stringify(this.user));
+        localStorage.setItem('token', JSON.stringify(this.token));
+      } catch (error: any) {
+        throw new Error('Erro ao fazer login: ' + error.message);
       }
-
-      const data = await response.json();
-      const { access_token, refresh_token, user } = data;
-
-      this.token = { access_token, refresh_token } as Token;
-      this.user = user as User;
-
-      // Salvar estado no localStorage
-      localStorage.setItem('user', JSON.stringify(this.$state.user));
-      localStorage.setItem('token', JSON.stringify(this.$state.token));
     },
 
     async signOut() {
