@@ -11,18 +11,27 @@ from django.http import JsonResponse
 class TopicView(APIView):
 
     def get(self, request, *args, **kwargs):
-        search_query = request.GET.get('search')
-        course = request.GET.get('course')
-        tag = request.GET.get('tag')
-        
-        # filters = Q()
-        # filters &= Q(course=course) if course else Q()
-        # filters &= Q(tag=tag) if tag else Q()
-        # filters &= Q(title__icontains=search_query) if search_query else Q()
+        courses_str = request.GET.get('courses')
+        courses = [int(course_id) for course_id in courses_str.split(',')] if courses_str else []
+
+        tags_str = request.GET.get('tags')
+        tags = [int(tag_id) for tag_id in tags_str.split(',')] if tags_str else []
+
+        search = request.GET.get('search')
+        # orderBy = request.GET.get('orderBy')
+        orderBy = '-qt_likes' if request.GET.get('orderBy') == 'melhores' else '-created_at'
+
+        filters = Q()
+        filters &= Q(course__in=courses) if courses else Q()
+        filters &= Q(tag__in=tags) if tags else Q()
+        filters &= Q(title__icontains=search) if search else Q()
+
+
 
         topics = (
             Topic.objects
-            # .filter(filters)
+            .filter(filters)
+            .order_by(orderBy)
             .select_related('id_author')
             .values(
                 'id',
@@ -37,5 +46,10 @@ class TopicView(APIView):
                 photo=F('id_author__photo'),
             )
         )
-            
+        print(topics.query)            
+
+        for topic in topics:
+            topic['course'] = dict(COURSE_CHOICES).get(topic['course'])
+            topic['tag'] = dict(TAG_CHOICES).get(topic['tag'])
+
         return JsonResponse(list(topics), safe=False)

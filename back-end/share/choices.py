@@ -1,32 +1,32 @@
-TAG_CHOISES = [
-    ("duvida", "Dúvida"),
-    ("artigo", "Artigo"),
-    ("projeto", "Projeto"),
-    ("oportunidade", "Oportunidade"),
-    ("evento", "Evento")
+TAG_CHOICES = [
+    (1, "Dúvida"),
+    (2, "Artigo"),
+    (3, "Projeto"),
+    (4, "Oportunidade"),
+    (5, "Evento")
 ]
 
-COURSE_CHOISES = [
-    ("administracao", "Administração"),
-    ("biomedicina", "Biomedicina"),
-    ("enfermagem", "Enfermagem"),
-    ("engenharia_civil", "Engenharia Civil"),
-    ("farmacia", "Farmácia"),
-    ("nutricao", "Nutrição"),
-    ("arquitetura_e_urbanimos", "Arquitetura e Urbanimos"),
-    ("direito", "Direito"),
-    ("engenharia_ambiental", "Engenharia Ambiental"),
-    ("letras", "Letras"),
-    ("psicologia", "Psicologia"),
-    ("analise_e_desenvolvimento_de_sistema", "Análise e Desenvolvimento de Sistema"),
-    ("ciencias_contabeis", "Ciências Contabeis"),
-    ("engenharia_mecanica", "Engenharia Mecânica"),
-    ("gastronomia", "Gastronomia"),
-    ("pedagogia", "Pedagogia"),
-    ("sistemas_de_informacao", "Sistemas de Informação"),
+COURSE_CHOICES = [
+    (1, "Administração"),
+    (2, "Biomedicina"),
+    (3, "Enfermagem"),
+    (4, "Engenharia Civil"),
+    (5, "Farmácia"),
+    (6, "Nutrição"),
+    (7, "Arquitetura e Urbanismo"),
+    (8, "Direito"),
+    (9, "Engenharia Ambiental"),
+    (10, "Letras"),
+    (11, "Psicologia"),
+    (12, "Análise e Desenvolvimento de Sistema"),
+    (13, "Ciências Contábeis"),
+    (14, "Engenharia Mecânica"),
+    (15, "Gastronomia"),
+    (16, "Pedagogia"),
+    (17, "Sistemas de Informação")
 ]
 
 SEX_CHOICES = [
-    ("masculino", "Masculino"),
-    ("feminino", "Feminino")
+    (1, "Masculino"),
+    (2, "Feminino")
 ]
