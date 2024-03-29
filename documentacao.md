@@ -147,6 +147,7 @@ O sistema deve utilizar tokens JWT para autenticar os usuários, garantindo que 
 ### Diagrama de Sequência
 
 ### Diagrama de Atividade
+![Diagrama de atividade](https://github.com/felipemdf/UniForum/assets/99979201/6e8ea138-a8b6-4df8-abe8-0996135ac941)
 
 ### Diagrama de Classe
 
