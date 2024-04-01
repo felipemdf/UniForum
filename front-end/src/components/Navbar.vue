@@ -1,7 +1,7 @@
 <template>
   <!-- Main Navigation Container -->
   <header
-    class="sticky top-0 z-10 w-full p-5 mb-12 bg-white shadow-md start-0 shadow-black/5 md:px-24"
+    class="sticky top-0 z-20 w-full p-5 mb-12 bg-white shadow-md start-0 shadow-black/5 md:px-24"
   >
     <nav class="flex flex-wrap items-center justify-between w-full mx-auto">
       <!-- Logo -->
@@ -50,7 +50,7 @@
               </li>
 
               <li>
-                <router-link to="#" class="block px-4 py-2 hover:bg-c-gray-100"
+                <router-link to="/config" class="block px-4 py-2 hover:bg-c-gray-100"
                   >Configurações</router-link
                 >
               </li>

@@ -28,8 +28,8 @@
       v-if="isMenuOpen"
       class="absolute z-10 w-full mt-1 bg-white rounded-md shadow"
     >
-      <ul class="h-48 p-3 pr-5 overflow-y-auto">
-        <li>
+      <ul :class="{ 'h-48': isScroll == true }" class="p-3 pr-5 overflow-y-auto">
+        <li v-if="props.defaultLabel != undefined && props.defaultLabel != ''">
           <div class="flex items-center pl-2.5 pr-3 rounded hover:bg-c-gray-100">
             <button
               @click="selectItem(-1)"
@@ -48,7 +48,7 @@
               type="button"
               class="block w-full px-2 py-2 rounded-lg hover:bg-gray-100 text-start"
             >
-              {{ item.label }}...
+              {{ item.label }}
             </button>
           </div>
         </li>
@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import { ref, defineProps, computed } from 'vue';
 
-const props = defineProps(['data', 'defaultLabel']);
+const props = defineProps(['data', 'defaultLabel', 'isScroll']);
 const isMenuOpen = ref(false);
 
 function toggleMenu() {

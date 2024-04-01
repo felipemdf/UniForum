@@ -82,7 +82,10 @@
         <div v-for="option in topicsStore.orderBy" :key="option.value">
           <a
             class="text-sm cursor-pointer text-c-gray-500"
-            @click="topicsStore.setOrderBy(option.value); topicsStore.fetch()"
+            @click="
+              topicsStore.setOrderBy(option.value);
+              topicsStore.fetch();
+            "
             ><p :class="{ 'text-c-blue-500  ': option.selected }">
               {{ option.label }}
             </p></a
@@ -93,9 +96,11 @@
   </div>
 
   <!-- Topics -->
-  <section>
+  <section id="topicsContainer">
     <Topic v-for="topic in topicsStore.topics" :key="topic.id" :topic="topic" />
   </section>
+
+  <!-- <InfiniteLoading @infinite="topicsStore.fetch" class="flex justify-center"/> -->
 </template>
 
 <script setup lang="ts">
@@ -103,6 +108,10 @@ import { onMounted, onUnmounted } from 'vue';
 
 // Store
 import { useTopicsStore } from '@/stores/TopicsStore';
+
+// Infinity
+// import InfiniteLoading from 'v3-infinite-loading';
+// import "v3-infinite-loading/lib/style.css";
 
 // Components
 import Filter from '@/components/Filter.vue';

@@ -46,17 +46,44 @@ const router = createRouter({
       name: 'topic',
       component: () => import('../views/TopicView.vue'),
       meta: { requiresAuth: false }
+    },
+
+    {
+      path: '/config',
+      redirect: '/config/account'
+    },
+
+    {
+      path: '/config',
+      component: () => import('../views/ConfigView.vue'),
+      meta: { requiresAuth: false },
+      children: [
+        {
+          path: 'account',
+          component: import('../views/config/ConfigAccountView.vue')
+        },
+        {
+          path: 'profile',
+          component: import('../views/config/ConfigProfileView.vue')
+        }
+      ]
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
-  const notification = useNotifyStore()
-  
-  if (to.matched.some((record) => record.meta.requiresAuth) && !validateToken(auth.token?.access_token)) {
+  const notification = useNotifyStore();
+
+  if (
+    to.matched.some((record) => record.meta.requiresAuth) &&
+    !validateToken(auth.token?.access_token)
+  ) {
     next('/signin');
-    notification.notify("É necessário realizar login para acessar essa função!", NotificationType.Warning)
+    notification.notify(
+      'É necessário realizar login para acessar essa função!',
+      NotificationType.Warning
+    );
   } else {
     next();
   }

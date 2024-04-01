@@ -25,12 +25,24 @@
 
       <!-- Course -->
       <div class="sm:col-span-3">
-        <SelectButton default-label="Selecione um curso" :data="selectCourses" class="w-full" />
+        <SelectButton
+          default-label="Selecione um curso"
+          :data="selectCourses"
+          class="w-full"
+          :is-full-width="true"
+          :is-scroll="true"
+        />
       </div>
 
       <!-- Tags -->
       <div class="sm:col-span-3">
-        <SelectButton default-label="Selecione uma tag" :data="selectTags" class="w-full" />
+        <SelectButton
+          default-label="Selecione uma tag"
+          :data="selectTags"
+          class="w-full"
+          :is-full-width="true"
+          :is-scroll="true"
+        />
       </div>
 
       <!-- Description -->
