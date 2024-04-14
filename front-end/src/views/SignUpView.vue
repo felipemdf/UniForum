@@ -75,9 +75,9 @@
             Crie sua conta agora e faça parte da comunidade
           </p>
 
-          <form class="mb-4" action="#" method="POST">
+          <form class="mb-4" @submit.prevent="submit" method="POST">
             <!-- Matrícula -->
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <div class="flex justify-between">
                 <label
                   class="inline-block mb-2 text-xs font-medium uppercase text-c-gray-800"
@@ -92,7 +92,7 @@
                 name="password"
                 placeholder="Digite sua matrícula"
               />
-            </div>
+            </div> -->
 
             <!-- Email -->
             <div class="mb-4">
@@ -109,6 +109,7 @@
                 class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
                 name="email"
                 placeholder="Digite seu Email"
+                v-model="formData.email"
               />
             </div>
 
@@ -128,6 +129,7 @@
                   class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
                   name="password"
                   placeholder="Senha (mínimo de 8 caracteres)"
+                  v-model="formData.password"
                 />
               </div>
             </div>
@@ -148,6 +150,7 @@
                   class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
                   name="password"
                   placeholder="Senha (mínimo de 8 caracteres)"
+                  v-model="formData.confirmPassword"
                 />
               </div>
             </div>
@@ -174,4 +177,29 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { NotificationType, useNotifyStore } from '@/stores/NotifiyStore';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const formData = ref({
+  email: '',
+  password: '',
+  confirmPassword: ''
+});
+
+const notifyStore = useNotifyStore();
+const router = useRouter();
+
+function submit() {
+  try {
+    if (formData.value.password.trim() !== formData.value.confirmPassword.trim()) {
+      throw new Error('Senhas não coincidem!');
+    }
+
+    router.push('/config/profile')
+  } catch (error: any) {
+    notifyStore.notify(error.message, NotificationType.Error);
+  }
+}
+</script>

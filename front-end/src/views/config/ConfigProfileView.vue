@@ -7,7 +7,7 @@
   <!-- Email -->
   <hr class="mt-4 mb-8" />
   <div class="col-span-full">
-    <p class="font-semibold">Nome de exibição</p>
+    <p class="font-semibold">Nome de exibição <span class="text-red-600">*</span></p>
     <p class="mb-2 text-sm text-gray-600 sm:pb-1">Defina um nome de exibição</p>
 
     <input
@@ -19,30 +19,19 @@
     />
   </div>
 
-  <!-- Gender -->
-  <hr class="mt-4 mb-8" />
-  <div class="grid sm:grid-cols-8">
-    <div class="sm:col-span-4">
-      <p class="font-semibold">Gênero</p>
-      <p class="mb-2 text-sm text-gray-600 sm:pb-1">Especifique o seu gênero</p>
-
-      <SelectButton :data="selectGender" />
-    </div>
-  </div>
-
   <hr class="mt-4 mb-8" />
   <div class="grid gap-5 sm:grid-cols-8">
     <!-- Course -->
     <div class="sm:col-span-4">
-      <p class="font-semibold">Curso</p>
+      <p class="font-semibold">Curso <span class="text-red-600">*</span></p>
       <p class="mb-2 text-sm text-gray-600 sm:pb-1">Especifique o seu curso</p>
 
-      <SelectButton :data="selectCourse" :is-scroll="true" />
+      <SelectButton default-label="Curso" :data="selectCourse" :is-scroll="true" />
     </div>
 
     <!-- Período -->
     <div class="sm:col-span-4">
-      <p class="font-semibold">Período</p>
+      <p class="font-semibold">Período <span class="text-red-600">*</span></p>
       <p class="mb-2 text-sm text-gray-600 sm:pb-1">Especifique o período do seu curso</p>
 
       <div class="relative">
@@ -88,12 +77,12 @@ import SelectButton from '@/components/SelectButton.vue';
 import { ref } from 'vue';
 
 const selectGender = ref([
-  { id: '1', label: 'Masculino', selected: true },
+  { id: '1', label: 'Masculino', selected: false },
   { id: '2', label: 'Feminino', selected: false }
 ]);
 
 const selectCourse = ref([
-  { id: 1, label: 'Administração', selected: true },
+  { id: 1, label: 'Administração', selected: false },
   { id: 2, label: 'Biomedicina', selected: false },
   { id: 3, label: 'Enfermagem', selected: false },
   { id: 4, label: 'Engenharia Civil', selected: false },

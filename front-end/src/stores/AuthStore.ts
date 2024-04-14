@@ -11,11 +11,13 @@ export interface User {
   title: string;
   tag: string;
   course: string;
+  period: number;
   preview: string;
   qtLikes: number;
   qtComments: number;
   username: string;
   photo: string;
+  isProfileComplete: boolean;
   createdAt: string;
 }
 
@@ -28,17 +30,17 @@ export const useAuthStore = defineStore({
   id: 'auth',
   state: (): Auth => ({
     user: JSON.parse(localStorage.getItem('user') || '{}') as User,
-    token: JSON.parse(localStorage.getItem('token') || '{}') as Token,
+    token: JSON.parse(localStorage.getItem('token') || '{}') as Token
   }),
   actions: {
-    async signIn(matriculation: string, password: string) {
+    async signIn(email: string, password: string) {
       try {
         const response = await HTTPRequest.createHttpReques()
           .endpoint('auth/token')
           .method(HttpMethod.POST)
-          .body({ matriculation, password })
+          .body({ email, password })
           .send();
-          
+
         const { access_token, refresh_token, user } = response;
 
         this.token = { access_token, refresh_token } as Token;
@@ -61,8 +63,17 @@ export const useAuthStore = defineStore({
       localStorage.removeItem('token');
     },
 
-    isAuthenticated (): boolean {
+    isAuthenticated(): boolean {
       return validateToken(this.token?.access_token);
+    },
+
+    isValidProfile() {
+      let isValidProfile = true;
+      if (this.user.username === null || this.user.username.trim() != '') isValidProfile = false;
+      if (this.user.course === null || this.user.username.trim() != '') isValidProfile = false;
+      if (this.user.period === null) isValidProfile = false;
+
+      return isValidProfile;
     }
   }
 });

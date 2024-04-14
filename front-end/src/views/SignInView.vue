@@ -80,17 +80,17 @@
           <form @submit.prevent="onsubmit" class="mb-4" action="#" method="POST">
             <div class="mb-4">
               <label
-                for="matriculation"
+                for="email"
                 class="inline-block mb-2 text-xs font-medium uppercase text-c-gray-800"
-                >Matrícula</label
+                >Email</label
               >
               <input
-                type="text"
-                id="matriculation"
-                name="matriculation"
+                type="email"
+                id="email"
+                name="email"
                 class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
-                v-model="formData.matriculation"
-                placeholder="Insira sua matrícula"
+                v-model="formData.email"
+                placeholder="Insira seu email"
                 required
               />
             </div>
@@ -153,19 +153,19 @@ const authStore = useAuthStore();
 const notifyStore = useNotifyStore();
 
 const formData = ref({
-  matriculation: '',
+  email: '',
   password: ''
 });
 
 async function onsubmit() {
   try {
-    await authStore.signIn(formData.value.matriculation, formData.value.password);
+    await authStore.signIn(formData.value.email, formData.value.password);
     router.push('/home');
   } catch (error: any) {
     await authStore.signOut();
     notifyStore.notify(error.message, NotificationType.Error);
 
-    formData.value = { matriculation: '', password: '' };
+    formData.value = { email: '', password: '' };
   }
 }
 </script>

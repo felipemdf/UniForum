@@ -75,18 +75,29 @@ router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
   const notification = useNotifyStore();
 
-  if (
-    to.matched.some((record) => record.meta.requiresAuth) &&
-    !validateToken(auth.token?.access_token)
-  ) {
+  if (!to.matched.some((record) => record.meta.requiresAuth)) {
+    next();
+    return;
+  }
+
+  if (!validateToken(auth.token?.access_token)) {
     next('/signin');
     notification.notify(
       'É necessário realizar login para acessar essa função!',
       NotificationType.Warning
     );
-  } else {
-    next();
+    return;
   }
+
+  if (!auth.isValidProfile()) {
+    notification.notify(
+      'O perfil de usuário não foi preenchido completamente. É necessário preencher o perfil para acessar essa função!',
+      NotificationType.Warning
+    );
+    return;
+  }
+
+  next();
 });
 
 export default router;
