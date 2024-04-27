@@ -22,7 +22,7 @@ interface IComment {
 
 interface TopicStore {
   orderBy: OrderBy;
-  topic: ITopic;
+  topic: ITopic | null;
   comments: IComment[];
 }
 
@@ -68,6 +68,10 @@ export const useTopicStore = defineStore({
     // OrderBy
     setOrderBy(value: OrderBy) {
       this.orderBy = value;
+    },
+
+    async clearTopic() {
+      this.topic = null;
     }
   }
 });

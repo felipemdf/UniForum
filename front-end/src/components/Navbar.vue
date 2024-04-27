@@ -44,7 +44,7 @@
           >
             <ul class="py-1 text-sm">
               <li>
-                <router-link to="#" class="block px-4 py-2 hover:bg-c-gray-100"
+                <router-link :to="'/profile/' + auth.user.id" class="block px-4 py-2 hover:bg-c-gray-100"
                   >Meu perfil</router-link
                 >
               </li>

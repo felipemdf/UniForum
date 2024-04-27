@@ -56,7 +56,7 @@ const router = createRouter({
     {
       path: '/config',
       component: () => import('../views/ConfigView.vue'),
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: true, enableIncompleteProfile: true },
       children: [
         {
           path: 'account',
@@ -67,6 +67,12 @@ const router = createRouter({
           component: import('../views/config/ConfigProfileView.vue')
         }
       ]
+    },
+
+    {
+      path: '/profile/:id',
+      component: () => import('../views/ProfileView.vue'),
+      meta: { requiresAuth: false }
     }
   ]
 });
@@ -75,26 +81,26 @@ router.beforeEach((to, from, next) => {
   const auth = useAuthStore();
   const notification = useNotifyStore();
 
-  if (!to.matched.some((record) => record.meta.requiresAuth)) {
-    next();
-    return;
-  }
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (!validateToken(auth.token?.access_token)) {
+      next('/signin');
+      notification.notify(
+        'É necessário realizar login para acessar essa função!',
+        NotificationType.Warning
+      );
+      return;
+    }
 
-  if (!validateToken(auth.token?.access_token)) {
-    next('/signin');
-    notification.notify(
-      'É necessário realizar login para acessar essa função!',
-      NotificationType.Warning
-    );
-    return;
-  }
-
-  if (!auth.isValidProfile()) {
-    notification.notify(
-      'O perfil de usuário não foi preenchido completamente. É necessário preencher o perfil para acessar essa função!',
-      NotificationType.Warning
-    );
-    return;
+    
+    if (!to.matched.some((record) => record.meta.enableIncompleteProfile)) {
+      if (!auth.isValidProfile()) {
+        notification.notify(
+          'O perfil de usuário não foi preenchido completamente. É necessário preencher o perfil para acessar essa função!',
+          NotificationType.Warning
+        );
+        return;
+      }
+    }
   }
 
   next();

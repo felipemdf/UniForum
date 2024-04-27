@@ -24,6 +24,7 @@ const showNavbar = computed(() => {
 <style>
 html {
   background-color: #f8f9fb;
-  /* scrollbar-gutter: stable; */
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 </style>

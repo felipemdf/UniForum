@@ -180,7 +180,7 @@ import { useTopicStore } from '@/stores/TopicStore';
 
 // Components
 import Comment from '@/components/Comment.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onUnmounted } from 'vue';
 
 const topicStore = useTopicStore();
 
@@ -216,5 +216,9 @@ const formattedActivity = computed(() => {
   } else {
     return `Há alguns segundos`;
   }
+});
+
+onUnmounted(() => {
+  topicStore.clearTopic();
 });
 </script>
