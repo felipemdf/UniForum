@@ -38,7 +38,7 @@ const router = createRouter({
       path: '/topic/create',
       name: 'topic_form',
       component: () => import('../views/TopicFormView.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
 
     {
