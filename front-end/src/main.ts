@@ -1,17 +1,12 @@
-import '../style.css';
-
 import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-
 import App from './App.vue';
-import router from './router';
-import onClickOutside from './directives/onClickOutside';
+import { registerPlugins } from '@/core/plugins';
 
-const app = createApp(App);
-const pinia = createPinia();
+import '../style.css';
+import { vInfiniteScroll, vOnClickOutside } from '@vueuse/components';
 
-app.use(pinia);
-app.use(router);
-app.directive('onClickOutside', onClickOutside);
-
-app.mount('#app');
+const app = createApp(App)
+  .use(registerPlugins)
+  .directive('onClickOutside', vOnClickOutside)
+  .directive('infiniteScroll', vInfiniteScroll)
+  .mount('#app');

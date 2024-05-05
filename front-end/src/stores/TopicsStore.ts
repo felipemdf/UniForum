@@ -32,11 +32,11 @@ interface TopicsStore {
   topics: ITopic[];
 }
 
-interface OrderBy  {
-  label: string,
-  value: string,
-  selected: boolean
-};
+interface OrderBy {
+  label: string;
+  value: string;
+  selected: boolean;
+}
 
 export const useTopicsStore = defineStore({
   id: 'topics',
@@ -71,10 +71,10 @@ export const useTopicsStore = defineStore({
       ]
     },
     orderBy: [
-      {label: 'Mais recentes', value: 'mais_recentes', selected: true},
-      {label: 'Melhores', value: 'melhores', selected: false},
+      { label: 'Mais recentes', value: 'mais_recentes', selected: true },
+      { label: 'Melhores', value: 'melhores', selected: false }
     ],
-    topics: [ ]
+    topics: []
   }),
   actions: {
     // Filters
@@ -85,15 +85,13 @@ export const useTopicsStore = defineStore({
 
     // OrderBy
     setOrderBy(value: string) {
-      this.orderBy.forEach(option => {
-        if(option.value == value) option.selected = true;
+      this.orderBy.forEach((option) => {
+        if (option.value == value) option.selected = true;
         else option.selected = false;
-      })
+      });
     },
 
     async fetch() {
-      console.log('CONSULTANDO');
-      
       const selectedCourses = this.$state.filters.courseFilter
         .filter((course) => course.checked)
         .map((course) => course.id)
@@ -105,14 +103,14 @@ export const useTopicsStore = defineStore({
         .join(',');
 
       const searchFilter = this.$state.filters.searchFilter.trimEnd().trimStart();
-      const orderBy = this.$state.orderBy.filter(option => option.selected)[0].value;
+      const orderBy = this.$state.orderBy.filter((option) => option.selected)[0].value;
 
       // const response = await fetch(`http://127.0.0.1:8000/api/topic`, {
       //   method: 'GET',
       //   headers: { 'Content-Type': 'application/json' }
       // });
 
-      const response = await HTTPRequest.createHttpReques()
+      const response = await HTTPRequest.createHttpRequest()
         .endpoint('topic')
         .param('courses', selectedCourses)
         .param('tags', selectedTags)

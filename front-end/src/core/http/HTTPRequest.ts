@@ -4,42 +4,48 @@ export enum HttpMethod {
   PATCH = 'PATCH',
   DELETE = 'DELETE'
 }
+export const PAGE_SIZE = '10';
 
-export class HTTPRequest {
+export class HTTPRequest<T> {
   private http_url: string = 'http://127.0.0.1:8000/api/';
   private http_method: HttpMethod = HttpMethod.GET;
   private http_headers: Record<string, string> = { 'Content-Type': 'application/json' };
   private http_body: Object = {};
   private http_params: Record<string, string> = {};
 
-  endpoint(url: string): HTTPRequest {
+  endpoint(url: string): HTTPRequest<T> {
     this.http_url += url;
     return this;
   }
 
-  method(method: HttpMethod): HTTPRequest {
+  method(method: HttpMethod): HTTPRequest<T> {
     this.http_method = method;
     return this;
   }
 
-  headers(headers: Record<string, string>): HTTPRequest {
+  headers(headers: Record<string, string>): HTTPRequest<T> {
     this.http_headers = headers;
     return this;
   }
 
-  body(body: Object): HTTPRequest {
+  body(body: Object): HTTPRequest<T> {
     this.http_body = body;
     return this;
   }
 
-  param(key: string, value: string): HTTPRequest {
+  param(key: string, value: string): HTTPRequest<T> {
     if (value !== undefined && value !== null && value !== '') {
       this.http_params[key] = value;
     }
     return this;
   }
 
-  async send(): Promise<any> {
+  pageable(page: number): HTTPRequest<T> {
+    const value =  page.toString();
+    return this.param('pageSize', PAGE_SIZE).param('page', value);
+  }
+
+  async send(): Promise<T | any> {
     const queryString = Object.entries(this.http_params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
@@ -51,23 +57,37 @@ export class HTTPRequest {
       headers.append(key, value);
     }
 
-    const response: Response = await fetch(fullUrl, {
-      method: this.http_method.toString(),
-      headers: this.http_headers ? this.http_headers : undefined,
-      body: this.http_method != HttpMethod.GET ? JSON.stringify(this.http_body) : undefined
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.error);
+    let response!: Response;
+    try {
+      response = await fetch(fullUrl, {
+        method: this.http_method.toString(),
+        headers: this.http_headers ? this.http_headers : undefined,
+        body: this.http_method != HttpMethod.GET ? JSON.stringify(this.http_body) : undefined
+      });
+    } catch (error: any) {
+      throw new Error(
+        'Parece que estamos com um problema de conexão com o servidor, tente novamente mais tarde!'
+      );
     }
 
     const responseJson = await response.json();
-
-    return responseJson;
+    if (response.ok) {
+      return responseJson as T;
+    } else {
+      this.handleException(responseJson);
+    }
   }
 
-  static createHttpReques(): HTTPRequest {
-    return new HTTPRequest();
+  async sendMock(mock: T): Promise<T> {
+    return Promise.resolve(mock);
+  }
+
+  private handleException(response: any) {
+    // if (response.status === 404) throw new Error('404, Not found');
+    throw new Error(response.message);
+  }
+
+  static createHttpRequest<T>(): HTTPRequest<T> {
+    return new HTTPRequest() as any as HTTPRequest<T>;
   }
 }

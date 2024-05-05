@@ -1,29 +1,18 @@
 <template>
-  <Navbar v-if="showNavbar" />
   <Toast />
-  <div class="container px-3 mx-auto md:px-16">
-    <RouterView />
-  </div>
+  <component :is="$route.meta.layout || DefaultLayout">
+    <router-view />
+  </component>
 </template>
 
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router';
-
-import Navbar from './components/Navbar.vue';
-import { computed } from 'vue';
-import Toast from './components/Toast.vue';
-
+import DefaultLayout from './presentation/layouts/DefaultLayout.vue';
 const router = useRouter();
-
-const showNavbar = computed(() => {
-  const routerName = router.currentRoute.value.name;
-  return !(routerName === 'signIn' || routerName === 'signUp');
-});
 </script>
 
 <style>
 html {
   background-color: #f8f9fb;
-  /* scrollbar-gutter: stable; */
+  overflow-y: scroll;
 }
 </style>
