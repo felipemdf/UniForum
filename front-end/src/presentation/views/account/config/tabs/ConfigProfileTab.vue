@@ -42,7 +42,7 @@
           class="block w-full py-3 pl-4 text-sm border border-gray-200 rounded-md shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500 md:bg-c-gray-50"
           placeholder="Digite o período"
         />
-        <div class="absolute inset-y-0 right-0 z-20 flex items-center pr-4 pointer-events-none">
+        <div class="absolute inset-y-0 right-0 z-10 flex items-center pr-4 pointer-events-none">
           <span class="text-gray-500">Período</span>
         </div>
       </div>
@@ -59,7 +59,7 @@
     <div
       class="flex flex-col items-center justify-center w-full h-56 gap-4 p-5 text-center border border-gray-300 border-dashed rounded-xl"
     >
-      <img src="../../../public/userIcon.png" class="w-16 h-16 rounded-full" />
+      <img src="../../../../../../public/userIcon.png" class="w-16 h-16 rounded-full" />
       <p class="text-sm text-gray-600">
         Solte o arquivo de imagem desejado aqui para iniciar o upload
       </p>

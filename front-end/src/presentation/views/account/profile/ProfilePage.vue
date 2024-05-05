@@ -6,7 +6,7 @@
       <div class="flex items-center">
         <img
           class="object-cover rounded-full h-14 w-14"
-          src="../../../public/userIcon.png"
+          src="../../../../../public/userIcon.png"
           alt="Simon Lewis"
         />
         <div class="ml-4">
