@@ -63,14 +63,17 @@ const router = createRouter({
       path: '/config',
       component: () => import('@/presentation/views/account/config/ConfigPage.vue'),
       meta: { requiresAuth: false },
+      redirect: {
+        name: 'account'
+      },
       children: [
         {
           path: 'account',
-          component: import('@/presentation/views/account/config/tabs/ConfigAccountTab.vue')
+          component: () => import('@/presentation/views/account/config/tabs/ConfigAccountTab.vue')
         },
         {
           path: 'profile',
-          component: import('@/presentation/views/account/config/tabs/ConfigProfileTab.vue')
+          component: () => import('@/presentation/views/account/config/tabs/ConfigProfileTab.vue')
         }
       ]
     },
@@ -80,7 +83,7 @@ const router = createRouter({
       name: 'profile',
       component: () => import('@/presentation/views/account/profile/ProfilePage.vue'),
       meta: { requiresAuth: true }
-    },
+    }
   ]
 });
 
