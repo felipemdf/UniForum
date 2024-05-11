@@ -1,0 +1,23 @@
+{
+   "compilerOptions": {
+      "lib": [
+         "es2017"
+      ],
+      "target": "es2017",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "outDir": "./dist",
+      "rootDir": ".",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "removeComments": true,
+   },
+   "incude": [
+      "./src/**/*.ts"
+   ],
+   "exclude": [
+      "node_modules",
+   ]
+}
