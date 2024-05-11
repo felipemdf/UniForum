@@ -9,7 +9,7 @@ export const PAGE_SIZE = '10';
 export class HTTPRequest<T> {
   private authStore = useAuthStore();
 
-  private http_url: string = `${import.meta.env.VITE_API_HOST}:${import.meta.env.VITE_API_PORT}/api/`;
+  private http_url: string = `${import.meta.env.VITE_API_HOST}/api/`;
   private http_method: HttpMethod = HttpMethod.GET;
   private http_headers: Record<string, string> = { 'Content-Type': 'application/json' };
   private http_body: Object = {};
