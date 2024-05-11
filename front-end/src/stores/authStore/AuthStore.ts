@@ -8,6 +8,14 @@ export const useAuthStore = defineStore('auth', {
     refreshToken: localStorage.getItem('refreshToken') || ''
   }),
 
+  getters: {
+    getUserPhoto(state) {
+      return state.user.photo
+        ? 'data:image/png;base64,' + state.user.photo
+        : state.user.defaultPhoto;
+    }
+  },
+
   actions: {
     async signIn(email: string, password: string) {
       try {
@@ -15,9 +23,10 @@ export const useAuthStore = defineStore('auth', {
           .endpoint('auth/signin')
           .method(HttpMethod.POST)
           .body({ email, password })
-          .sendMock(userMock);
+          .skipAuthentication()
+          .send();
 
-        this.$state.user = response.user as User;
+        this.$state.user = { ...response.user, defaultPhoto: await getDefaultUserIcon() } as User;
         this.$state.token = response.token;
         this.$state.refreshToken = response.refreshToken;
 
@@ -39,15 +48,15 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('refreshToken');
     },
 
-    async register(username: string, email: string, password: string) {
+    async signup(username: string, email: string, password: string) {
       try {
         const response: AuthStore = await HTTPRequest.createHttpRequest<AuthStore>()
-          .endpoint('auth/register')
+          .endpoint('auth/signup')
           .method(HttpMethod.POST)
           .body({ username, email, password })
-          .sendMock(userMock);
+          .send();
 
-        this.$state.user = response.user as User;
+        this.$state.user = { ...response.user, defaultPhoto: await getDefaultUserIcon() } as User;
         this.$state.token = response.token;
         this.$state.refreshToken = response.refreshToken;
 
@@ -61,7 +70,8 @@ export const useAuthStore = defineStore('auth', {
 
     async refreshToken() {
       try {
-        if (this.isTokenExpired(this.$state.refreshToken)) {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (this.isTokenExpired(refreshToken)) {
           this.router.push('/signin');
           return;
         }
@@ -69,18 +79,25 @@ export const useAuthStore = defineStore('auth', {
         const response: AuthStore = await HTTPRequest.createHttpRequest<AuthStore>()
           .endpoint('auth/token/refresh')
           .method(HttpMethod.POST)
-          .body({ refreshToken: this.$state.refreshToken })
-          .sendMock(userMock);
+          .body({ refreshToken: refreshToken })
+          .skipAuthentication()
+          .send();
 
         this.$state.token = response.token;
 
         localStorage.setItem('authorizationToken', this.$state.token);
       } catch (error: any) {
+        this.router.push('/signin');
         throw new Error(error.message);
       }
     },
 
-    getRefreshToken() {
+    getAccessToken(): string | null {
+      const token = localStorage.getItem('authorizationToken');
+      return token;
+    },
+
+    getRefreshToken(): string | null {
       const token = localStorage.getItem('refreshToken');
       return token;
     },
@@ -95,7 +112,7 @@ export const useAuthStore = defineStore('auth', {
       return decoded.exp * 1000;
     },
 
-    isTokenExpired(token: string): boolean {
+    isTokenExpired(token: string | null): boolean {
       if (!token) {
         return true;
       }

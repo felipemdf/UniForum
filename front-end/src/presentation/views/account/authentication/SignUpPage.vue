@@ -219,11 +219,7 @@ async function onSubmit() {
       throw new Error('Senhas não coincidem!');
     }
 
-    await authStore.register(
-      formData.value.username,
-      formData.value.email,
-      formData.value.password
-    );
+    await authStore.signup(formData.value.username, formData.value.email, formData.value.password);
     router.push('/config/profile');
   } catch (error: any) {
     toastStore.notify(error.message, NotificationType.Error);

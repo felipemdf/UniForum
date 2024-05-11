@@ -8,7 +8,7 @@ declare global {
   const COURSE: typeof import('../enums/CourseEnum')['COURSE']
   const COURSE_LABELS: typeof import('../enums/CourseEnum')['COURSE_LABELS']
   const COURSE_RESCO: typeof import('../enums/CourseEnum')['COURSE_RESCO']
-  const CheckboxManager: typeof import('../utils/CheckboxManager')['CheckboxManager']
+  const CheckboxManager: typeof import('../utils/checkbox-manager')['CheckboxManager']
   const EffectScope: typeof import('vue')['EffectScope']
   const HTTPRequest: typeof import('../http/HTTPRequest')['HTTPRequest']
   const HttpMethod: typeof import('../http/HTTPRequest')['HttpMethod']
@@ -16,12 +16,12 @@ declare global {
   const ORDER_BY: typeof import('../enums/OrderByEnum')['ORDER_BY']
   const ORDER_BY_LABELS: typeof import('../enums/OrderByEnum')['ORDER_BY_LABELS']
   const PAGE_SIZE: typeof import('../http/HTTPRequest')['PAGE_SIZE']
-  const SelectManager: typeof import('../utils/SelectManager')['SelectManager']
+  const SelectManager: typeof import('../utils/select-manager')['SelectManager']
   const TAG: typeof import('../enums/TagEnum')['TAG']
   const TAG_LABELS: typeof import('../enums/TagEnum')['TAG_LABELS']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
-  const cleanCheckbox: typeof import('../utils/CheckboxManager')['cleanCheckbox']
-  const cleanCheckboxList: typeof import('../utils/CheckboxManager')['cleanCheckboxList']
+  const cleanCheckbox: typeof import('../utils/checkbox-manager')['cleanCheckbox']
+  const cleanCheckboxList: typeof import('../utils/checkbox-manager')['cleanCheckboxList']
   const commentayMock: typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentayMock']
   const comments: typeof import('../../stores/topicStore/mock/topicDetailsMock')['comments']
   const commentsMock: typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentsMock']
@@ -30,21 +30,25 @@ declare global {
   const createApp: typeof import('vue')['createApp']
   const createPinia: typeof import('pinia')['createPinia']
   const customRef: typeof import('vue')['customRef']
-  const decode: typeof import('../utils/AuthUtils')['decode']
+  const decode: typeof import('../utils/auth-utils')['decode']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const effectScope: typeof import('vue')['effectScope']
-  const generateCheckboxFilter: typeof import('../utils/CheckboxManager')['generateCheckboxFilter']
-  const generateCheckboxList: typeof import('../utils/CheckboxManager')['generateCheckboxList']
-  const generateCourse: typeof import('../utils/CheckboxManager')['generateCourse']
-  const generateFilter: typeof import('../utils/CheckboxManager')['generateFilter']
+  const generateCheckboxFilter: typeof import('../utils/checkbox-manager')['generateCheckboxFilter']
+  const generateCheckboxList: typeof import('../utils/checkbox-manager')['generateCheckboxList']
+  const generateCourse: typeof import('../utils/checkbox-manager')['generateCourse']
+  const generateFilter: typeof import('../utils/checkbox-manager')['generateFilter']
   const getActivePinia: typeof import('pinia')['getActivePinia']
-  const getCheckedCheckbox: typeof import('../utils/CheckboxManager')['getCheckedCheckbox']
-  const getCheckedCheckboxes: typeof import('../utils/CheckboxManager')['getCheckedCheckboxes']
-  const getCheckedCheckboxex: typeof import('../utils/CheckboxManager')['getCheckedCheckboxex']
+  const getCheckedCheckbox: typeof import('../utils/checkbox-manager')['getCheckedCheckbox']
+  const getCheckedCheckboxes: typeof import('../utils/checkbox-manager')['getCheckedCheckboxes']
+  const getCheckedCheckboxex: typeof import('../utils/checkbox-manager')['getCheckedCheckboxex']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
+  const getDefault: typeof import('../utils/utils')['getDefault']
+  const getDefaultIcon: typeof import('../utils/utils')['getDefaultIcon']
+  const getDefaultUserIcon: typeof import('../utils/utils')['getDefaultUserIcon']
+  const getUserIcon: typeof import('../utils/utils')['getUserIcon']
   const h: typeof import('vue')['h']
   const inject: typeof import('vue')['inject']
   const isProxy: typeof import('vue')['isProxy']
@@ -79,7 +83,7 @@ declare global {
   const readonly: typeof import('vue')['readonly']
   const ref: typeof import('vue')['ref']
   const registerPlugins: typeof import('../plugins/index')['registerPlugins']
-  const resetCheckboxList: typeof import('../utils/CheckboxManager')['resetCheckboxList']
+  const resetCheckboxList: typeof import('../utils/checkbox-manager')['resetCheckboxList']
   const resolveComponent: typeof import('vue')['resolveComponent']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
@@ -130,7 +134,7 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly COURSE: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE']>
     readonly COURSE_LABELS: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE_LABELS']>
-    readonly CheckboxManager: UnwrapRef<typeof import('../utils/CheckboxManager')['CheckboxManager']>
+    readonly CheckboxManager: UnwrapRef<typeof import('../utils/checkbox-manager')['CheckboxManager']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HTTPRequest: UnwrapRef<typeof import('../http/HTTPRequest')['HTTPRequest']>
     readonly HttpMethod: UnwrapRef<typeof import('../http/HTTPRequest')['HttpMethod']>
@@ -138,7 +142,7 @@ declare module 'vue' {
     readonly ORDER_BY: UnwrapRef<typeof import('../enums/OrderByEnum')['ORDER_BY']>
     readonly ORDER_BY_LABELS: UnwrapRef<typeof import('../enums/OrderByEnum')['ORDER_BY_LABELS']>
     readonly PAGE_SIZE: UnwrapRef<typeof import('../http/HTTPRequest')['PAGE_SIZE']>
-    readonly SelectManager: UnwrapRef<typeof import('../utils/SelectManager')['SelectManager']>
+    readonly SelectManager: UnwrapRef<typeof import('../utils/select-manager')['SelectManager']>
     readonly TAG: UnwrapRef<typeof import('../enums/TagEnum')['TAG']>
     readonly TAG_LABELS: UnwrapRef<typeof import('../enums/TagEnum')['TAG_LABELS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -148,7 +152,7 @@ declare module 'vue' {
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly decode: UnwrapRef<typeof import('../utils/AuthUtils')['decode']>
+    readonly decode: UnwrapRef<typeof import('../utils/auth-utils')['decode']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
@@ -156,6 +160,7 @@ declare module 'vue' {
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -228,7 +233,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly COURSE: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE']>
     readonly COURSE_LABELS: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE_LABELS']>
-    readonly CheckboxManager: UnwrapRef<typeof import('../utils/CheckboxManager')['CheckboxManager']>
+    readonly CheckboxManager: UnwrapRef<typeof import('../utils/checkbox-manager')['CheckboxManager']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly HTTPRequest: UnwrapRef<typeof import('../http/HTTPRequest')['HTTPRequest']>
     readonly HttpMethod: UnwrapRef<typeof import('../http/HTTPRequest')['HttpMethod']>
@@ -236,7 +241,7 @@ declare module '@vue/runtime-core' {
     readonly ORDER_BY: UnwrapRef<typeof import('../enums/OrderByEnum')['ORDER_BY']>
     readonly ORDER_BY_LABELS: UnwrapRef<typeof import('../enums/OrderByEnum')['ORDER_BY_LABELS']>
     readonly PAGE_SIZE: UnwrapRef<typeof import('../http/HTTPRequest')['PAGE_SIZE']>
-    readonly SelectManager: UnwrapRef<typeof import('../utils/SelectManager')['SelectManager']>
+    readonly SelectManager: UnwrapRef<typeof import('../utils/select-manager')['SelectManager']>
     readonly TAG: UnwrapRef<typeof import('../enums/TagEnum')['TAG']>
     readonly TAG_LABELS: UnwrapRef<typeof import('../enums/TagEnum')['TAG_LABELS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -246,7 +251,7 @@ declare module '@vue/runtime-core' {
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
-    readonly decode: UnwrapRef<typeof import('../utils/AuthUtils')['decode']>
+    readonly decode: UnwrapRef<typeof import('../utils/auth-utils')['decode']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
@@ -254,6 +259,7 @@ declare module '@vue/runtime-core' {
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
+    readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>

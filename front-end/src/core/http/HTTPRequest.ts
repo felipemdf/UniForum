@@ -7,11 +7,14 @@ export enum HttpMethod {
 export const PAGE_SIZE = '10';
 
 export class HTTPRequest<T> {
-  private http_url: string = 'http://127.0.0.1:8000/api/';
+  private authStore = useAuthStore();
+
+  private http_url: string = `${import.meta.env.VITE_API_HOST}:${import.meta.env.VITE_API_PORT}/api/`;
   private http_method: HttpMethod = HttpMethod.GET;
   private http_headers: Record<string, string> = { 'Content-Type': 'application/json' };
   private http_body: Object = {};
   private http_params: Record<string, string> = {};
+  private requires_authentication: boolean = true;
 
   endpoint(url: string): HTTPRequest<T> {
     this.http_url += url;
@@ -41,11 +44,22 @@ export class HTTPRequest<T> {
   }
 
   pageable(page: number): HTTPRequest<T> {
-    const value =  page.toString();
+    const value = page.toString();
     return this.param('pageSize', PAGE_SIZE).param('page', value);
   }
 
+  skipAuthentication(): HTTPRequest<T> {
+    this.requires_authentication = false;
+    return this;
+  }
+
   async send(): Promise<T | any> {
+    try {
+      await this.handleAuthentication();
+    } catch (error: any) {
+      throw new Error("Erro: " + error.message);
+    }
+
     const queryString = Object.entries(this.http_params)
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
@@ -65,9 +79,10 @@ export class HTTPRequest<T> {
         body: this.http_method != HttpMethod.GET ? JSON.stringify(this.http_body) : undefined
       });
     } catch (error: any) {
-      throw new Error(
-        'Parece que estamos com um problema de conexão com o servidor, tente novamente mais tarde!'
-      );
+      throw new Error("Erro: " + error.message);
+      // throw new Error(
+      //   'Parece que estamos com um problema de conexão com o servidor, tente novamente mais tarde!'
+      // );
     }
 
     const responseJson = await response.json();
@@ -75,6 +90,17 @@ export class HTTPRequest<T> {
       return responseJson as T;
     } else {
       this.handleException(responseJson);
+    }
+  }
+
+  private async handleAuthentication(): Promise<void> {
+    if (this.requires_authentication) {
+      const accessToken = this.authStore.getAccessToken();
+      if (this.authStore.isTokenExpired(accessToken)) {
+        await this.authStore.refreshToken();
+      }
+
+      this.http_headers['Authorization'] = `Bearer ${accessToken}`;
     }
   }
 
