@@ -11,11 +11,15 @@ import { UserRepository } from "./core/repositories";
 import errorHandler from "./core/middleware/error-handler";
 
 export default class SetupServer extends Server {
-  private port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
+  private port: number = process.env.PORT ? parseInt(process.env.PORT) : 9000;
   private dataSource: DataSource = datasource;
 
   constructor(configApp: IEnvironment) {
     super(process.env.NODE_ENV === "development");
+
+    
+    console.log('ENVIRONMENT: ' + process.env.NODE_ENV)
+    console.table(configApp);
 
     this.setupCors();
     this.setupExpress();
