@@ -38,7 +38,7 @@ export default class SetupServer extends Server {
   }
 
   private setupCors() {
-    this.app.use(cors({ origin: ["http://localhost:8080", "uni-forum.netlify.app"] }));
+    this.app.use(cors({ origin: ["http://localhost:8080", "https://uni-forum.netlify.app"] }));
   }
 
   private async databaseSetup(): Promise<void> {}
