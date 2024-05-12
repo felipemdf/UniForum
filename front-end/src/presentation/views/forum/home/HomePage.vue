@@ -117,6 +117,7 @@ const coursesFilterManager = ref(new CheckboxManager(COURSE_LABELS));
 const tagsFilterManager = ref(new CheckboxManager(TAG_LABELS));
 const topicsOrderByManager = ref(new CheckboxManager(ORDER_BY_LABELS, ORDER_BY.MAIS_RECENTES));
 
+
 // Stores
 const topicStore = useTopicStore();
 
@@ -131,7 +132,6 @@ onUnmounted(() => {
 function canLoadMore() {
   if (topicStore.topicsPagination) {
     return (
-      topicStore.topicsPagination?.pageSize > 0 &&
       topicStore.topicsPagination?.page < topicStore.topicsPagination?.total
     );
   }

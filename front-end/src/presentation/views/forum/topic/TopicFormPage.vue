@@ -91,6 +91,7 @@ const tagsFilterManager = ref(new SelectManager(TAG_LABELS));
 // Stores
 const topicStore = useTopicStore();
 const toastStore = useToastStore();
+const authStore = useAuthStore();
 const router = useRouter();
 const route = useRoute();
 
@@ -145,7 +146,8 @@ async function onsubmit() {
       formData.value.title,
       coursesFilterManager.value.getSelectedItem(),
       tagsFilterManager.value.getSelectedItem(),
-      formData.value.content
+      formData.value.content,
+      authStore.user.id
     );
   }
 

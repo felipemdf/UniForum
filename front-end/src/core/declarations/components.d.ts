@@ -10,7 +10,6 @@ declare module 'vue' {
     Comment: typeof import('./../../presentation/components/Comment.vue')['default']
     Filter: typeof import('./../../presentation/components/Filter.vue')['default']
     FilterCheckbox: typeof import('./../../presentation/components/FilterCheckbox.vue')['default']
-    Navbar: typeof import('./../../presentation/components/Navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectButton: typeof import('./../../presentation/components/SelectButton.vue')['default']

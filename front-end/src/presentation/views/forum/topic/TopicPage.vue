@@ -206,7 +206,7 @@ onUnmounted(() => {
 function canLoadMore() {
   if (topicStore.commentsPagination) {
     return (
-      topicStore.commentsPagination?.pageSize > 0 &&
+      // topicStore.commentsPagination?.pageSize > 0 &&
       topicStore.commentsPagination?.page < topicStore.commentsPagination?.total
     );
   }

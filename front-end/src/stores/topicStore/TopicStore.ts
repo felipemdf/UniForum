@@ -19,7 +19,8 @@ export const useTopicStore = defineStore('topic', {
           .param('search', search)
           .param('orderBy', orderBy)
           .pageable(this.getNextPage())
-          .sendMock(topicsRequest);
+          .skipAuthentication()
+          .send();
 
         response.result.forEach((t) => this.topics.push(t));
         this.topicsPagination = response.pagination;
@@ -34,6 +35,7 @@ export const useTopicStore = defineStore('topic', {
           Omit<TopicDetails, 'comments'>
         >()
           .endpoint('topic/' + id)
+          .skipAuthentication()
           .sendMock(topicDetailsMock);
 
         this.topic = { ...response, comments: [] };
@@ -50,6 +52,7 @@ export const useTopicStore = defineStore('topic', {
           .endpoint(`topic/${id}/commentary`)
           .param('orderBy', orderBy)
           .pageable(this.getNextPage())
+          .skipAuthentication()
           .sendMock(commentsRequest);
 
         if (this.topic) {
@@ -67,14 +70,15 @@ export const useTopicStore = defineStore('topic', {
       title: string,
       course: number,
       tag: number,
-      content: string
+      content: string,
+      userId: number
     ): Promise<number> {
       try {
         const response: number = await HTTPRequest.createHttpRequest<number>()
           .endpoint('topic')
           .method(HttpMethod.POST)
-          .body({ title, course, tag, content })
-          .sendMock(1);
+          .body({ title, course, tag, content, userId })
+          .send();
 
         return response;
       } catch (error: any) {
@@ -117,7 +121,7 @@ export const useTopicStore = defineStore('topic', {
     },
 
     getNextPage(): number {
-      return this.topicsPagination?.page ?? 0 + 1;
+      return (this.topicsPagination?.page ?? 0) + 1;
     }
   }
 });

@@ -40,7 +40,7 @@ export class CheckboxManager<TEnum extends GenericEnum, TLabel extends string> {
   check(id: number) {
     this._checkboxes.forEach((checkbox) => (checkbox.checked = checkbox.id == id));
   }
-  
+
   get checkboxes(): Checkbox[] {
     return this._checkboxes;
   }

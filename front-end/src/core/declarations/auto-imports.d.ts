@@ -39,15 +39,19 @@ declare global {
   const generateCheckboxList: typeof import('../utils/checkbox-manager')['generateCheckboxList']
   const generateCourse: typeof import('../utils/checkbox-manager')['generateCourse']
   const generateFilter: typeof import('../utils/checkbox-manager')['generateFilter']
+  const get: typeof import('../enums/CourseEnum')['get']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCheckedCheckbox: typeof import('../utils/checkbox-manager')['getCheckedCheckbox']
   const getCheckedCheckboxes: typeof import('../utils/checkbox-manager')['getCheckedCheckboxes']
   const getCheckedCheckboxex: typeof import('../utils/checkbox-manager')['getCheckedCheckboxex']
+  const getCourseLabel: typeof import('../enums/CourseEnum')['getCourseLabel']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getDefault: typeof import('../utils/utils')['getDefault']
   const getDefaultIcon: typeof import('../utils/utils')['getDefaultIcon']
   const getDefaultUserIcon: typeof import('../utils/utils')['getDefaultUserIcon']
+  const getLabelById: typeof import('../enums/CourseEnum')['getLabelById']
+  const getTagLabel: typeof import('../enums/TagEnum')['getTagLabel']
   const getUserIcon: typeof import('../utils/utils')['getUserIcon']
   const h: typeof import('vue')['h']
   const inject: typeof import('vue')['inject']
@@ -158,9 +162,11 @@ declare module 'vue' {
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
+    readonly getCourseLabel: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseLabel']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
+    readonly getTagLabel: UnwrapRef<typeof import('../enums/TagEnum')['getTagLabel']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -220,7 +226,6 @@ declare module 'vue' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useToastStore: UnwrapRef<typeof import('../../stores/toastStore/ToastStore')['useToastStore']>
     readonly useTopicStore: UnwrapRef<typeof import('../../stores/topicStore/TopicStore')['useTopicStore']>
-    readonly useTopicsStore: UnwrapRef<typeof import('../../stores/TopicsStore')['useTopicsStore']>
     readonly userMock: UnwrapRef<typeof import('../../stores/authStore/mock/Mocks')['userMock']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
@@ -257,9 +262,11 @@ declare module '@vue/runtime-core' {
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
+    readonly getCourseLabel: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseLabel']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
+    readonly getTagLabel: UnwrapRef<typeof import('../enums/TagEnum')['getTagLabel']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
@@ -319,7 +326,6 @@ declare module '@vue/runtime-core' {
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useToastStore: UnwrapRef<typeof import('../../stores/toastStore/ToastStore')['useToastStore']>
     readonly useTopicStore: UnwrapRef<typeof import('../../stores/topicStore/TopicStore')['useTopicStore']>
-    readonly useTopicsStore: UnwrapRef<typeof import('../../stores/TopicsStore')['useTopicsStore']>
     readonly userMock: UnwrapRef<typeof import('../../stores/authStore/mock/Mocks')['userMock']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>

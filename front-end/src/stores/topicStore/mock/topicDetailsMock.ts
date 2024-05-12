@@ -48,9 +48,7 @@ export const topicDetailsMock: Omit<TopicDetails, 'comments'> = {
 
 const pagination: Pagination = {
   total: 1,
-  page: 1,
-  pageSize: 5,
-  peerPage: 5
+  page: 1
 };
 export const commentsRequest: Pageable<Commentary> = {
   pagination: pagination,

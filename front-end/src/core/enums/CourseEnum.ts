@@ -16,6 +16,7 @@ export enum COURSE {
   GASTRONOMIA = 15,
   PEDAGOGIA = 16,
   SISTEMAS_DE_INFORMACAO = 17,
+  CURSO_NAO_ENCONTRADO=-1
 }
 
 export const COURSE_LABELS: Record<COURSE, string> = {
@@ -36,4 +37,10 @@ export const COURSE_LABELS: Record<COURSE, string> = {
   [COURSE.GASTRONOMIA]: 'Gastronomia',
   [COURSE.PEDAGOGIA]: 'Pedagogia',
   [COURSE.SISTEMAS_DE_INFORMACAO]: 'Sistemas de Informação',
+  [COURSE.CURSO_NAO_ENCONTRADO]: '',
 };
+
+export function getCourseLabel(courseId: number): string {
+  const course: COURSE = courseId as COURSE;
+  return COURSE_LABELS[course] || COURSE_LABELS[COURSE.CURSO_NAO_ENCONTRADO];
+}

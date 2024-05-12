@@ -45,7 +45,7 @@ export class HTTPRequest<T> {
 
   pageable(page: number): HTTPRequest<T> {
     const value = page.toString();
-    return this.param('pageSize', PAGE_SIZE).param('page', value);
+    return this.param('page', value);
   }
 
   skipAuthentication(): HTTPRequest<T> {
@@ -57,7 +57,7 @@ export class HTTPRequest<T> {
     try {
       await this.handleAuthentication();
     } catch (error: any) {
-      throw new Error("Erro: " + error.message);
+      throw new Error('Erro: ' + error.message);
     }
 
     const queryString = Object.entries(this.http_params)
@@ -79,7 +79,7 @@ export class HTTPRequest<T> {
         body: this.http_method != HttpMethod.GET ? JSON.stringify(this.http_body) : undefined
       });
     } catch (error: any) {
-      throw new Error("Erro: " + error.message);
+      throw new Error('Erro: ' + error.message);
       // throw new Error(
       //   'Parece que estamos com um problema de conexão com o servidor, tente novamente mais tarde!'
       // );
@@ -95,12 +95,11 @@ export class HTTPRequest<T> {
 
   private async handleAuthentication(): Promise<void> {
     if (this.requires_authentication) {
-      const accessToken = this.authStore.getAccessToken();
-      if (this.authStore.isTokenExpired(accessToken)) {
+      if (this.authStore.isTokenExpired(this.authStore.getAccessToken())) {
         await this.authStore.refreshToken();
       }
 
-      this.http_headers['Authorization'] = `Bearer ${accessToken}`;
+      this.http_headers['Authorization'] = `Bearer ${this.authStore.getAccessToken()}`;
     }
   }
 

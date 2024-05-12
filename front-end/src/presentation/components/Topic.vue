@@ -69,10 +69,10 @@
       <!-- Tags -->
       <div class="flex flex-wrap gap-2 mt-4">
         <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-          {{ props.topic.course }}
+          {{ getCourseLabel(props.topic.course) }}
         </div>
         <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-          {{ props.topic.tag }}
+          {{ getTagLabel(props.topic.tag) }}
         </div>
       </div>
     </main>
@@ -127,6 +127,7 @@
 <script setup lang="ts">
 import { useTimeAgo } from '@vueuse/core';
 
+// Refs
 const props = defineProps(['topic']);
 let isOptionsOpen = ref(false);
 

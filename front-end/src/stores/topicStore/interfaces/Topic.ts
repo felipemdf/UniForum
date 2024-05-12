@@ -37,8 +37,8 @@ interface TopicDetails {
 interface Pagination {
   total: number;
   page: number;
-  pageSize: number;
-  peerPage: number;
+  // pageSize: number;
+  // peerPage: number;
 }
 
 interface TopicStore {

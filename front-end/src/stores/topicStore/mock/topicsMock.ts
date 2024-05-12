@@ -10,9 +10,7 @@ function getRandomDate() {
 
 const pagination: Pagination = {
   total: 1,
-  page: 1,
-  pageSize: 5,
-  peerPage: 5
+  page: 1
 };
 
 const usersMock: User[] = [
