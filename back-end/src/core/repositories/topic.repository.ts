@@ -42,10 +42,11 @@ export class TopicRepository extends BaseRepository<TopicEntity> {
       where: {
         course: courses.length > 0 ? In(courses) : undefined,
         tag: tags.length > 0 ? In(tags) : undefined,
-        content: search && search.trim().length > 0 ? `%${search}%` : undefined,
+        content:
+          search && search.trim().length > 0 ? Like(`%${search}%`) : undefined,
       },
       take: 10,
-      skip: 10 * (page -1),
+      skip: 10 * (page - 1),
     });
   }
 }
