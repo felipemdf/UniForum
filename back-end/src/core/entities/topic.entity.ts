@@ -56,6 +56,6 @@ export class TopicEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @DeleteDateColumn({ nullable: true })
+  @DeleteDateColumn({ nullable: true, select: false })
   deletedAt: Date;
 }

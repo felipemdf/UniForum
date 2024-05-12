@@ -7,8 +7,9 @@ import { Server } from "@overnightjs/core";
 import { DataSource } from "typeorm";
 import { IEnvironment } from "./core/config/env.config";
 import { AuthController } from "./modules/auth-module/auth.controller";
-import { UserRepository } from "./core/repositories";
+import { TopicRepository, UserRepository } from "./core/repositories";
 import errorHandler from "./core/middleware/error-handler";
+import { TopicController } from "./modules/topic-module/topic-controller";
 
 export default class SetupServer extends Server {
   private port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
@@ -29,8 +30,13 @@ export default class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    const authController = new AuthController(new UserRepository());
-    this.addControllers([authController]);
+    const userRepository = new UserRepository();
+    const topicRepository = new TopicRepository();
+
+    const authController = new AuthController(userRepository);
+    const topicController = new TopicController(topicRepository, userRepository);
+
+    this.addControllers([authController, topicController]);
   }
 
   private setupMiddlewares(): void {
@@ -38,10 +44,12 @@ export default class SetupServer extends Server {
   }
 
   private setupCors() {
-    this.app.use(cors({ origin: ["http://localhost:8080", "https://uni-forum.netlify.app"] }));
+    this.app.use(
+      cors({
+        origin: ["http://localhost:8080", "https://uni-forum.netlify.app"],
+      })
+    );
   }
-
-  private async databaseSetup(): Promise<void> {}
 
   public start(): void {
     this.dataSource
@@ -54,6 +62,3 @@ export default class SetupServer extends Server {
       .catch((error) => console.log(error));
   }
 }
-
-// Routers
-// app.use("/auth", authRoutes);

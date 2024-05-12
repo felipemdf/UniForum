@@ -29,7 +29,7 @@ const configApp: IEnvironments = {
     database: {
       type: "sqlite",
       database: "./database.sqlite",
-      logging: false,
+      logging: true,
       synchronize: true,
     },
   },

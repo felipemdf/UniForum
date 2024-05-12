@@ -31,6 +31,6 @@ export default class AuthService {
   }
 
   public static decodeRefreshToken(token: string): JwtToken {
-    return jwt.verify(token, configApp.REFRESH_TOKEN_EXPIRES_IN) as JwtToken;
+    return jwt.verify(token, configApp.REFRESH_TOKEN_KEY) as JwtToken;
   }
 }
