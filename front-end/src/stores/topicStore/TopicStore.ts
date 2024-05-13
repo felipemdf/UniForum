@@ -1,5 +1,5 @@
 import type { Pageable } from '@/core/http/interfaces/Pageable';
-import type { Commentary, Topic, TopicDetails, TopicStore } from './interfaces/Topic';
+import type { Commentary, Topic, TopicStore } from './interfaces/Topic';
 import type { TopicDetailsResponse } from './interfaces/topic-details-response';
 
 export const useTopicStore = defineStore('topic', {
@@ -76,7 +76,7 @@ export const useTopicStore = defineStore('topic', {
           .body({ content, userId })
           .send();
 
-          this.topic!.qtComments += 1;
+        this.topic!.qtComments += 1;
       } catch (error: any) {
         throw new Error(error.message);
       }
