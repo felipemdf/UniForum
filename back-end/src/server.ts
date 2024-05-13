@@ -10,6 +10,8 @@ import { AuthController } from "./modules/auth-module/auth.controller";
 import { TopicRepository, UserRepository } from "./core/repositories";
 import errorHandler from "./core/middleware/error-handler";
 import { TopicController } from "./modules/topic-module/topic-controller";
+import { CommentaryRepository } from "./core/repositories/commentary.repository";
+import { CommentaryController } from "./modules/commentary-module/commentary-controller";
 
 export default class SetupServer extends Server {
   private port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
@@ -32,11 +34,13 @@ export default class SetupServer extends Server {
   private setupControllers(): void {
     const userRepository = new UserRepository();
     const topicRepository = new TopicRepository();
+    const commentaryRepository = new CommentaryRepository();
 
     const authController = new AuthController(userRepository);
-    const topicController = new TopicController(topicRepository, userRepository);
+    const topicController = new TopicController(topicRepository, commentaryRepository, userRepository);
+    const commentaryController = new CommentaryController(topicRepository, commentaryRepository, userRepository);
 
-    this.addControllers([authController, topicController]);
+    this.addControllers([authController, topicController,commentaryController]);
   }
 
   private setupMiddlewares(): void {

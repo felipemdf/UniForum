@@ -33,6 +33,7 @@ export class TopicRepository extends BaseRepository<TopicEntity> {
         qtdComments: true,
         createdAt: true,
         author: {
+          id: true,
           username: true,
           photo: true,
         },
@@ -48,5 +49,26 @@ export class TopicRepository extends BaseRepository<TopicEntity> {
       take: 10,
       skip: 10 * (page - 1),
     });
+  }
+
+  async findById(id: number): Promise<TopicEntity> {
+    return this.findOneOrFail({
+      where: {id: id},
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        course: true,
+        tag: true,
+        qtdLikes: true,
+        qtdComments: true,
+        createdAt: true,
+        author: {
+          username: true,
+          photo: true,
+        },
+      },
+      relations: ["author"],
+    })
   }
 }

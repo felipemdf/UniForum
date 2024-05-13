@@ -14,6 +14,7 @@ export interface IPageable<T> {
 }
 
 export interface IAuthor {
+  id: number;
   username: string;
   photo: string;
 }
@@ -33,7 +34,7 @@ export class TopicResponse {
     return topics.map((t) => {
       return Builder(TopicResponse)
         .id(t.id)
-        .user({ username: t.author.username, photo: t.author.photo })
+        .user({ id:t.author.id, username: t.author.username, photo: t.author.photo })
         .title(t.title)
         .preview(t.content.substring(0, 500))
         .qtLikes(t.qtdLikes)

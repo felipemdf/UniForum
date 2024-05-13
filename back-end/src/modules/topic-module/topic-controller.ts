@@ -10,17 +10,19 @@ import { NextFunction, Request, Response } from "express";
 import { TopicRepository, UserRepository } from "../../core/repositories";
 import { getArrayNumberFromQueryParam } from "../../core/utils";
 import { ORDER_BY } from "../../core/entities/enums/OrderBy";
-import { COURSE } from "../../core/entities/enums/Course";
-import { TAG } from "../../core/entities/enums/Tag";
+
 import { StatusCodes } from "http-status-codes";
 import { TopicEntity } from "../../core/entities";
 import { IPageable, TopicResponse } from "./dto/topics.response";
 import verifyToken from "../../core/middleware/auth";
+import { CommentaryRepository } from "../../core/repositories/commentary.repository";
+import { TopicDetailsResponse } from "./dto/topic-details.response";
 
 @Controller("api/topic")
 export class TopicController extends BaseController {
   constructor(
     private topicRepository: TopicRepository,
+    private commentaryRepository: CommentaryRepository,
     private userRepository: UserRepository
   ) {
     super();
@@ -88,5 +90,34 @@ export class TopicController extends BaseController {
     } finally {
       await this.topicRepository.queryRunner.release();
     }
+  }
+
+  @Get(":id")
+  async getById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const id: number = parseInt(req.params.id);
+    const orderBy: number = parseInt((req.query.orderBy as string) || "2");
+
+    const topic: TopicEntity = await this.topicRepository.findById(id);
+    const commentaries = await this.commentaryRepository.findAll(
+      topic.id,
+      orderBy,
+      1
+    );
+    const qtdCommentaries: number = await this.commentaryRepository.count({
+      where: { topic: { id: topic.id } },
+    });
+
+    const topicResponse: TopicDetailsResponse = TopicDetailsResponse.from(
+      topic,
+      commentaries,
+      1,
+      Math.ceil(qtdCommentaries / 10)
+    );
+
+    res.status(StatusCodes.OK).json(topicResponse);
   }
 }
