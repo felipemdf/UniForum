@@ -139,12 +139,13 @@
           rows="6"
           placeholder="No que você está pensando?"
           class="block w-full py-2 pl-4 text-sm bg-gray-200 border-gray-300 rounded-md shadow-sm outline-none resize-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 sm:leading-6"
+          v-model="formData.content"
         ></textarea>
       </div>
     </div>
 
     <button
-      type="submit"
+      @click.prevent="createCommentary()"
       class="self-end px-4 py-3 mt-4 text-sm font-medium text-white rounded-lg bg-c-blue-600 hover:bg-c-blue-700 focus:outline-none"
     >
       Comentar
@@ -172,7 +173,7 @@
   </div>
 
   <!-- Comments -->
-  <Comment v-for="comment in topicStore.topic?.comments" :key="comment.id" :comment="comment" />
+  <Comment v-for="comment in topicStore.topic?.commentaries" :key="comment.id" :comment="comment" />
 
   <!-- Infinit scroll -->
   <div
@@ -188,15 +189,20 @@ import { useTimeAgo } from '@vueuse/core';
 
 // Stores
 const topicStore = useTopicStore();
+const routeStore = useRoute();
+const authStore = useAuthStore();
+const toastStore = useToastStore();
 
 // Refs
 const commentsOrderByManager = ref(new CheckboxManager(ORDER_BY_LABELS, ORDER_BY.MAIS_RECENTES));
+const formData = ref({
+  content: ''
+});
 
 let isOptionsOpen = ref(false);
 
 onMounted(() => {
   fetchTopic();
-  fetchComments();
 });
 
 onUnmounted(() => {
@@ -214,18 +220,32 @@ function canLoadMore() {
 }
 
 function fetchTopic() {
-  topicStore.fetchTopic(1);
+  topicStore.fetchTopic(parseInt(routeStore.params.id as string));
 }
 
-function fetchComments() {
+async function fetchComments() {
   const orderByFilter = commentsOrderByManager.value.getCheckedCheckboxesToString();
 
-  topicStore.fetchCommentary(1, orderByFilter);
+  await topicStore.fetchCommentary(parseInt(routeStore.params.id as string), orderByFilter);
 }
 
-function filterComments() {
+async function filterComments() {
   topicStore.cleanComments();
-  fetchComments();
+  await fetchComments();
+}
+
+async function createCommentary() {
+  const userId = authStore.user.id;
+  const topicId = parseInt(routeStore.params.id as string);
+  const content = formData.value.content;
+
+  if(content.trim().length == 0) {
+    toastStore.notify("Escreva algo antes de comentar!", NotificationType.Warning);
+  }
+  await topicStore.createCommentary(content, topicId, userId);
+  await filterComments();
+
+  formData.value = {content: ''};
 }
 
 const toggleMenuOptions = () => {

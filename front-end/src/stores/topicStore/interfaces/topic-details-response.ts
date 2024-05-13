@@ -5,18 +5,8 @@ interface User {
   username: string;
   photo: string;
 }
-export interface Topic {
-  id: number;
-  user: User;
-  title: string;
-  preview: string;
-  qtLikes: number;
-  qtComments: number;
-  course: number;
-  tag: number;
-  createdAt: string;
-}
-export interface Commentary {
+
+interface Commentary {
   id: number;
   user: User;
   content: string;
@@ -24,7 +14,7 @@ export interface Commentary {
   createdAt: string;
 }
 
-export interface TopicDetails {
+export interface TopicDetailsResponse {
   id: number;
   user: User;
   title: string;
@@ -33,7 +23,7 @@ export interface TopicDetails {
   qtComments: number;
   course: number;
   tag: number;
-  commentaries: Commentary[];
+  commentaries: Pageable<Commentary>;
   createdAt: string;
 }
 
@@ -42,9 +32,3 @@ interface Pagination {
   page: number;
 }
 
-export interface TopicStore {
-  topics: Topic[];
-  topicsPagination?: Pagination;
-  topic?: TopicDetails;
-  commentsPagination?: Pagination;
-}

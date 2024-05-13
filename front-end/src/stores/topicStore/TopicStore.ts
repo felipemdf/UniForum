@@ -1,4 +1,6 @@
 import type { Pageable } from '@/core/http/interfaces/Pageable';
+import type { Commentary, Topic, TopicDetails, TopicStore } from './interfaces/Topic';
+import type { TopicDetailsResponse } from './interfaces/topic-details-response';
 
 export const useTopicStore = defineStore('topic', {
   state: (): TopicStore => ({
@@ -31,14 +33,14 @@ export const useTopicStore = defineStore('topic', {
 
     async fetchTopic(id: number) {
       try {
-        const response: Omit<TopicDetails, 'comments'> = await HTTPRequest.createHttpRequest<
-          Omit<TopicDetails, 'comments'>
-        >()
-          .endpoint('topic/' + id)
-          .skipAuthentication()
-          .sendMock(topicDetailsMock);
+        const response: TopicDetailsResponse =
+          await HTTPRequest.createHttpRequest<TopicDetailsResponse>()
+            .endpoint('topic/' + id)
+            .skipAuthentication()
+            .send();
 
-        this.topic = { ...response, comments: [] };
+        this.topic = { ...response, commentaries: response.commentaries.result };
+        this.commentsPagination = response.commentaries.pagination;
       } catch (error: any) {
         throw new Error(error.message);
       }
@@ -53,14 +55,28 @@ export const useTopicStore = defineStore('topic', {
           .param('orderBy', orderBy)
           .pageable(this.getNextPage())
           .skipAuthentication()
-          .sendMock(commentsRequest);
+          .send();
 
         if (this.topic) {
-          response.result.forEach((t) => this.topic?.comments.push(t));
+          response.result.forEach((t) => this.topic?.commentaries.push(t));
           this.commentsPagination = response.pagination;
         } else {
           throw new Error('Não foi encontrado um tópico!');
         }
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async createCommentary(content: string, topicId: number, userId: number): Promise<void> {
+      try {
+        await HTTPRequest.createHttpRequest()
+          .endpoint(`topic/${topicId}/commentary`)
+          .method(HttpMethod.POST)
+          .body({ content, userId })
+          .send();
+
+          this.topic!.qtComments += 1;
       } catch (error: any) {
         throw new Error(error.message);
       }
@@ -116,7 +132,7 @@ export const useTopicStore = defineStore('topic', {
     },
 
     async cleanComments() {
-      if (this.topic) this.topic.comments = [];
+      if (this.topic) this.topic.commentaries = [];
       this.commentsPagination = undefined;
     },
 
