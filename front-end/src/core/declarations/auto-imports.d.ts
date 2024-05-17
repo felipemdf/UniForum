@@ -213,7 +213,6 @@ declare module 'vue' {
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly topicDetailsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['topicDetailsMock']>
-    readonly topicsRequest: UnwrapRef<typeof import('../../stores/topicStore/mock/topicsMock')['topicsRequest']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
@@ -313,7 +312,6 @@ declare module '@vue/runtime-core' {
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly topicDetailsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['topicDetailsMock']>
-    readonly topicsRequest: UnwrapRef<typeof import('../../stores/topicStore/mock/topicsMock')['topicsRequest']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>

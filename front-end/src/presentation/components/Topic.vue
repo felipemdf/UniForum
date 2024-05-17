@@ -18,7 +18,7 @@
         </div>
 
         <!-- Option Button-->
-        <div class="relative" v-on-click-outside="closeMenuOptions">
+        <div class="relative" v-on-click-outside="closeMenuOptions" v-if="props.topic.user.id === authStore.user.id">
           <button
             @click="toggleMenuOptions"
             class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100"
@@ -45,7 +45,7 @@
           >
             <ul class="py-1 text-sm text-gray-700">
               <li>
-                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Denunciar</a>
+                <button @click.prevent="$emit('deleteTopic', props.topic.id)" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Excluir</button>
               </li>
             </ul>
           </div>
@@ -127,6 +127,9 @@
 <script setup lang="ts">
 import { useTimeAgo } from '@vueuse/core';
 
+// Stores
+const authStore = useAuthStore();
+
 // Refs
 const props = defineProps(['topic']);
 let isOptionsOpen = ref(false);
@@ -144,4 +147,5 @@ const formattedActivity = computed(() => {
     return useTimeAgo(new Date(props.topic!.createdAt)).value;
   }
 });
+
 </script>

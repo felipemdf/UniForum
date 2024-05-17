@@ -21,6 +21,7 @@
         <div class="relative">
           <button
             @click="toggleMenuOptions"
+            v-if="props.comment.user.id === authStore.user.id"
             class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100"
             type="button"
           >
@@ -46,7 +47,12 @@
           >
             <ul class="py-1 text-sm text-gray-700">
               <li>
-                <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Denunciar</a>
+                <button
+                  @click.prevent="$emit('deleteCommentary', props.comment.id)"
+                  class="block px-4 py-2 text-red-600 hover:bg-gray-100"
+                >
+                  Excluir
+                </button>
               </li>
             </ul>
           </div>
@@ -91,6 +97,11 @@
 import { useTimeAgo } from '@vueuse/core';
 
 const props = defineProps(['comment']);
+
+// Stores
+const authStore = useAuthStore();
+
+// Refs
 let isOptionsOpen = ref(false);
 
 const toggleMenuOptions = () => {

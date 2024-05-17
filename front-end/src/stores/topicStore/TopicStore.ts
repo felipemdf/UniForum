@@ -90,13 +90,13 @@ export const useTopicStore = defineStore('topic', {
       userId: number
     ): Promise<number> {
       try {
-        const response: number = await HTTPRequest.createHttpRequest<number>()
+        const response: { id: number } = await HTTPRequest.createHttpRequest<number>()
           .endpoint('topic')
           .method(HttpMethod.POST)
           .body({ title, course, tag, content, userId })
           .send();
 
-        return response;
+        return response.id;
       } catch (error: any) {
         throw new Error(error.message);
       }
@@ -116,6 +116,28 @@ export const useTopicStore = defineStore('topic', {
           .sendMock(1);
 
         return response;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async deleteTopic(id: number): Promise<void> {
+      try {
+        await HTTPRequest.createHttpRequest()
+          .endpoint(`topic/${id}`)
+          .method(HttpMethod.DELETE)
+          .send();
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async deleteCommentary(id: number): Promise<void> {
+      try {
+        await HTTPRequest.createHttpRequest()
+          .endpoint(`topic/${this.topic?.id}/commentary/${id}`)
+          .method(HttpMethod.DELETE)
+          .send();
       } catch (error: any) {
         throw new Error(error.message);
       }

@@ -21,7 +21,7 @@
           </div>
 
           <!-- Option Button-->
-          <div class="relative">
+          <div class="relative" v-if="topicStore.topic?.user.id === authStore.user.id">
             <button
               @click="toggleMenuOptions"
               class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100"
@@ -49,7 +49,12 @@
             >
               <ul class="py-1 text-sm text-gray-700">
                 <li>
-                  <a href="#" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Denunciar</a>
+                  <button
+                    @click.prevent="deleteTopic(topicStore.topic?.id)"
+                    class="block px-4 py-2 text-red-600 hover:bg-gray-100"
+                  >
+                    Excluir
+                  </button>
                 </li>
               </ul>
             </div>
@@ -173,7 +178,12 @@
   </div>
 
   <!-- Comments -->
-  <Comment v-for="comment in topicStore.topic?.commentaries" :key="comment.id" :comment="comment" />
+  <Comment
+    v-for="comment in topicStore.topic?.commentaries"
+    :key="comment.id"
+    :comment="comment"
+    @deleteCommentary="deleteCommentary"
+  />
 
   <!-- Infinit scroll -->
   <div
@@ -190,6 +200,7 @@ import { useTimeAgo } from '@vueuse/core';
 // Stores
 const topicStore = useTopicStore();
 const routeStore = useRoute();
+const routerStore = useRouter();
 const authStore = useAuthStore();
 const toastStore = useToastStore();
 
@@ -239,13 +250,27 @@ async function createCommentary() {
   const topicId = parseInt(routeStore.params.id as string);
   const content = formData.value.content;
 
-  if(content.trim().length == 0) {
-    toastStore.notify("Escreva algo antes de comentar!", NotificationType.Warning);
+  if (content.trim().length == 0) {
+    toastStore.notify('Escreva algo antes de comentar!', NotificationType.Warning);
   }
   await topicStore.createCommentary(content, topicId, userId);
   await filterComments();
 
-  formData.value = {content: ''};
+  formData.value = { content: '' };
+}
+
+async function deleteTopic(id: number) {
+  try {
+    await topicStore.deleteTopic(id);
+    routerStore.push('/home');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteCommentary(id: number) {
+  await topicStore.deleteCommentary(id);
+  await filterComments();
 }
 
 const toggleMenuOptions = () => {

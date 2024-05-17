@@ -98,7 +98,12 @@
   <!-- Topics -->
 
   <section id="topicsContainer">
-    <Topic v-for="topic in topicStore.topics" :key="topic.id" :topic="topic" />
+    <Topic
+      v-for="topic in topicStore.topics"
+      :key="topic.id"
+      :topic="topic"
+      @deleteTopic="deleteTopic"
+    />
   </section>
 
   <!-- Infinit scroll -->
@@ -117,7 +122,6 @@ const coursesFilterManager = ref(new CheckboxManager(COURSE_LABELS));
 const tagsFilterManager = ref(new CheckboxManager(TAG_LABELS));
 const topicsOrderByManager = ref(new CheckboxManager(ORDER_BY_LABELS, ORDER_BY.MAIS_RECENTES));
 
-
 // Stores
 const topicStore = useTopicStore();
 
@@ -131,25 +135,28 @@ onUnmounted(() => {
 
 function canLoadMore() {
   if (topicStore.topicsPagination) {
-    return (
-      topicStore.topicsPagination?.page < topicStore.topicsPagination?.total
-    );
+    return topicStore.topicsPagination?.page < topicStore.topicsPagination?.total;
   }
   return false;
 }
 
-function filterTopics() {
-  topicStore.cleanTopics();
-  fetchTopics();
-}
-
-function fetchTopics() {
+async function fetchTopics() {
   const coursesFilter = coursesFilterManager.value.getCheckedCheckboxesToString();
   const tagsFilter = tagsFilterManager.value.getCheckedCheckboxesToString();
   const searchFilter = search.value;
   const orderByFilter = topicsOrderByManager.value.getCheckedCheckboxesToString();
 
-  topicStore.fetchTopics(searchFilter, coursesFilter, tagsFilter, orderByFilter);
+  await topicStore.fetchTopics(searchFilter, coursesFilter, tagsFilter, orderByFilter);
+}
+
+async function deleteTopic(id: number) {
+  await topicStore.deleteTopic(id);
+  await filterTopics();
+}
+
+async function filterTopics() {
+  topicStore.cleanTopics();
+  await fetchTopics();
 }
 
 function cleanFilters() {
