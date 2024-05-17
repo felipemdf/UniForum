@@ -1,6 +1,7 @@
 import {
   ClassMiddleware,
   Controller,
+  Delete,
   Get,
   Middleware,
   Post,
@@ -17,6 +18,7 @@ import { IPageable, TopicResponse } from "./dto/topics.response";
 import verifyToken from "../../core/middleware/auth";
 import { CommentaryRepository } from "../../core/repositories/commentary.repository";
 import { TopicDetailsResponse } from "./dto/topic-details.response";
+import NotFoundError from "../../core/errors/not-found.error";
 
 @Controller("api/topic")
 export class TopicController extends BaseController {
@@ -84,7 +86,6 @@ export class TopicController extends BaseController {
 
       res.status(StatusCodes.CREATED).send({ id: createdTopic.id });
     } catch (error: any) {
-      console.error(error);
       await this.topicRepository.queryRunner.rollbackTransaction();
       next(error);
     } finally {
@@ -119,5 +120,30 @@ export class TopicController extends BaseController {
     );
 
     res.status(StatusCodes.OK).json(topicResponse);
+  }
+
+  @Delete(":id")
+  @Middleware(verifyToken)
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      await this.topicRepository.queryRunner.connect();
+      await this.topicRepository.queryRunner.startTransaction();
+
+      const id: number = parseInt(req.params.id);
+      const userId = parseInt(req.userId);
+
+      const result = await this.topicRepository.deleteById(id, userId);
+      if (result.affected === 0) {
+        throw new NotFoundError("Tópico não encontrado");
+      }
+
+      await this.topicRepository.queryRunner.commitTransaction();
+      res.status(StatusCodes.OK).json({ message: "Excluído com sucesso" });
+    } catch (error: any) {
+      await this.topicRepository.queryRunner.rollbackTransaction();
+      next(error);
+    } finally {
+      await this.topicRepository.queryRunner.release();
+    }
   }
 }

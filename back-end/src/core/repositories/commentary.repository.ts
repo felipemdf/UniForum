@@ -1,7 +1,7 @@
 import { CommentaryEntity, TopicEntity, UserEntity } from "../entities";
 import { BaseRepository } from "../bases/base.repository";
 import { ORDER_BY } from "../entities/enums/OrderBy";
-import { FindOptionsOrder } from "typeorm";
+import { FindOptionsOrder, UpdateResult } from "typeorm";
 
 export class CommentaryRepository extends BaseRepository<CommentaryEntity> {
   constructor() {
@@ -25,6 +25,7 @@ export class CommentaryRepository extends BaseRepository<CommentaryEntity> {
         qtdLikes: true,
         createdAt: true,
         author: {
+          id: true,
           username: true,
           photo: true,
         },
@@ -36,6 +37,18 @@ export class CommentaryRepository extends BaseRepository<CommentaryEntity> {
       },
       take: 10,
       skip: 10 * (page - 1),
+    });
+  }
+
+  async deleteById(
+    idTopic: number,
+    idCommentary: number,
+    userId: number
+  ): Promise<UpdateResult> {
+    return this.softDelete({
+      id: idCommentary,
+      topic: { id: idTopic },
+      author: { id: userId },
     });
   }
 }

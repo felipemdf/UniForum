@@ -1,6 +1,7 @@
 import {
   ClassMiddleware,
   Controller,
+  Delete,
   Get,
   Middleware,
   Post,
@@ -18,6 +19,7 @@ import verifyToken from "../../core/middleware/auth";
 import { CommentaryRepository } from "../../core/repositories/commentary.repository";
 import { TopicDetailsResponse } from "../topic-module/dto/topic-details.response";
 import { CommentaryResponse } from "./dto/commentary.response";
+import NotFoundError from "../../core/errors/not-found.error";
 
 @Controller("api/topic")
 export class CommentaryController extends BaseController {
@@ -35,15 +37,15 @@ export class CommentaryController extends BaseController {
     const page: number = parseInt((req.query.page as string) || "1");
     const id: number = parseInt(req.params.id);
 
-    const commentaries: CommentaryEntity[] = await this.commentaryRepository.findAll(
-      id,
-      orderBy,
-      page
-    );
+    const commentaries: CommentaryEntity[] =
+      await this.commentaryRepository.findAll(id, orderBy, page);
 
-    const qtdCommentaries: number = await this.commentaryRepository.count({where: {topic: {id: id}}});
+    const qtdCommentaries: number = await this.commentaryRepository.count({
+      where: { topic: { id: id } },
+    });
 
-    const commentariesResponse: CommentaryResponse[] = CommentaryResponse.from(commentaries);
+    const commentariesResponse: CommentaryResponse[] =
+      CommentaryResponse.from(commentaries);
     const response: IPageable<CommentaryResponse> = {
       pagination: { page: page, total: Math.ceil(qtdCommentaries / 10) },
       result: commentariesResponse,
@@ -58,6 +60,9 @@ export class CommentaryController extends BaseController {
     try {
       await this.commentaryRepository.queryRunner.connect();
       await this.commentaryRepository.queryRunner.startTransaction();
+
+      await this.topicRepository.queryRunner.connect();
+      await this.topicRepository.queryRunner.startTransaction();
 
       const user = await this.userRepository.findOneByOrFail({
         id: req.body.userId,
@@ -80,15 +85,35 @@ export class CommentaryController extends BaseController {
       });
 
       await this.commentaryRepository.queryRunner.commitTransaction();
+      await this.topicRepository.queryRunner.commitTransaction();
 
-      res.status(StatusCodes.CREATED);
-      res.send(req.query);
+      res.status(StatusCodes.CREATED).send({ message: "Criado com sucesso" });
     } catch (error: any) {
       console.error(error);
       await this.commentaryRepository.queryRunner.rollbackTransaction();
+      await this.topicRepository.queryRunner.rollbackTransaction();
       next(error);
     } finally {
       await this.commentaryRepository.queryRunner.release();
+      await this.topicRepository.queryRunner.release();
     }
+  }
+
+  @Delete(":idTopic/commentary/:idCommentary")
+  @Middleware(verifyToken)
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const idTopic: number = parseInt(req.params.idTopic);
+    const idCommentary: number = parseInt(req.params.idCommentary);
+    const userId = parseInt(req.userId);
+
+    const effected: number = (
+      await this.commentaryRepository.deleteById(idTopic, idCommentary, userId)
+    ).affected;
+
+    if (effected === 0) {
+      throw new NotFoundError("Comentário não encontrado");
+    }
+
+    res.status(StatusCodes.OK).json({ message: "Excluído com sucesso" });
   }
 }

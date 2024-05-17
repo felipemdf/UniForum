@@ -13,11 +13,15 @@
       "sourceMap": true,
       "esModuleInterop": true,
       "removeComments": true,
+      "typeRoots": [
+         "./src/core/@types",
+         "./node_modules/@types"
+      ]
    },
    "incude": [
       "./src/**/*.ts"
    ],
    "exclude": [
       "node_modules",
-   ]
+   ],
 }

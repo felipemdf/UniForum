@@ -3,7 +3,14 @@ import { BaseRepository } from "../bases/base.repository";
 import { ORDER_BY } from "../entities/enums/OrderBy";
 import { COURSE } from "../entities/enums/Course";
 import { TAG } from "../entities/enums/Tag";
-import { FindManyOptions, FindOptionsOrder, In, Like, Or } from "typeorm";
+import {
+  FindManyOptions,
+  FindOptionsOrder,
+  In,
+  Like,
+  Or,
+  UpdateResult,
+} from "typeorm";
 
 export class TopicRepository extends BaseRepository<TopicEntity> {
   constructor() {
@@ -53,7 +60,7 @@ export class TopicRepository extends BaseRepository<TopicEntity> {
 
   async findById(id: number): Promise<TopicEntity> {
     return this.findOneOrFail({
-      where: {id: id},
+      where: { id: id },
       select: {
         id: true,
         title: true,
@@ -64,11 +71,16 @@ export class TopicRepository extends BaseRepository<TopicEntity> {
         qtdComments: true,
         createdAt: true,
         author: {
+          id: true,
           username: true,
           photo: true,
         },
       },
       relations: ["author"],
-    })
+    });
+  }
+
+  async deleteById(id: number, userId: number): Promise<UpdateResult> {
+    return this.softDelete({ id: id, author: { id: userId } });
   }
 }
