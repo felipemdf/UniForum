@@ -138,7 +138,7 @@
   </main>
 
   <!-- Comment -->
-  <form class="flex flex-col" @click.prevent="createCommentary()">
+  <form class="flex flex-col" @submit.prevent="createCommentary()">
     <p class="pt-4 pb-3 text-base font-medium leading-5 text-gray-90">Comentar</p>
 
     <div class="col-span-full">
