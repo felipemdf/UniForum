@@ -11,7 +11,11 @@
             <button class="inline-flex items-center gap-1">
               <img
                 class="w-8 h-8 mr-2 rounded-full"
-                :src="topicStore.topic?.user.photo ? 'data:image/png;base64,' + topicStore.topic.user.photo : '../../../../../public/userIcon.png'"
+                :src="
+                  topicStore.topic?.user.photo
+                    ? 'data:image/png;base64,' + topicStore.topic.user.photo
+                    : '/public/userIcon.png'
+                "
                 alt="Username"
               />
               <!-- <p class="text-sm font-medium text-gray-900">{{ props.topic.username}}</p> -->

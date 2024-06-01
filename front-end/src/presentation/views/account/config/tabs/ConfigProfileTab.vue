@@ -66,7 +66,7 @@
       <div
         class="flex flex-col items-center justify-center w-full h-56 gap-4 p-5 text-center border border-gray-300 border-dashed rounded-xl"
       >
-        <img src="../../../../../../public/userIcon.png" class="w-16 h-16 rounded-full" />
+        <img src="/public/userIcon.png" class="w-16 h-16 rounded-full" />
         <p class="text-sm text-gray-600">
           Solte o arquivo de imagem desejado aqui para iniciar o upload
         </p>
@@ -113,7 +113,7 @@ const form = ref({
 });
 
 async function onChangePhoto(event: any) {
-  console.log(event.target.files[0].size)
+  console.log(event.target.files[0].size);
   var files = event.target.files || event.dataTransfer.files;
   form.value.photo = (await toBase64(files[0])) as string;
 }

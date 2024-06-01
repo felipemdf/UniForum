@@ -15,7 +15,7 @@
               :src="
                 props.topic.user.photo
                   ? 'data:image/png;base64,' + props.topic.user.photo
-                  : '../../../../../public/userIcon.png'
+                  : '/public/userIcon.png'
               "
               alt="Username"
             />
