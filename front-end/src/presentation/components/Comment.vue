@@ -12,7 +12,7 @@
               :src="
                 props.comment.user.photo
                   ? 'data:image/png;base64,' + props.comment.user.photo
-                  : '/public/userIcon.png'
+                  : '/userIcon.png'
               "
               alt="Username"
             />

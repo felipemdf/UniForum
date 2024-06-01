@@ -66,7 +66,7 @@
       <div
         class="flex flex-col items-center justify-center w-full h-56 gap-4 p-5 text-center border border-gray-300 border-dashed rounded-xl"
       >
-        <img src="/public/userIcon.png" class="w-16 h-16 rounded-full" />
+        <img src="/userIcon.png" class="w-16 h-16 rounded-full" />
         <p class="text-sm text-gray-600">
           Solte o arquivo de imagem desejado aqui para iniciar o upload
         </p>
