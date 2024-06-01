@@ -10,7 +10,7 @@ export interface Topic {
   user: User;
   title: string;
   preview: string;
-  qtLikes: number;
+  usersLikes: number[];
   qtComments: number;
   course: number;
   tag: number;
@@ -20,7 +20,7 @@ export interface Commentary {
   id: number;
   user: User;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   createdAt: string;
 }
 
@@ -29,7 +29,7 @@ export interface TopicDetails {
   user: User;
   title: string;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   qtComments: number;
   course: number;
   tag: number;

@@ -11,7 +11,7 @@
             <button class="inline-flex items-center gap-1">
               <img
                 class="w-8 h-8 mr-2 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                :src="topicStore.topic?.user.photo ? 'data:image/png;base64,' + topicStore.topic.user.photo : '../../../../../public/userIcon.png'"
                 alt="Username"
               />
               <!-- <p class="text-sm font-medium text-gray-900">{{ props.topic.username}}</p> -->
@@ -76,10 +76,10 @@
         <!-- Tags -->
         <div class="flex flex-wrap gap-2 mt-4">
           <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-            {{ topicStore.topic?.course }}
+            {{ getCourseLabel(topicStore.topic?.course) }}
           </div>
           <div class="px-3 py-2 text-xs leading-3 text-indigo-700 bg-indigo-100 rounded-xl">
-            {{ topicStore.topic?.tag }}
+            {{ getTagLabel(topicStore.topic?.tag) }}
           </div>
         </div>
       </main>
@@ -90,9 +90,11 @@
           <button
             type="button"
             class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
+            @click.prevent="likeDeslikeTopic(topicStore.topic)"
           >
             <svg
-              class="w-[16px] h-[16px] text-red-500"
+              :class="isLikedClass(topicStore.topic)"
+              class="w-[16px] h-[16px]"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -103,7 +105,7 @@
               />
             </svg>
 
-            {{ topicStore.topic?.qtLikes }}
+            {{ topicStore.topic?.usersLikes.length }}
           </button>
 
           <button
@@ -183,6 +185,7 @@
     :key="comment.id"
     :comment="comment"
     @deleteCommentary="deleteCommentary"
+    @likeDeslikeCommentary="likeDeslikeCommentary"
   />
 
   <!-- Infinit scroll -->
@@ -195,6 +198,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Commentary, Topic, TopicDetails } from '@/stores/topicStore/interfaces/Topic';
 import { useTimeAgo } from '@vueuse/core';
 
 // Stores
@@ -271,6 +275,39 @@ async function deleteTopic(id: number) {
 async function deleteCommentary(id: number) {
   await topicStore.deleteCommentary(id);
   await filterComments();
+}
+
+function isLikedClass(topic: TopicDetails | undefined) {
+  if (topic == undefined) return 'text-gray-400';
+  return topic.usersLikes.includes(authStore.user.id) ? 'text-red-500' : 'text-gray-400';
+}
+
+async function likeDeslikeTopic(topic: TopicDetails | undefined) {
+  if (topic == undefined) {
+    return;
+  }
+  const likeUserId = topic.usersLikes.find((id) => id == authStore.user.id);
+  topicStore.likeTopic(topic.id);
+
+  if (likeUserId) {
+    topic.usersLikes = topic.usersLikes.filter((id) => id != authStore.user.id);
+  } else {
+    topic.usersLikes.push(authStore.user.id);
+  }
+}
+
+async function likeDeslikeCommentary(commentary: Commentary | undefined) {
+  if (commentary == undefined) {
+    return;
+  }
+  const likeUserId = commentary.usersLikes.find((id) => id == authStore.user.id);
+  topicStore.likeCommentary(commentary.id);
+
+  if (likeUserId) {
+    commentary.usersLikes = commentary.usersLikes.filter((id) => id != authStore.user.id);
+  } else {
+    commentary.usersLikes.push(authStore.user.id);
+  }
 }
 
 const toggleMenuOptions = () => {

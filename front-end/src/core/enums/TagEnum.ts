@@ -4,7 +4,7 @@ export enum TAG {
   PROJETO = 3,
   OPORTUNIDADE = 4,
   EVENTO = 5,
-  TAG_NAO_ENCONTRADA=-1
+  TAG_NAO_ENCONTRADA = -1
 }
 
 export const TAG_LABELS: Record<TAG, string> = {
@@ -16,7 +16,7 @@ export const TAG_LABELS: Record<TAG, string> = {
   [TAG.TAG_NAO_ENCONTRADA]: ''
 };
 
-export function getTagLabel(tagId: number): string {
+export function getTagLabel(tagId: number | undefined): string {
   const tag: TAG = tagId as TAG;
   return TAG_LABELS[tag] || TAG_LABELS[TAG.TAG_NAO_ENCONTRADA];
 }

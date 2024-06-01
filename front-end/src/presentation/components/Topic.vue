@@ -6,19 +6,30 @@
       <div class="flex justify-between mb-4">
         <!-- User and topic info -->
         <div class="flex flex-wrap items-center gap-1">
-          <button class="inline-flex items-center gap-1">
+          <router-link
+            :to="'/auth/profile/' + props.topic.user.id"
+            class="inline-flex items-center gap-1"
+          >
             <img
               class="w-8 h-8 mr-2 rounded-full"
-              :src="'data:image/png;base64,' + props.topic.photo"
+              :src="
+                props.topic.user.photo
+                  ? 'data:image/png;base64,' + props.topic.user.photo
+                  : '../../../../../public/userIcon.png'
+              "
               alt="Username"
             />
             <p class="text-sm font-medium text-gray-900">{{ props.topic.user.username }}</p>
-          </button>
+          </router-link>
           <p class="text-sm text-gray-500">- {{ formattedActivity }}</p>
         </div>
 
         <!-- Option Button-->
-        <div class="relative" v-on-click-outside="closeMenuOptions" v-if="props.topic.user.id === authStore.user.id">
+        <div
+          class="relative"
+          v-on-click-outside="closeMenuOptions"
+          v-if="props.topic.user.id === authStore.user.id"
+        >
           <button
             @click="toggleMenuOptions"
             class="inline-flex items-center p-2 text-center text-gray-500 rounded-lg hover:bg-gray-100"
@@ -45,7 +56,12 @@
           >
             <ul class="py-1 text-sm text-gray-700">
               <li>
-                <button @click.prevent="$emit('deleteTopic', props.topic.id)" class="block px-4 py-2 text-red-600 hover:bg-gray-100">Excluir</button>
+                <button
+                  @click.prevent="$emit('deleteTopic', props.topic.id)"
+                  class="block px-4 py-2 text-red-600 hover:bg-gray-100"
+                >
+                  Excluir
+                </button>
               </li>
             </ul>
           </div>
@@ -83,9 +99,11 @@
         <button
           type="button"
           class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
+          @click.prevent="$emit('likeDeslikeTopic', props.topic)"
         >
           <svg
-            class="w-[16px] h-[16px] text-red-500"
+            :class="isLikedClass(props.topic)"
+            class="w-[16px] h-[16px]"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -96,7 +114,7 @@
             />
           </svg>
 
-          {{ props.topic.qtLikes }}
+          {{ props.topic.usersLikes.length }}
         </button>
 
         <button
@@ -125,6 +143,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Topic } from '@/stores/topicStore/interfaces/Topic';
 import { useTimeAgo } from '@vueuse/core';
 
 // Stores
@@ -148,4 +167,7 @@ const formattedActivity = computed(() => {
   }
 });
 
+function isLikedClass(topic: Topic) {
+  return topic.usersLikes.includes(authStore.user.id) ? 'text-red-500' : 'text-gray-400';
+}
 </script>

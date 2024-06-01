@@ -10,6 +10,8 @@ declare global {
   const COURSE_RESCO: typeof import('../enums/CourseEnum')['COURSE_RESCO']
   const CheckboxManager: typeof import('../utils/checkbox-manager')['CheckboxManager']
   const EffectScope: typeof import('vue')['EffectScope']
+  const GENDER: typeof import('../enums/GenderEnum')['GENDER']
+  const GENDER_LABELS: typeof import('../enums/GenderEnum')['GENDER_LABELS']
   const HTTPRequest: typeof import('../http/HTTPRequest')['HTTPRequest']
   const HttpMethod: typeof import('../http/HTTPRequest')['HttpMethod']
   const NotificationType: typeof import('../../stores/toastStore/interfaces/Toast')['NotificationType']
@@ -45,11 +47,13 @@ declare global {
   const getCheckedCheckboxes: typeof import('../utils/checkbox-manager')['getCheckedCheckboxes']
   const getCheckedCheckboxex: typeof import('../utils/checkbox-manager')['getCheckedCheckboxex']
   const getCourseLabel: typeof import('../enums/CourseEnum')['getCourseLabel']
+  const getCourseValue: typeof import('../enums/CourseEnum')['getCourseValue']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getDefault: typeof import('../utils/utils')['getDefault']
   const getDefaultIcon: typeof import('../utils/utils')['getDefaultIcon']
   const getDefaultUserIcon: typeof import('../utils/utils')['getDefaultUserIcon']
+  const getGenderLabel: typeof import('../enums/GenderEnum')['getGenderLabel']
   const getLabelById: typeof import('../enums/CourseEnum')['getLabelById']
   const getTagLabel: typeof import('../enums/TagEnum')['getTagLabel']
   const getUserIcon: typeof import('../utils/utils')['getUserIcon']
@@ -113,6 +117,7 @@ declare global {
   const useCssVars: typeof import('vue')['useCssVars']
   const useFilterStore: typeof import('../../stores/filterStore/FilterStore')['useFilterStore']
   const useLink: typeof import('vue-router')['useLink']
+  const useProfileStore: typeof import('../../stores/profileStore/ProfileStore')['useProfileStore']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
@@ -140,6 +145,8 @@ declare module 'vue' {
     readonly COURSE_LABELS: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE_LABELS']>
     readonly CheckboxManager: UnwrapRef<typeof import('../utils/checkbox-manager')['CheckboxManager']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly GENDER: UnwrapRef<typeof import('../enums/GenderEnum')['GENDER']>
+    readonly GENDER_LABELS: UnwrapRef<typeof import('../enums/GenderEnum')['GENDER_LABELS']>
     readonly HTTPRequest: UnwrapRef<typeof import('../http/HTTPRequest')['HTTPRequest']>
     readonly HttpMethod: UnwrapRef<typeof import('../http/HTTPRequest')['HttpMethod']>
     readonly NotificationType: UnwrapRef<typeof import('../../stores/toastStore/interfaces/Toast')['NotificationType']>
@@ -150,8 +157,6 @@ declare module 'vue' {
     readonly TAG: UnwrapRef<typeof import('../enums/TagEnum')['TAG']>
     readonly TAG_LABELS: UnwrapRef<typeof import('../enums/TagEnum')['TAG_LABELS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly commentsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentsMock']>
-    readonly commentsRequest: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentsRequest']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -163,9 +168,11 @@ declare module 'vue' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCourseLabel: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseLabel']>
+    readonly getCourseValue: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseValue']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
+    readonly getGenderLabel: UnwrapRef<typeof import('../enums/GenderEnum')['getGenderLabel']>
     readonly getTagLabel: UnwrapRef<typeof import('../enums/TagEnum')['getTagLabel']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -212,7 +219,6 @@ declare module 'vue' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
-    readonly topicDetailsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['topicDetailsMock']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
@@ -220,12 +226,12 @@ declare module 'vue' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useProfileStore: UnwrapRef<typeof import('../../stores/profileStore/ProfileStore')['useProfileStore']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useToastStore: UnwrapRef<typeof import('../../stores/toastStore/ToastStore')['useToastStore']>
     readonly useTopicStore: UnwrapRef<typeof import('../../stores/topicStore/TopicStore')['useTopicStore']>
-    readonly userMock: UnwrapRef<typeof import('../../stores/authStore/mock/Mocks')['userMock']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>
@@ -239,6 +245,8 @@ declare module '@vue/runtime-core' {
     readonly COURSE_LABELS: UnwrapRef<typeof import('../enums/CourseEnum')['COURSE_LABELS']>
     readonly CheckboxManager: UnwrapRef<typeof import('../utils/checkbox-manager')['CheckboxManager']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly GENDER: UnwrapRef<typeof import('../enums/GenderEnum')['GENDER']>
+    readonly GENDER_LABELS: UnwrapRef<typeof import('../enums/GenderEnum')['GENDER_LABELS']>
     readonly HTTPRequest: UnwrapRef<typeof import('../http/HTTPRequest')['HTTPRequest']>
     readonly HttpMethod: UnwrapRef<typeof import('../http/HTTPRequest')['HttpMethod']>
     readonly NotificationType: UnwrapRef<typeof import('../../stores/toastStore/interfaces/Toast')['NotificationType']>
@@ -249,8 +257,6 @@ declare module '@vue/runtime-core' {
     readonly TAG: UnwrapRef<typeof import('../enums/TagEnum')['TAG']>
     readonly TAG_LABELS: UnwrapRef<typeof import('../enums/TagEnum')['TAG_LABELS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly commentsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentsMock']>
-    readonly commentsRequest: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['commentsRequest']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly createPinia: UnwrapRef<typeof import('pinia')['createPinia']>
@@ -262,9 +268,11 @@ declare module '@vue/runtime-core' {
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCourseLabel: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseLabel']>
+    readonly getCourseValue: UnwrapRef<typeof import('../enums/CourseEnum')['getCourseValue']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getDefaultUserIcon: UnwrapRef<typeof import('../utils/utils')['getDefaultUserIcon']>
+    readonly getGenderLabel: UnwrapRef<typeof import('../enums/GenderEnum')['getGenderLabel']>
     readonly getTagLabel: UnwrapRef<typeof import('../enums/TagEnum')['getTagLabel']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
@@ -311,7 +319,6 @@ declare module '@vue/runtime-core' {
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
     readonly toRefs: UnwrapRef<typeof import('vue')['toRefs']>
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
-    readonly topicDetailsMock: UnwrapRef<typeof import('../../stores/topicStore/mock/topicDetailsMock')['topicDetailsMock']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
@@ -319,12 +326,12 @@ declare module '@vue/runtime-core' {
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useProfileStore: UnwrapRef<typeof import('../../stores/profileStore/ProfileStore')['useProfileStore']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
     readonly useToastStore: UnwrapRef<typeof import('../../stores/toastStore/ToastStore')['useToastStore']>
     readonly useTopicStore: UnwrapRef<typeof import('../../stores/topicStore/TopicStore')['useTopicStore']>
-    readonly userMock: UnwrapRef<typeof import('../../stores/authStore/mock/Mocks')['userMock']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>
     readonly watchEffect: UnwrapRef<typeof import('vue')['watchEffect']>
     readonly watchPostEffect: UnwrapRef<typeof import('vue')['watchPostEffect']>

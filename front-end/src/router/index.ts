@@ -16,35 +16,36 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: HomePage
+      component: HomePage,
+      meta: { requiresAuth: false }
     },
 
     {
       path: '/signin',
       name: 'signIn',
       component: () => import('@/presentation/views/account/authentication/SignInPage.vue'),
-      meta: { layout: EmptyLayout }
+      meta: { layout: EmptyLayout, requiresAuth: false }
     },
 
     {
       path: '/signup',
       name: 'signUp',
       component: () => import('@/presentation/views/account/authentication/SignUpPage.vue'),
-      meta: { layout: EmptyLayout }
+      meta: { layout: EmptyLayout, requiresAuth: false }
     },
 
     {
       path: '/topic/create',
       name: 'topic_form',
       component: () => import('@/presentation/views/forum/topic/TopicFormPage.vue'),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
 
     {
       path: '/topic/:id/edit',
       name: 'topic_form_edit',
       component: () => import('@/presentation/views/forum/topic/TopicFormPage.vue'),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
 
     {
@@ -62,7 +63,7 @@ const router = createRouter({
     {
       path: '/config',
       component: () => import('@/presentation/views/account/config/ConfigPage.vue'),
-      meta: { requiresAuth: false },
+      meta: { requiresAuth: true },
       redirect: {
         name: 'account'
       },
@@ -82,38 +83,35 @@ const router = createRouter({
       path: '/profile/:id',
       name: 'profile',
       component: () => import('@/presentation/views/account/profile/ProfilePage.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     }
   ]
 });
 
-// router.beforeEach((to, from, next) => {
-//   const auth = useAuthStore();
-//   const notification = useNotifyStore();
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
+  const notification = useToastStore();
 
-//   if (!to.matched.some((record) => record.meta.requiresAuth)) {
-//     next();
-//     return;
-//   }
+  if (!to.matched.some((record) => record.meta.requiresAuth)) {
+    next();
+    return;
+  }
 
-//   if (!validateToken(auth.token?.access_token)) {
-//     next('/signin');
-//     notification.notify(
-//       'É necessário realizar login para acessar essa função!',
-//       NotificationType.Warning
-//     );
-//     return;
-//   }
+  if (!auth.isUserLoggedIn()) {
+    next('/signin');
+    notification.notify('É necessário estar logado!', NotificationType.Warning);
+    return;
+  }
 
-//   if (!auth.isValidProfile()) {
-//     notification.notify(
-//       'O perfil de usuário não foi preenchido completamente. É necessário preencher o perfil para acessar essa função!',
-//       NotificationType.Warning
-//     );
-//     return;
-//   }
+  // if (!auth.isValidProfile()) {
+  //   notification.notify(
+  //     'O perfil de usuário não foi preenchido completamente. É necessário preencher o perfil para acessar essa função!',
+  //     NotificationType.Warning
+  //   );
+  //   return;
+  // }
 
-//   next();
-// });
+  next();
+});
 
 export default router;

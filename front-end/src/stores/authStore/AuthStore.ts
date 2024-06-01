@@ -10,9 +10,7 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     getUserPhoto(state) {
-      return state.user.photo
-        ? 'data:image/png;base64,' + state.user.photo
-        : state.user.defaultPhoto;
+      return 'data:image/png;base64,' + state.user.photo;
     }
   },
 
@@ -26,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
           .skipAuthentication()
           .send();
 
-        this.$state.user = { ...response.user, defaultPhoto: await getDefaultUserIcon() } as User;
+        this.$state.user = { ...response.user } as User;
         this.$state.token = response.token;
         this.$state.refreshToken = response.refreshToken;
 
@@ -63,6 +61,54 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('user', JSON.stringify(this.$state.user));
         localStorage.setItem('authorizationToken', this.$state.token);
         localStorage.setItem('refreshToken', this.$state.refreshToken);
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async updateUser(email: string | null, password: string | null) {
+      try {
+        const response: User = await HTTPRequest.createHttpRequest<User>()
+          .endpoint('auth/user')
+          .method(HttpMethod.PATCH)
+          .body({ email, password })
+          .send();
+
+        this.$state.user.email = response.email;
+
+        localStorage.setItem('user', JSON.stringify(this.$state.user));
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async updateProfile(username: string, period: number, photo: string, course: number) {
+      try {
+        const response: User = await HTTPRequest.createHttpRequest<User>()
+          .endpoint('auth/user/profile')
+          .method(HttpMethod.PATCH)
+          .body({ username, period, photo, course })
+          .send();
+
+        this.$state.user.username = response.username;
+        this.$state.user.period = response.period;
+        this.$state.user.photo = response.photo;
+        this.$state.user.course = response.course;
+
+        localStorage.setItem('user', JSON.stringify(this.$state.user));
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async deleteUser() {
+      try {
+        // await HTTPRequest.createHttpRequest()
+        //   .endpoint('auth/user')
+        //   .method(HttpMethod.DELETE)
+        //   .send();
+
+        this.signOut();
       } catch (error: any) {
         throw new Error(error.message);
       }

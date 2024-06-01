@@ -85,7 +85,7 @@
 
 <script setup lang="ts">
 // Refs
-const coursesFilterManager = ref(new SelectManager(COURSE_LABELS));
+const coursesFilterManager = ref(new SelectManager(COURSE_LABELS)); 
 const tagsFilterManager = ref(new SelectManager(TAG_LABELS));
 
 // Stores

@@ -9,7 +9,11 @@
           <button class="inline-flex items-center gap-1">
             <img
               class="w-8 h-8 mr-2 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+              :src="
+                props.comment.user.photo
+                  ? 'data:image/png;base64,' + props.comment.user.photo
+                  : '../../../../../public/userIcon.png'
+              "
               alt="Username"
             />
             <p class="text-sm font-medium text-gray-900">{{ props.comment.user.username }}</p>
@@ -73,9 +77,11 @@
         <button
           type="button"
           class="flex items-center gap-1 text-sm font-normal text-gray-400 hover:underline"
+          @click.prevent="$emit('likeDeslikeCommentary', props.comment)"
         >
           <svg
-            class="w-[16px] h-[16px] text-red-500"
+            :class="isLikedClass(props.comment)"
+            class="w-[16px] h-[16px"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -86,7 +92,7 @@
             />
           </svg>
 
-          {{ props.comment.likes }}
+          {{ props.comment.usersLikes.length }}
         </button>
       </div>
     </footer>
@@ -94,6 +100,7 @@
 </template>
 
 <script setup lang="ts">
+import type { Commentary } from '@/stores/topicStore/interfaces/Topic';
 import { useTimeAgo } from '@vueuse/core';
 
 const props = defineProps(['comment']);
@@ -107,6 +114,11 @@ let isOptionsOpen = ref(false);
 const toggleMenuOptions = () => {
   isOptionsOpen.value = !isOptionsOpen.value;
 };
+
+function isLikedClass(commentary: Commentary | undefined) {
+  if (commentary == undefined) return 'text-gray-400';
+  return commentary.usersLikes.includes(authStore.user.id) ? 'text-red-500' : 'text-gray-400';
+}
 
 const formattedActivity = computed(() => {
   if (props.comment) {

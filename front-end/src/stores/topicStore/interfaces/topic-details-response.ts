@@ -10,7 +10,7 @@ interface Commentary {
   id: number;
   user: User;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   createdAt: string;
 }
 
@@ -19,7 +19,7 @@ export interface TopicDetailsResponse {
   user: User;
   title: string;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   qtComments: number;
   course: number;
   tag: number;
@@ -31,4 +31,3 @@ interface Pagination {
   total: number;
   page: number;
 }
-

@@ -167,7 +167,7 @@
               </div>
               <div class="relative flex flex-wrap items-stretch w-full">
                 <input
-                  type="confirmPassword"
+                  type="password"
                   id="confirmPassword"
                   class="block w-full py-2.5 px-3 text-sm bg-white border border-gray-400 rounded-md outline-none text-c-gray-800 focus:border-c-blue-500 focus:ring-c-blue-500 focus:shadow"
                   name="confirmPassword"

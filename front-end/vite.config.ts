@@ -26,7 +26,7 @@ export default defineConfig({
       vueTemplate: true
     }),
     Components({
-      dirs: ['src/presentation/components'],
+      dirs: ['src/presentation/components', 'src/presentation/views/**/modal'],
       dts: 'src/core/declarations/components.d.ts'
     })
   ],

@@ -143,6 +143,28 @@ export const useTopicStore = defineStore('topic', {
       }
     },
 
+    async likeTopic(idTopic: number): Promise<void> {
+      try {
+        await HTTPRequest.createHttpRequest()
+          .endpoint(`topic/${idTopic}/like`)
+          .method(HttpMethod.POST)
+          .send();
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
+    async likeCommentary(idCommentary: number): Promise<void> {
+      try {
+        await HTTPRequest.createHttpRequest()
+          .endpoint(`topic/commentary/${idCommentary}/like`)
+          .method(HttpMethod.POST)
+          .send();
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+
     async cleanTopics() {
       this.topics = [];
       this.topicsPagination = undefined;

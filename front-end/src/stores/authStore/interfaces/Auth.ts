@@ -7,10 +7,10 @@ export interface AuthStore {
 export interface User {
   id: number;
   username: string;
-  course: string;
+  email:string;
+  course: number;
   period: number;
   photo: string;
-  defaultPhoto: string;
 }
 
 export interface TokenPayload {

@@ -103,6 +103,7 @@
       :key="topic.id"
       :topic="topic"
       @deleteTopic="deleteTopic"
+      @likeDeslikeTopic="likeDeslikeTopic"
     />
   </section>
 
@@ -116,6 +117,8 @@
 </template>
 
 <script setup lang="ts">
+import type { Topic } from '@/stores/topicStore/interfaces/Topic';
+
 // Refs
 const search = ref('');
 const coursesFilterManager = ref(new CheckboxManager(COURSE_LABELS));
@@ -124,6 +127,7 @@ const topicsOrderByManager = ref(new CheckboxManager(ORDER_BY_LABELS, ORDER_BY.M
 
 // Stores
 const topicStore = useTopicStore();
+const authStore = useAuthStore();
 
 onMounted(() => {
   fetchTopics();
@@ -152,6 +156,17 @@ async function fetchTopics() {
 async function deleteTopic(id: number) {
   await topicStore.deleteTopic(id);
   await filterTopics();
+}
+
+async function likeDeslikeTopic(topic: Topic) {
+  const likeUserId = topic.usersLikes.find((id) => id == authStore.user.id);
+  await topicStore.likeTopic(topic.id);
+
+  if (likeUserId) {
+    topic.usersLikes = topic.usersLikes.filter((id) => id != authStore.user.id);
+  } else {
+    topic.usersLikes.push(authStore.user.id);
+  }
 }
 
 async function filterTopics() {

@@ -35,6 +35,6 @@ export class SelectManager<TEnum extends GenericEnum, TLabel extends string> {
   }
 
   get itens(): Select[] {
-    return this._itens;
+    return this._itens.filter(i => i.id != -1);
   }
 }
