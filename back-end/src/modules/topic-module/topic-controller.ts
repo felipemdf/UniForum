@@ -1,33 +1,39 @@
-import {
-  ClassMiddleware,
-  Controller,
-  Delete,
-  Get,
-  Middleware,
-  Post,
-} from "@overnightjs/core";
-import { BaseController } from "../../core/bases/base.controller";
+import { Controller, Delete, Get, Middleware, Post } from "@overnightjs/core";
 import { NextFunction, Request, Response } from "express";
-import { TopicRepository, UserRepository } from "../../core/repositories";
+import { BaseController } from "../../core/bases/base.controller";
 import { getArrayNumberFromQueryParam } from "../../core/utils";
-import { ORDER_BY } from "../../core/entities/enums/OrderBy";
 
 import { StatusCodes } from "http-status-codes";
-import { TopicEntity } from "../../core/entities";
-import { IPageable, TopicResponse } from "./dto/topics.response";
+import {
+  CommentaryEntity,
+  LikeTopicEntity,
+  TopicEntity,
+} from "../../core/entities";
 import verifyToken from "../../core/middleware/auth";
-import { CommentaryRepository } from "../../core/repositories/commentary.repository";
+
+import { QueryRunner } from "typeorm";
+import datasource from "../../data-source";
+import { TopicRepository } from "./topic.repository";
+import { IPageable, TopicResponse } from "./dto/topics.response";
 import { TopicDetailsResponse } from "./dto/topic-details.response";
 import NotFoundError from "../../core/errors/not-found.error";
+import { UserRepository } from "../auth-module/user.repository";
+import { CommentaryRepository } from "../commentary-module/commentary.repository";
+import { LikeTopicRepository } from "./like-topic.repository";
 
 @Controller("api/topic")
 export class TopicController extends BaseController {
-  constructor(
-    private topicRepository: TopicRepository,
-    private commentaryRepository: CommentaryRepository,
-    private userRepository: UserRepository
-  ) {
+  private topicRepository!: TopicRepository;
+  private userRepository!: UserRepository;
+  private commentaryRepository!: CommentaryRepository;
+  private likeTopicRepository!: LikeTopicRepository;
+
+  constructor() {
     super();
+    this.topicRepository = new TopicRepository();
+    this.userRepository = new UserRepository();
+    this.commentaryRepository = new CommentaryRepository();
+    this.likeTopicRepository = new LikeTopicRepository();
   }
 
   @Get("")
@@ -39,11 +45,12 @@ export class TopicController extends BaseController {
     const tags: number[] = getArrayNumberFromQueryParam(
       req.query.tags as string
     );
+
     const search: string = req.query.search as string;
-    const orderBy: number = parseInt((req.query.orderBy as string) || "2");
+    const orderBy: number = parseInt((req.query.orderBy as string) || "1");
     const page: number = parseInt((req.query.page as string) || "1");
 
-    const topics: TopicEntity[] = await this.topicRepository.findAll(
+    const topics: [TopicEntity[], number] = await this.topicRepository.findAll(
       courses,
       tags,
       search,
@@ -51,11 +58,9 @@ export class TopicController extends BaseController {
       page
     );
 
-    const qtdTopics: number = await this.topicRepository.count();
-
-    const topicsResponse: TopicResponse[] = TopicResponse.from(topics);
+    const topicsResponse: TopicResponse[] = await TopicResponse.from(topics[0]);
     const response: IPageable<TopicResponse> = {
-      pagination: { page: page, total: Math.ceil(qtdTopics / 10) },
+      pagination: { page: page, total: Math.ceil(topics[1] || 1 / 10) },
       result: topicsResponse,
     };
 
@@ -65,9 +70,12 @@ export class TopicController extends BaseController {
   @Post("")
   @Middleware(verifyToken)
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+    let queryRunner: QueryRunner;
+
     try {
-      await this.topicRepository.queryRunner.connect();
-      await this.topicRepository.queryRunner.startTransaction();
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
 
       const user = await this.userRepository.findOneByOrFail({
         id: req.body.userId,
@@ -82,14 +90,14 @@ export class TopicController extends BaseController {
       });
 
       const createdTopic = await this.topicRepository.save(entity);
-      await this.topicRepository.queryRunner.commitTransaction();
+      await queryRunner.commitTransaction();
 
       res.status(StatusCodes.CREATED).send({ id: createdTopic.id });
     } catch (error: any) {
-      await this.topicRepository.queryRunner.rollbackTransaction();
+      await queryRunner.rollbackTransaction();
       next(error);
     } finally {
-      await this.topicRepository.queryRunner.release();
+      await queryRunner.release();
     }
   }
 
@@ -100,23 +108,17 @@ export class TopicController extends BaseController {
     next: NextFunction
   ): Promise<void> {
     const id: number = parseInt(req.params.id);
-    const orderBy: number = parseInt((req.query.orderBy as string) || "2");
+    const orderBy: number = parseInt((req.query.orderBy as string) || "1");
 
     const topic: TopicEntity = await this.topicRepository.findById(id);
-    const commentaries = await this.commentaryRepository.findAll(
-      topic.id,
-      orderBy,
-      1
-    );
-    const qtdCommentaries: number = await this.commentaryRepository.count({
-      where: { topic: { id: topic.id } },
-    });
+    const commentaries: [CommentaryEntity[], number] =
+      await this.commentaryRepository.findAll(topic.id, orderBy, 1);
 
-    const topicResponse: TopicDetailsResponse = TopicDetailsResponse.from(
+    const topicResponse: TopicDetailsResponse = await TopicDetailsResponse.from(
       topic,
-      commentaries,
+      commentaries[0],
       1,
-      Math.ceil(qtdCommentaries / 10)
+      Math.ceil(topic.commentaries[1] || 1 / 10)
     );
 
     res.status(StatusCodes.OK).json(topicResponse);
@@ -125,9 +127,12 @@ export class TopicController extends BaseController {
   @Delete(":id")
   @Middleware(verifyToken)
   async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    let queryRunner: QueryRunner;
+
     try {
-      await this.topicRepository.queryRunner.connect();
-      await this.topicRepository.queryRunner.startTransaction();
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
 
       const id: number = parseInt(req.params.id);
       const userId = parseInt(req.userId);
@@ -137,13 +142,60 @@ export class TopicController extends BaseController {
         throw new NotFoundError("Tópico não encontrado");
       }
 
-      await this.topicRepository.queryRunner.commitTransaction();
+      await queryRunner.commitTransaction();
       res.status(StatusCodes.OK).json({ message: "Excluído com sucesso" });
     } catch (error: any) {
-      await this.topicRepository.queryRunner.rollbackTransaction();
+      await queryRunner.rollbackTransaction();
       next(error);
     } finally {
-      await this.topicRepository.queryRunner.release();
+      await queryRunner.release();
+    }
+  }
+
+  @Post(":id/like")
+  @Middleware(verifyToken)
+  async like(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id: number = parseInt(req.params.id);
+    const userId = parseInt(req.userId);
+
+    let queryRunner: QueryRunner;
+
+    try {
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+
+      const topic: TopicEntity = await this.topicRepository.findOneByOrFail({
+        id: id,
+      });
+
+      const user = await this.userRepository.findOneByOrFail({
+        id: userId,
+      });
+
+      const likeExists = await this.likeTopicRepository.existsBy({
+        topic: { id: id },
+        user: { id: userId },
+      });
+
+      if (!likeExists) {
+        const entity: LikeTopicEntity = this.likeTopicRepository.create({
+          topic: topic,
+          user: user,
+        });
+        await this.likeTopicRepository.save(entity);
+      } else {
+        await this.likeTopicRepository.deleteBy(id, userId);
+      }
+
+      await queryRunner.commitTransaction();
+      res.status(StatusCodes.CREATED).json({ message: "Like com sucesso" });
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+
+      next(error);
+    } finally {
+      await queryRunner.release();
     }
   }
 }

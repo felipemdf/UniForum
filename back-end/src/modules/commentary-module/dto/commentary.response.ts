@@ -11,21 +11,28 @@ export class CommentaryResponse {
   id: number;
   user: IUser;
   content: string;
-  qtdLikes: number;
+  usersLikes: number[];
   createdAt: Date;
 
-  public static from(commentaries: CommentaryEntity[]): CommentaryResponse[] {
-    return commentaries.map((c) => {
-      return Builder<CommentaryResponse>()
-        .id(c.id)
-        .content(c.content)
-        .user({
-          id: c.author.id,
-          username: c.author.username,
-          photo: c.author.photo,
-        })
-        .createdAt(c.createdAt)
-        .build();
-    });
+  public static async from(
+    commentaries: CommentaryEntity[]
+  ): Promise<CommentaryResponse[]> {
+    const commentariesResponse = await Promise.all(
+      commentaries.map(async (c) => {
+        return Builder<CommentaryResponse>()
+          .id(c.id)
+          .content(c.content)
+          .usersLikes((await c.likes).map((l) => l.user.id))
+          .user({
+            id: c.author.id,
+            username: c.author.username,
+            photo: c.author.photo,
+          })
+          .createdAt(c.createdAt)
+          .build();
+      })
+    );
+
+    return commentariesResponse;
   }
 }

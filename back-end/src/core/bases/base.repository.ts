@@ -5,7 +5,7 @@ export class BaseRepository<T extends ObjectLiteral> extends Repository<T> {
   _dataSource: DataSource;
 
   constructor(entity: ObjectType<T>) {
-    super(entity, datasource.manager, datasource.createQueryRunner());
+    super(entity, datasource.manager);
     this._dataSource = datasource;
   }
 

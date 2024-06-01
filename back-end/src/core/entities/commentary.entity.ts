@@ -25,13 +25,13 @@ export class CommentaryEntity {
     lazy: true,
     cascade: true,
   })
-  likes: LikeCommentaryEntity[];
+  likes: Promise<LikeCommentaryEntity[]>;
 
   @Column({ nullable: false })
   content: string;
 
-  @Column({ nullable: true, default: 0 })
-  qtdLikes: number;
+  // @Column({ nullable: true, default: 0 })
+  // qtdLikes: number;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  RelationCount,
   UpdateDateColumn,
 } from "typeorm";
 import { COURSE } from "./enums/Course";
@@ -24,13 +25,13 @@ export class TopicEntity {
     lazy: true,
     cascade: true,
   })
-  commentaries: CommentaryEntity[];
+  commentaries: Promise<CommentaryEntity[]>;
 
   @OneToMany(() => LikeTopicEntity, (like) => like.topic, {
     lazy: true,
     cascade: true,
   })
-  likes: LikeTopicEntity[];
+  likes: Promise<LikeTopicEntity[]>;
 
   @Column({ nullable: false })
   title: string;
@@ -43,12 +44,6 @@ export class TopicEntity {
 
   @Column({ nullable: true })
   tag: TAG;
-
-  @Column({ nullable: true, default: 0 })
-  qtdLikes: number;
-
-  @Column({ nullable: true, default: 0 })
-  qtdComments: number;
 
   @CreateDateColumn()
   createdAt: Date;

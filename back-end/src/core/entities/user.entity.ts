@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -37,7 +38,8 @@ export class UserEntity {
     type: "blob",
     nullable: true,
     transformer: {
-      to: (value: string | null) => (value ? Buffer.from(value) : null),
+      to: (value: string | null) =>
+        value ? Buffer.from(value, "base64") : null,
       from: (value: Buffer | null) => (value ? value.toString("base64") : null),
     },
   })
@@ -47,19 +49,19 @@ export class UserEntity {
     lazy: true,
     cascade: true,
   })
-  topics: TopicEntity[];
+  topics: Promise<TopicEntity[]>;
 
   @OneToMany(() => CommentaryEntity, (commentary) => commentary.author, {
     lazy: true,
     cascade: true,
   })
-  commentaries: CommentaryEntity[];
+  commentaries: Promise<CommentaryEntity[]>;
 
   @OneToMany(() => LikeEntity, (like) => like.user, {
     lazy: true,
     cascade: true,
   })
-  likes: LikeEntity[];
+  likes: Promise<LikeEntity[]>;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -71,8 +73,11 @@ export class UserEntity {
   deletedAt: Date;
 
   @BeforeInsert()
+  @BeforeUpdate()
   private async hashPassword(): Promise<void> {
-    const salt = await bcrypt.genSalt();
-    this.password = await bcrypt.hash(this.password, salt);
+    if (this.password) {
+      const salt = await bcrypt.genSalt();
+      this.password = await bcrypt.hash(this.password, salt);
+    }
   }
 }

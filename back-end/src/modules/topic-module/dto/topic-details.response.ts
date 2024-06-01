@@ -1,5 +1,6 @@
 import { Builder } from "builder-pattern";
 import { CommentaryEntity, TopicEntity } from "../../../core/entities";
+import { IUser } from "../../commentary-module/dto/commentary.response";
 
 export interface IPagination {
   total: number;
@@ -12,7 +13,7 @@ export interface IPageable<T> {
 }
 
 export interface IAuthor {
-  id: number,
+  id: number;
   username: string;
   photo: string;
 }
@@ -21,7 +22,7 @@ export interface ICommentary {
   id: number;
   user: IAuthor;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   createdAt: Date;
 }
 
@@ -36,40 +37,79 @@ export class TopicDetailsResponse {
   user: IAuthor;
   title: string;
   content: string;
-  qtLikes: number;
+  usersLikes: number[];
   qtComments: number;
   course: number;
   tag: number;
   commentaries: IPageable<ICommentary>;
   createdAt: Date;
 
-  public static from(topic: TopicEntity, commentaries: CommentaryEntity[], page: number, total: number): TopicDetailsResponse {
-    const commentariesResponse = commentaries.map(c => {
-      return Builder<ICommentary>()
-      .id(c.id)
-      .content(c.content)
-      .qtLikes(c.qtdLikes)
-      .user({id: c.author.id, username: c.author.username, photo: c.author.photo})
-      .createdAt(c.createdAt)
-      .build();
-    });
+  public static async from(
+    topic: TopicEntity,
+    commentaries: CommentaryEntity[],
+    page: number,
+    total: number
+  ): Promise<TopicDetailsResponse> {
+    const userRemoved: IUser = {
+      id: -1,
+      username: "Usuário removido",
+      photo: "",
+    };
+
+    const resolvedLikes = await topic.likes;
+    const resolvedCommentaries = await topic.commentaries;
+
+    const commentariesResponse = await Promise.all(
+      commentaries.map(async (c) => {
+        const resolvedCommentLikes = await c.likes;
+        return Builder<ICommentary>()
+          .id(c.id)
+          .content(c.content)
+          .usersLikes(
+            resolvedCommentLikes.map((l) => (l.user ? l.user.id : -1))
+          )
+          .user(
+            c.author
+              ? {
+                  id: c.author.id,
+                  username: c.author.username,
+                  photo: c.author.photo,
+                }
+              : userRemoved
+          )
+          .createdAt(c.createdAt)
+          .build();
+      })
+    );
 
     const pageableCommentaries = Builder<IPageable<ICommentary>>()
-      .pagination({page: page, total: total})
+      .pagination({ page, total })
       .result(commentariesResponse)
       .build();
 
     return Builder(TopicDetailsResponse)
-        .id(topic.id)
-        .user({ id: topic.author.id, username: topic.author.username, photo: topic.author.photo })
-        .title(topic.title)
-        .content(topic.content)
-        .qtLikes(topic.qtdLikes)
-        .qtComments(topic.qtdComments)
-        .course(topic.course.valueOf())
-        .tag(topic.tag.valueOf())
-        .commentaries(pageableCommentaries)
-        .createdAt(topic.createdAt)
-        .build();
+      .id(topic.id)
+      .user(
+        topic.author
+          ? {
+              id: topic.author.id,
+              username: topic.author.username,
+              photo: topic.author.photo,
+            }
+          : userRemoved
+      )
+      .title(topic.title)
+      .content(topic.content)
+      .usersLikes(resolvedLikes.map((l) => (l.user ? l.user.id : -1)))
+      .qtComments(resolvedCommentaries.length)
+      .course(topic.course.valueOf())
+      .tag(topic.tag.valueOf())
+      .commentaries(pageableCommentaries)
+      .createdAt(topic.createdAt)
+      .build();
+  }
+
+  transformPhoto(photo: Buffer | null): string | null {
+    return photo ? photo.toString("base64") : null;
   }
 }

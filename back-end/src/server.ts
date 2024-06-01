@@ -7,10 +7,11 @@ import { Server } from "@overnightjs/core";
 import { DataSource } from "typeorm";
 import { IEnvironment } from "./core/config/env.config";
 import { AuthController } from "./modules/auth-module/auth.controller";
-import { TopicRepository, UserRepository } from "./core/repositories";
 import errorHandler from "./core/middleware/error-handler";
 import { TopicController } from "./modules/topic-module/topic-controller";
-import { CommentaryRepository } from "./core/repositories/commentary.repository";
+import { CommentaryRepository } from "./modules/commentary-module/commentary.repository";
+// import { CommentaryController } from "./modules/commentary-module/commentary-controller";
+import { TopicRepository } from "./modules/topic-module/topic.repository";
 import { CommentaryController } from "./modules/commentary-module/commentary-controller";
 
 export default class SetupServer extends Server {
@@ -27,20 +28,24 @@ export default class SetupServer extends Server {
   }
 
   private setupExpress(): void {
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.json({ limit: "50mb" }));
+    this.app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   }
 
   private setupControllers(): void {
-    const userRepository = new UserRepository();
-    const topicRepository = new TopicRepository();
-    const commentaryRepository = new CommentaryRepository();
+    const authController = new AuthController();
+    const topicController = new TopicController();
+    const commentaryController = new CommentaryController();
+    //   topicRepository,
+    //   commentaryRepository,
+    //   userRepository
+    // );
 
-    const authController = new AuthController(userRepository);
-    const topicController = new TopicController(topicRepository, commentaryRepository, userRepository);
-    const commentaryController = new CommentaryController(topicRepository, commentaryRepository, userRepository);
-
-    this.addControllers([authController, topicController,commentaryController]);
+    this.addControllers([
+      authController,
+      topicController,
+      commentaryController,
+    ]);
   }
 
   private setupMiddlewares(): void {

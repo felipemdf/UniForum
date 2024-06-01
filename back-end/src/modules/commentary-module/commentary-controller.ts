@@ -1,34 +1,33 @@
-import {
-  ClassMiddleware,
-  Controller,
-  Delete,
-  Get,
-  Middleware,
-  Post,
-} from "@overnightjs/core";
-import { BaseController } from "../../core/bases/base.controller";
+import { Controller, Delete, Get, Middleware, Post } from "@overnightjs/core";
 import { NextFunction, Request, Response } from "express";
-import { TopicRepository, UserRepository } from "../../core/repositories";
-import { getArrayNumberFromQueryParam } from "../../core/utils";
-import { ORDER_BY } from "../../core/entities/enums/OrderBy";
+import { BaseController } from "../../core/bases/base.controller";
 
 import { StatusCodes } from "http-status-codes";
-import { CommentaryEntity, TopicEntity } from "../../core/entities";
-import { IPageable, TopicResponse } from "../topic-module/dto/topics.response";
-import verifyToken from "../../core/middleware/auth";
-import { CommentaryRepository } from "../../core/repositories/commentary.repository";
-import { TopicDetailsResponse } from "../topic-module/dto/topic-details.response";
+import { CommentaryEntity, LikeCommentaryEntity } from "../../core/entities";
+import { IPageable } from "../topic-module/dto/topics.response";
 import { CommentaryResponse } from "./dto/commentary.response";
+import { CommentaryRepository } from "./commentary.repository";
+import { TopicRepository } from "../topic-module/topic.repository";
+import { UserRepository } from "../auth-module/user.repository";
+import verifyToken from "../../core/middleware/auth";
+import { QueryRunner } from "typeorm";
+import datasource from "../../data-source";
 import NotFoundError from "../../core/errors/not-found.error";
+import { LikeCommentaryRepository } from "./like-commentary.repository";
 
 @Controller("api/topic")
 export class CommentaryController extends BaseController {
-  constructor(
-    private topicRepository: TopicRepository,
-    private commentaryRepository: CommentaryRepository,
-    private userRepository: UserRepository
-  ) {
+  private topicRepository!: TopicRepository;
+  private userRepository!: UserRepository;
+  private commentaryRepository!: CommentaryRepository;
+  private likeCommentaryRepository!: LikeCommentaryRepository;
+
+  constructor() {
     super();
+    this.topicRepository = new TopicRepository();
+    this.userRepository = new UserRepository();
+    this.commentaryRepository = new CommentaryRepository();
+    this.likeCommentaryRepository = new LikeCommentaryRepository();
   }
 
   @Get(":id/commentary")
@@ -37,17 +36,15 @@ export class CommentaryController extends BaseController {
     const page: number = parseInt((req.query.page as string) || "1");
     const id: number = parseInt(req.params.id);
 
-    const commentaries: CommentaryEntity[] =
+    const commentaries: [CommentaryEntity[], number] =
       await this.commentaryRepository.findAll(id, orderBy, page);
 
-    const qtdCommentaries: number = await this.commentaryRepository.count({
-      where: { topic: { id: id } },
-    });
 
-    const commentariesResponse: CommentaryResponse[] =
-      CommentaryResponse.from(commentaries);
+    const commentariesResponse: CommentaryResponse[] = await CommentaryResponse.from(
+      commentaries[0]
+    );
     const response: IPageable<CommentaryResponse> = {
-      pagination: { page: page, total: Math.ceil(qtdCommentaries / 10) },
+      pagination: { page: page, total: Math.ceil(commentaries[1] || 1 / 10) },
       result: commentariesResponse,
     };
 
@@ -55,14 +52,14 @@ export class CommentaryController extends BaseController {
   }
 
   @Post(":id/commentary")
-  // @Middleware(verifyToken)
+  @Middleware(verifyToken)
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      await this.commentaryRepository.queryRunner.connect();
-      await this.commentaryRepository.queryRunner.startTransaction();
+    let queryRunner: QueryRunner;
 
-      await this.topicRepository.queryRunner.connect();
-      await this.topicRepository.queryRunner.startTransaction();
+    try {
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
 
       const user = await this.userRepository.findOneByOrFail({
         id: req.body.userId,
@@ -79,23 +76,15 @@ export class CommentaryController extends BaseController {
       });
 
       await this.commentaryRepository.save(entity);
-      await this.topicRepository.save({
-        id: topic.id,
-        qtdComments: topic.qtdComments + 1,
-      });
-
-      await this.commentaryRepository.queryRunner.commitTransaction();
-      await this.topicRepository.queryRunner.commitTransaction();
+      queryRunner.commitTransaction();
 
       res.status(StatusCodes.CREATED).send({ message: "Criado com sucesso" });
     } catch (error: any) {
       console.error(error);
-      await this.commentaryRepository.queryRunner.rollbackTransaction();
-      await this.topicRepository.queryRunner.rollbackTransaction();
+      queryRunner.rollbackTransaction();
       next(error);
     } finally {
-      await this.commentaryRepository.queryRunner.release();
-      await this.topicRepository.queryRunner.release();
+      queryRunner.release();
     }
   }
 
@@ -106,14 +95,80 @@ export class CommentaryController extends BaseController {
     const idCommentary: number = parseInt(req.params.idCommentary);
     const userId = parseInt(req.userId);
 
-    const effected: number = (
-      await this.commentaryRepository.deleteById(idTopic, idCommentary, userId)
-    ).affected;
+    let queryRunner: QueryRunner;
+    try {
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
 
-    if (effected === 0) {
-      throw new NotFoundError("Comentário não encontrado");
+      const effected: number = (
+        await this.commentaryRepository.deleteById(
+          idTopic,
+          idCommentary,
+          userId
+        )
+      ).affected;
+
+      if (effected === 0) {
+        throw new NotFoundError("Comentário não encontrado");
+      }
+
+      res.status(StatusCodes.OK).json({ message: "Excluído com sucesso" });
+    } catch (error: any) {
+      console.error(error);
+      queryRunner.rollbackTransaction();
+      next(error);
+    } finally {
+      queryRunner.release();
     }
+  }
 
-    res.status(StatusCodes.OK).json({ message: "Excluído com sucesso" });
+  @Post("commentary/:id/like")
+  @Middleware(verifyToken)
+  async like(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id: number = parseInt(req.params.id);
+    const userId = parseInt(req.userId);
+
+    let queryRunner: QueryRunner;
+
+    try {
+      queryRunner = datasource.createQueryRunner();
+      await queryRunner.connect();
+      await queryRunner.startTransaction();
+
+      const commentary: CommentaryEntity =
+        await this.commentaryRepository.findOneByOrFail({
+          id: id,
+        });
+
+      const user = await this.userRepository.findOneByOrFail({
+        id: userId,
+      });
+
+      const likeExists = await this.likeCommentaryRepository.existsBy({
+        commentary: { id: id },
+        user: { id: userId },
+      });
+
+      if (!likeExists) {
+        const entity: LikeCommentaryEntity =
+          this.likeCommentaryRepository.create({
+            commentary: commentary,
+            user: user,
+          });
+        await this.likeCommentaryRepository.save(entity);
+      } else {
+        await this.likeCommentaryRepository.deleteBy(id, userId);
+      }
+
+      await queryRunner.commitTransaction();
+      res.status(StatusCodes.CREATED).json({ message: "Like com sucesso" });
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+
+      next(error);
+    } finally {
+      await queryRunner.release();
+    }
   }
 }
