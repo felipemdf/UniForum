@@ -138,7 +138,7 @@
   </main>
 
   <!-- Comment -->
-  <div class="flex flex-col">
+  <form class="flex flex-col" @click.prevent="createCommentary()">
     <p class="pt-4 pb-3 text-base font-medium leading-5 text-gray-90">Comentar</p>
 
     <div class="col-span-full">
@@ -156,12 +156,12 @@
     </div>
 
     <button
-      @click.prevent="createCommentary()"
+      type="submit"
       class="self-end px-4 py-3 mt-4 text-sm font-medium text-white rounded-lg bg-c-blue-600 hover:bg-c-blue-700 focus:outline-none"
     >
       Comentar
     </button>
-  </div>
+  </form>
 
   <!-- Order by -->
   <div class="relative mt-2 overflow-hidden">
