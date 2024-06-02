@@ -172,7 +172,7 @@ export class AuthController extends BaseController {
   @Middleware(verifyToken)
   async updateProfile(req: Request, res: Response, next: NextFunction) {
     const userId = parseInt(req.userId);
-    const username: string = req.body.email;
+    const username: string = req.body.username;
     const course: string = req.body.course;
     const period: string = req.body.period;
     const photo: string = req.body.photo;
@@ -195,7 +195,7 @@ export class AuthController extends BaseController {
       }
 
       user.username =
-        username && username.trim().length > 0 ? username : user.email;
+        username && username.trim().length > 0 ? username : user.username;
       user.course = course ? parseInt(course) : user.course;
       user.period = period ? parseInt(period) : user.period;
       user.photo = photo ? photo : user.photo;
