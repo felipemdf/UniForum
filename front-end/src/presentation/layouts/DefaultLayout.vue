@@ -30,7 +30,13 @@
           <div class="inline-flex items-center justify-center align-middle">
             <button @click="toggleMenu" type="button" class="flex items-center gap-3 text-sm">
               <span class="sr-only">Open user menu</span>
-              <img class="w-10 h-10 rounded-full" :src="auth.getUserPhoto" alt="user photo" />
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="
+                  auth.getUserPhoto ? 'data:image/png;base64,' + auth.getUserPhoto : '/userIcon.png'
+                "
+                alt="user photo"
+              />
 
               <p class="text-base font-medium text-c-gray-800">{{ auth.user?.username }}</p>
             </button>
