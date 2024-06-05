@@ -1,9 +1,8 @@
 {
-  "printWidth": 120,
-  "tabWidth": 2,
+  "$schema": "https://json.schemastore.org/prettierrc",
   "semi": true,
+  "tabWidth": 2,
   "singleQuote": true,
-  "vueIndentScriptAndStyle": true,
-  "endOfLine": "lf",
-  "no-multiple-empty-line": false
+  "printWidth": 100,
+  "trailingComma": "none"
 }

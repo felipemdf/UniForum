@@ -1,43 +1,54 @@
-# UniForum - Front-end
+# UniForum
+Bem-vindo ao Fórum de Discussão da UNINASSAU! Este é um projeto de fórum online desenvolvido para facilitar a comunicação e colaboração entre os alunos da UNINASSAU.
 
-> 🚧 Projeto em construção 🚧
+## Descrição do Projeto
+O Fórum de Discussão da UNINASSAU é uma plataforma online onde os alunos podem discutir tópicos relacionados aos seus cursos, compartilhar materiais de estudo, fazer perguntas e interagir com colegas de classe.
 
-## 🚀 Começando
+## Pré-requisitos
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
+Antes de começar, verifique se você possui as seguintes ferramentas instaladas:
+- [node.js](https://nodejs.org)
+- [Docker](https://docs.docker.com)
+- [Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 
-## 🔧 Instalação
+## Instalação
 
-Certifique-se de ter o [Node.js](https://nodejs.org/) instalado.
+### Local
 
-1. Clone este repositório.
+Para executar o frontend localmente, siga estas etapas:
 
-2. Navegue até o diretório do projeto e execute o seguinte comando no terminal para instalar as dependências:
+1. Clone o repositório do projeto para o seu ambiente local:
 
-   ```
+```bash
+   git clone https://github.com/felipemdf/UniForum.git
+```
+
+2. Navegue até o diretório do frontend:
+
+```bash
+   cd front-end
+```
+
+3. Instale as dependências do projeto:
+
+```bash
    npm install
-   ```
+```
 
-3. Após a instalação, execute o seguinte comando para iniciar o servidor de desenvolvimento:
+4. Após a instalação das dependências, inicie o servidor de desenvolvimento:
 
-   ```
-   npm run serve
-   ```
+```bash
+   npm run dev
+```
 
-4. Abra o navegador e visite `http://localhost:8080` para visualizar o aplicativo.
+O frontend estará acessível em http://localhost:8080 no seu navegador.
 
-## 🛠️ Construído com
 
-- [Vue.js](https://vuejs.org)
-- [Bootstrap](https://getbootstrap.com)
+### Docker
+Para executar este projeto usando Docker, execute o comando abaixo:
+```bash
+   docker compose up
+```
 
-## ✒️ Autores
+A aplicação estará disponível em http://localhost:8080 no seu navegador.
 
-# Autores
-
-| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/73004335?v=4" width=115><br><sub>Felipe Marinho</sub>](https://github.com/felipemdf) | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/99979201?v=4" width=115><br><sub>João Victor</sub>](https://github.com/joaoV9) |
-| :----------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------: |
-
-## 📄 Licença
-
-Este projeto está sob a licença GNU GENERAL PUBLIC LICENSE v3- veja o arquivo [LICENSE.md](https://github.com/felipemdf/UniForum/blob/main/LICENSE) para detalhes.
