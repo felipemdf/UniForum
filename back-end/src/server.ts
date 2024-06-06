@@ -13,6 +13,8 @@ import { CommentaryRepository } from "./modules/commentary-module/commentary.rep
 // import { CommentaryController } from "./modules/commentary-module/commentary-controller";
 import { TopicRepository } from "./modules/topic-module/topic.repository";
 import { CommentaryController } from "./modules/commentary-module/commentary-controller";
+import { UserRepository } from "./modules/auth-module/user.repository";
+import { LikeTopicRepository } from "./modules/topic-module/like-topic.repository";
 
 export default class SetupServer extends Server {
   private port: number = process.env.PORT ? parseInt(process.env.PORT) : 8000;
@@ -33,13 +35,19 @@ export default class SetupServer extends Server {
   }
 
   private setupControllers(): void {
+    const topicRepository = new TopicRepository();
+    const userRepository = new UserRepository();
+    const commentaryRepository = new CommentaryRepository();
+    const likeTopicRepository = new LikeTopicRepository();
+
     const authController = new AuthController();
-    const topicController = new TopicController();
+    const topicController = new TopicController(
+      topicRepository,
+      userRepository,
+      commentaryRepository,
+      likeTopicRepository
+    );
     const commentaryController = new CommentaryController();
-    //   topicRepository,
-    //   commentaryRepository,
-    //   userRepository
-    // );
 
     this.addControllers([
       authController,

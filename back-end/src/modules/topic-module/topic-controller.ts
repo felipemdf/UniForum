@@ -23,17 +23,13 @@ import { LikeTopicRepository } from "./like-topic.repository";
 
 @Controller("api/topic")
 export class TopicController extends BaseController {
-  private topicRepository!: TopicRepository;
-  private userRepository!: UserRepository;
-  private commentaryRepository!: CommentaryRepository;
-  private likeTopicRepository!: LikeTopicRepository;
-
-  constructor() {
+  constructor(
+    private topicRepository: TopicRepository,
+    private userRepository: UserRepository,
+    private commentaryRepository: CommentaryRepository,
+    private likeTopicRepository: LikeTopicRepository
+  ) {
     super();
-    this.topicRepository = new TopicRepository();
-    this.userRepository = new UserRepository();
-    this.commentaryRepository = new CommentaryRepository();
-    this.likeTopicRepository = new LikeTopicRepository();
   }
 
   @Get("")
