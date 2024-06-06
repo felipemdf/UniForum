@@ -33,7 +33,7 @@
               <img
                 class="w-10 h-10 rounded-full"
                 :src="
-                  auth.getUserPhoto ? 'data:image/png;base64,' + auth.getUserPhoto : '/userIcon.png'
+                  auth.getUserPhoto ? auth.getUserPhoto : '/userIcon.png'
                 "
                 alt="user photo"
               />
